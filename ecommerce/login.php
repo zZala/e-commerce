@@ -166,10 +166,9 @@
                         <!--START FORM LOGIN-->
                         <form action="check/checkLogin.php" method="post">
                             <div class="row">
-                                <?php
-                                if (isset($_GET['msg']) && $_GET['msg'] == "Username and Password doesn't match!")
-                                    echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
-                                ?>
+                                <div class="col-md-12">
+                                    <h3 style="text-align: center;">Login</h3>
+                                </div>
                                 <div class="col-md-6">
                                     <label>E-mail / Username</label>
                                     <input class="form-control" name="UsernameOrEmail" type="text" placeholder="E-mail / Username">
@@ -187,6 +186,10 @@
                                 <div class="col-md-12">
                                     <input type="submit" value="Submit" class="btn">
                                 </div>
+                                <?php
+                                if (isset($_GET['msg']) && $_GET['msg'] == "Username and Password doesn't match!")
+                                    echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
+                                ?>
                             </div>
                         </form>
                         <!--END FORM LOGIN-->
@@ -197,10 +200,9 @@
                         <!--START FORM REGISTER-->
                         <form action="check/checkRegister.php" method="post">
                             <div class="row">
-                                <?php
-                                if (isset($_GET['msg']) && $_GET['msg'] == "Password doesn't match!")
-                                    echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
-                                ?>
+                                <div class="col-md-12">
+                                    <h3 style="text-align: center;">Registration</h3>
+                                </div>
                                 <div class="col-md-6">
                                     <label>First Name</label>
                                     <input class="form-control" name="FirstName" type="text" placeholder="First Name" required>
@@ -236,6 +238,10 @@
                                 <div class="col-md-12">
                                     <input type="submit" value="Submit" class="btn">
                                 </div>
+                                <?php
+                                if (isset($_GET['msg']) && $_GET['msg'] == "Password doesn't match!")
+                                    echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
+                                ?>
                             </div>
                         </form>
                         <!--END FORM REGISTER-->
