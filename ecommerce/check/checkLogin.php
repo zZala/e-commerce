@@ -14,6 +14,7 @@ $conn->close();
 if ($result->num_rows > 0) {
   $row = $result->fetch_assoc();
   $_SESSION['ID'] = $row['Id'];
+  $_SESSION['Username'] = $row['Username'];
   header("location:..\index.php?msg=Logged successfully!");
 } else {
   header("location:..\login.php?msg=Username and Password doesn't match!");

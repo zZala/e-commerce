@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include("db/connection.php");
+session_start();
+?>
+
 <head>
     <meta charset="utf-8">
     <title>E-Commerce Login</title>
@@ -59,26 +64,30 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto">
                         <a href="index.php" class="nav-item nav-link">Home</a>
-                        <a href="product-list.html" class="nav-item nav-link">Products</a>
-                        <a href="cart.html" class="nav-item nav-link">Cart</a>
-                        <a href="checkout.html" class="nav-item nav-link">Checkout</a>
-                        <a href="my-account.html" class="nav-item nav-link">My Account</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">More Pages</a>
-                            <div class="dropdown-menu">
-                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                <a href="login.php" class="dropdown-item active">Login & Register</a>
-                                <a href="contact.html" class="dropdown-item">Contact Us</a>
-                            </div>
-                        </div>
+                        <a href="product-list.php" class="nav-item nav-link">Products</a>
+                        <a href="product-list.php?filter=sales" class="nav-item nav-link">Sales</a>
+                        <a href="product-list.php?filter=usage" class="nav-item nav-link">Warehouse</a>
+                        <a href="categories.php" class="nav-item nav-link">Categories</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                     </div>
-                    <div class="navbar-nav ml-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                            <div class="dropdown-menu">
-                                <a href="login.php" class="dropdown-item">Login</a>
-                                <a href="login.php" class="dropdown-item">Register</a>
-                            </div>
+                    <div class="navbar-nav ml-auto pr-sm-5" style='width: 9.5rem;'>
+                        <div class="nav-item dropdown pr-sm-5">
+                            <?php
+                            if (isset($_SESSION["ID"])) {
+                                echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
+                                <div class='dropdown-menu'>
+                                    <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
+                                    <a href='returns_and_orders.php' class='dropdown-item userDropdown'>Returns and Orders</a>
+                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                </div>";
+                            } else {
+                                echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
+                                <div class='dropdown-menu'>
+                                    <a href='login.php' class='dropdown-item userDropdown'>Login</a>
+                                    <a href='login.php' class='dropdown-item userDropdown'>Register</a>
+                                </div>";
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -93,17 +102,17 @@
             <div class="row align-items-center">
                 <div class="col-md-3">
                     <div class="logo">
-                        <!-- DA FARE NELL'INDEX-->
-                        <form action="index.php" method="get">
-                            <a href="index.php">
-                                <img src="img/logo.png" alt="Logo">
-                            </a>
+                        <a href="index.php">
+                            <img src="img/logo.png" alt="Logo">
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="search">
-                        <input type="text" placeholder="Search">
-                        <button><a href="index.php"><i class="fa fa-search"></i></a></button>
+                        <!-- DA FARE NELL'INDEX-->
+                        <form action="index.php" method="get">
+                            <input type="text" placeholder="Search">
+                            <button><a href="index.php"><i class="fa fa-search"></i></a></button>
                         </form>
                     </div>
                 </div>
@@ -118,10 +127,13 @@
                                 WHERE wishlists.IdUser = '" . $_SESSION["ID"] . "'";
 
                                 $result = $conn->query($sql);
-                                $conn->close();
+
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
                             } else
-                                $result = 0;
-                            echo "<span>($result)</span>"
+                                $n = 0;
+                            echo "<span>(" . $n . ")</span>";
                             ?>
                         </a>
                         <a href="cart.html" class="btn cart">
@@ -134,9 +146,12 @@
 
                                 $result = $conn->query($sql);
                                 $conn->close();
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
                             } else
-                                $result = 0;
-                            echo "<span>($result)</span>"
+                                $n = 0;
+                            echo "<span>(" . $n . ")</span>"
                             ?>
                         </a>
                     </div>
