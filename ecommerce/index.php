@@ -185,19 +185,19 @@ session_start();
                                 <a class="nav-link" href="#"><i class="fa fa-plus-square"></i>New Arrivals</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-female"></i>Fashion & Beauty</a>
+                                <a class="nav-link" href="#"><i class="fa fa-female"></i>Clothing & Shoes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-child"></i>Kids & Babies Clothes</a>
+                                <a class="nav-link" href="#"><i class="fa fa-child"></i>Food & Beverages</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-tshirt"></i>Men & Women Clothes</a>
+                                <a class="nav-link" href="#"><i class="fa fa-tshirt"></i>Books, Movies & Games</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-mobile-alt"></i>Gadgets & Accessories</a>
+                                <a class="nav-link" href="#"><i class="fa fa-mobile-alt"></i>Home, Garden & Tools</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-microchip"></i>Electronics & Accessories</a>
+                                <a class="nav-link" href="#"><i class="fa fa-microchip"></i>Electronics & Computers</a>
                             </li>
                         </ul>
                     </nav>
