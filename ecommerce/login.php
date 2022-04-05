@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <?php
 include("db/connection.php");
 session_start();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -28,7 +28,7 @@ session_start();
 
     <?php
     if (isset($_GET['msg']) && $_GET['msg'] == "Registered successfully!") {
-        alert($msg);
+        alert($_GET['msg']);
     }
 
     function alert($msg)

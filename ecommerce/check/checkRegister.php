@@ -42,6 +42,10 @@ if (strcmp($password, $retypePassword) == 0) {
     $sql = $conn->prepare("INSERT INTO carts (IdUser) VALUES (?)");
     $sql->bind_param('i', $id);
     $sql->execute();
+
+    $sql = $conn->prepare("INSERT INTO wishlists (IdUser) VALUES (?)");
+    $sql->bind_param('i', $id);
+    $sql->execute();
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
