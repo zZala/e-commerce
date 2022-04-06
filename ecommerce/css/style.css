@@ -2406,3 +2406,11 @@ h2 {
         text-align: center;
     }
 }
+
+.widthImportantDropdown1{
+    min-width: 93px!important;
+}
+
+.widthImportantDropdown2{
+    min-width: 74px!important;
+}

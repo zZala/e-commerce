@@ -43,6 +43,13 @@ session_start();
         unset($_SESSION['Username']);
     }
 
+    //se presente cookie lo carico
+    if (isset($_COOKIE["IDWishlistGuest"])) {
+        $_SESSION["IDWishlistGuest"] = $_COOKIE["IDWishlistGuest"];
+    }
+    if (isset($_COOKIE["IDCartGuest"])) {
+        $_SESSION["IDCartGuest"] = $_COOKIE["IDCartGuest"];
+    }
     ?>
 </head>
 

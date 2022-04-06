@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 06, 2022 alle 18:03
+-- Creato il: Apr 07, 2022 alle 00:32
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -32,8 +32,9 @@ CREATE TABLE `articles` (
   `Title` varchar(254) NOT NULL,
   `Description` text NOT NULL,
   `Seller` varchar(254) NOT NULL,
-  `Conditions` enum('Nuovo','Usato') NOT NULL,
+  `Conditions` enum('New','Usage') NOT NULL,
   `Price` float NOT NULL,
+  `Discount` int(3) NOT NULL DEFAULT 0,
   `Pieces` int(11) NOT NULL,
   `IdCategory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -42,8 +43,9 @@ CREATE TABLE `articles` (
 -- Dump dei dati per la tabella `articles`
 --
 
-INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Pieces`, `IdCategory`) VALUES
-(1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'Nuovo', 10, 1, 4);
+INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
+(1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 0, 1, 4),
+(2, 'Apple AirPods con custodia di ricarica tramite cavo (seconda generazione)', 'Informazioni su questo articolo\r\nTaglia unica, comodi da indossare tutto ilgiorno\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning\r\nSi accendono automaticamente esicollegano all’istante\r\nSetup semplicissimo su tutti i dispositivi Apple\r\nAttivazione rapida di Siri con il comando “Ehi Siri”\r\nConnessione istantanea anche da un dispositivo all’altro\r\nCustodia di ricarica per oltre 24 ore di autonomia', 'zzala', 'Usage', 110.98, 0, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -110,7 +112,7 @@ CREATE TABLE `contains` (
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
 (1, 2, 1),
-(1, 3, 1);
+(1, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -284,7 +286,7 @@ ALTER TABLE `wishlists`
 -- AUTO_INCREMENT per la tabella `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `carts`

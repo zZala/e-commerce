@@ -8,10 +8,8 @@ session_start();
 
 <head>
     <meta charset="utf-8">
-    <title>E Store - eCommerce HTML Template</title>
+    <title>E Store - eCommerce</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="eCommerce HTML Template Free Download" name="keywords">
-    <meta content="eCommerce HTML Template Free Download" name="description">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -48,11 +46,11 @@ session_start();
             <div class="row">
                 <div class="col-sm-6">
                     <i class="fa fa-envelope"></i>
-                    E-StoreIT@gmail.com
+                    <a href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a>
                 </div>
                 <div class="col-sm-6">
                     <i class="fa fa-phone-alt"></i>
-                    +39 02-5456-2430
+                    <a href="tel:+390254562430">+39 02-5456-2430</a>
                 </div>
             </div>
         </div>
@@ -70,7 +68,7 @@ session_start();
                         <a href="product-list.php?filter=sales" class="nav-item nav-link">Sales</a>
                         <a href="product-list.php?filter=usage" class="nav-item nav-link">Warehouse</a>
                         <a href="categories.php" class="nav-item nav-link">Categories</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                        <a href="contact.php" class="nav-item nav-link">Contact Us</a>
                     </div>
                     <div class="navbar-nav ml-auto pr-sm-5" style='width: 9.5rem;'>
                         <div class="nav-item dropdown pr-sm-5">
@@ -113,13 +111,13 @@ session_start();
                     <div class="search">
                         <form action="product-list.php" method="get">
                             <input type="text" name="filter" placeholder="Search">
-                            <button><a href="#"><i class="fa fa-search"></i></a></button>
+                            <button><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="user">
-                        <a href="wishlist.html" class="btn wishlist">
+                        <a href="wishlist.php" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {
@@ -146,7 +144,7 @@ session_start();
                             echo "<span>(" . $n . ")</span>";
                             ?>
                         </a>
-                        <a href="cart.html" class="btn cart">
+                        <a href="cart.php" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {
@@ -183,8 +181,7 @@ session_start();
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item active">Product List</li>
             </ul>
         </div>
@@ -200,35 +197,30 @@ session_start();
                         <div class="col-md-12">
                             <div class="product-view-top">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-1 w-auto">
                                         <div class="product-short">
-                                            <div class="dropdown">
+                                            <div class="dropdown widthImportantDropdown1">
                                                 <div class="dropdown-toggle" data-toggle="dropdown">Sort by</div>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item">Newest</a>
-                                                    <a href="#" class="dropdown-item">Popular</a>
-                                                    <a href="#" class="dropdown-item">Most sale</a>
+                                                    <a href="product-list.php" class="dropdown-item">Default</a>
+                                                    <a href="product-list.php?filter=newest" class="dropdown-item">Newest</a>
+                                                    <a href="product-list.php?filter=popular" class="dropdown-item">Popular</a>
+                                                    <a href="product-list.php?filter=review" class="dropdown-item">Review</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4"></div>
-                                    <div class="col-md-4"></div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-1">
                                         <div class="product-price-range">
-                                            <div class="dropdown">
-                                                <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
+                                            <div class="dropdown widthImportantDropdown2">
+                                                <div class="dropdown-toggle" data-toggle="dropdown">Price</div>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item">$0 to $50</a>
-                                                    <a href="#" class="dropdown-item">$51 to $100</a>
-                                                    <a href="#" class="dropdown-item">$101 to $150</a>
-                                                    <a href="#" class="dropdown-item">$151 to $200</a>
-                                                    <a href="#" class="dropdown-item">$201 to $250</a>
-                                                    <a href="#" class="dropdown-item">$251 to $300</a>
-                                                    <a href="#" class="dropdown-item">$301 to $350</a>
-                                                    <a href="#" class="dropdown-item">$351 to $400</a>
-                                                    <a href="#" class="dropdown-item">$401 to $450</a>
-                                                    <a href="#" class="dropdown-item">$451 to $500</a>
+                                                    <a href="product-list.php" class="dropdown-item">All</a>
+                                                    <a href="product-list.php?filter=<25" class="dropdown-item">to $25</a>
+                                                    <a href="product-list.php?filter=<50" class="dropdown-item">$25 to $50</a>
+                                                    <a href="product-list.php?filter=>50" class="dropdown-item">$50 and more</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -238,13 +230,40 @@ session_start();
                         </div>
 
                         <?php
+                        if (isset($_GET["p"]))
+                            $pag = $_GET["p"];
+                        else
+                            $pag = 1;
                         //caricare prodotti 15 per pagina
-
-
-                        $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id";
-                        if (isset($_GET["filter"]))
-                            $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%'";
-
+                        $numProdPerPagina = 15;
+                        //primo prodotto
+                        $offset = ($numProdPerPagina * $pag) - $numProdPerPagina;
+                        $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id LIMIT $numProdPerPagina OFFSET $offset";
+                        if (isset($_GET["filter"])) {
+                            switch ($_GET["filter"]) {
+                                case "sales":
+                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
+                                    break;
+                                case "usage":
+                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
+                                    break;
+                                case "newest":
+                                    break;
+                                case "popular":
+                                    break;
+                                case "review":
+                                    break;
+                                case "<25":
+                                    break;
+                                case "<50":
+                                    break;
+                                case ">50":
+                                    break;
+                                default:
+                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
+                                    break;
+                            }
+                        }
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {
@@ -262,8 +281,8 @@ session_start();
                                                     </div>
                                                 </div>
                                                 <div class='product-image'>
-                                                    <a href='product-detail.html'>
-                                                        <img src='img/product-1.jpg' alt='Product Image'>
+                                                    <a href='product-detail.php'>
+                                                        <img src='img/product-" . $row["Id"] . ".jpg' alt='Product Image'>
                                                     </a>
                                                     <div class='product-action'>
                                                         <a href='check/addToCart.php?id=" . $row["Id"] . "&q=1'><i class='fa fa-cart-plus'></i></a>
@@ -273,7 +292,7 @@ session_start();
                                                 </div>
                                                 <div class='product-price'>
                                                     <h3><span>$</span>" . $row["Price"] . "</h3>
-                                                    <a class='btn' href=''><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                                    <a class='btn' href='#'><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                                 </div>
                                             </div>
                                     </div>";
@@ -312,9 +331,9 @@ session_start();
                     <div class="footer-widget">
                         <h2>Get in Touch</h2>
                         <div class="contact-info">
-                            <p><i class="fa fa-map-marker"></i>Via Giuseppe Mengoni 3, Milano</p>
-                            <p><i class="fa fa-envelope"></i>E-StoreIT@gmail.com</p>
-                            <p><i class="fa fa-phone"></i>+39 02-5456-2430</p>
+                            <p><i class="fa fa-map-marker"></i><a href="https://maps.google.com/?q=Via+Giuseppe+Mengoni+3,+Milano">Via Giuseppe Mengoni 3, Milano</a></p>
+                            <p><i class="fa fa-envelope"></i><a href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a></p>
+                            <p><i class="fa fa-phone"></i><a href="tel:+390254562430">+39 02-5456-2430</a></p>
                         </div>
                     </div>
                 </div>
@@ -324,22 +343,24 @@ session_start();
                         <h2>Follow Us</h2>
                         <div class="contact-info">
                             <div class="social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                                <a href=""><i class="fab fa-youtube"></i></a>
+                                <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                                <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.youtube.com"><i class="fab fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
+                    Follow the newsletter:
+                    <input type="text" name="emailNewsletter">
                 </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
                         <h2>Company Info</h2>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Condition</a></li>
+                            <li><a href="about_us.php">About Us</a></li>
+                            <li><a href="privacy_policy.php">Privacy Policy</a></li>
+                            <li><a href="terms_and_condition.php">Terms & Condition</a></li>
                         </ul>
                     </div>
                 </div>
