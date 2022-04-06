@@ -118,7 +118,7 @@ session_start();
                 </div>
                 <div class="col-md-3">
                     <div class="user">
-                        <a href="wishlist.html" class="btn wishlist">
+                        <a href="wishlist.php" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {
@@ -136,7 +136,7 @@ session_start();
                             echo "<span>(" . $n . ")</span>";
                             ?>
                         </a>
-                        <a href="cart.html" class="btn cart">
+                        <a href="cart.php" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {

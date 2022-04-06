@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 01, 2022 alle 00:03
--- Versione del server: 10.4.22-MariaDB
--- Versione PHP: 8.1.2
+-- Creato il: Apr 06, 2022 alle 12:56
+-- Versione del server: 10.4.6-MariaDB
+-- Versione PHP: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -38,6 +39,13 @@ CREATE TABLE `articles` (
   `IdCategory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `articles`
+--
+
+INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Pieces`, `IdCategory`) VALUES
+(1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'Nuovo', 10, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +75,13 @@ CREATE TABLE `categories` (
   `Type` varchar(254) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `categories`
+--
+
+INSERT INTO `categories` (`Id`, `Type`) VALUES
+(1, 'Books');
+
 -- --------------------------------------------------------
 
 --
@@ -79,6 +94,13 @@ CREATE TABLE `contains` (
   `Quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `contains`
+--
+
+INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
+(1, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +112,13 @@ CREATE TABLE `includes` (
   `IdArticle` int(11) NOT NULL,
   `Quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `includes`
+--
+
+INSERT INTO `includes` (`IdWishlist`, `IdArticle`, `Quantity`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -144,6 +173,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Id`, `Username`, `FirstName`, `LastName`, `BirthDate`, `Email`, `MobilePhoneNumber`, `Password`) VALUES
+(1, 'guest', '', '', '0000-00-00', '', '', 'guest'),
 (3, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e');
 
 -- --------------------------------------------------------
@@ -156,6 +186,13 @@ CREATE TABLE `wishlists` (
   `Id` int(11) NOT NULL,
   `IdUser` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `wishlists`
+--
+
+INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
+(1, 3);
 
 --
 -- Indici per le tabelle scaricate
@@ -232,7 +269,7 @@ ALTER TABLE `wishlists`
 -- AUTO_INCREMENT per la tabella `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `carts`
@@ -244,19 +281,19 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT per la tabella `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Limiti per le tabelle scaricate
