@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 06, 2022 alle 12:56
--- Versione del server: 10.4.6-MariaDB
--- Versione PHP: 7.3.8
+-- Creato il: Apr 06, 2022 alle 18:03
+-- Versione del server: 10.4.22-MariaDB
+-- Versione PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -62,6 +61,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`Id`, `IdUser`) VALUES
+(3, NULL),
 (2, 3);
 
 -- --------------------------------------------------------
@@ -109,7 +109,8 @@ CREATE TABLE `contains` (
 --
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
-(1, 2, 1);
+(1, 2, 1),
+(1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -119,16 +120,16 @@ INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
 
 CREATE TABLE `includes` (
   `IdWishlist` int(11) NOT NULL,
-  `IdArticle` int(11) NOT NULL,
-  `Quantity` int(11) NOT NULL
+  `IdArticle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `includes`
 --
 
-INSERT INTO `includes` (`IdWishlist`, `IdArticle`, `Quantity`) VALUES
-(1, 1, 1);
+INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
+(1, 1),
+(6, 1);
 
 -- --------------------------------------------------------
 
@@ -183,7 +184,6 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Id`, `Username`, `FirstName`, `LastName`, `BirthDate`, `Email`, `MobilePhoneNumber`, `Password`) VALUES
-(1, 'guest', '', '', '0000-00-00', '', '', 'guest'),
 (3, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e');
 
 -- --------------------------------------------------------
@@ -202,6 +202,11 @@ CREATE TABLE `wishlists` (
 --
 
 INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
+(2, NULL),
+(3, NULL),
+(4, NULL),
+(5, NULL),
+(6, NULL),
 (1, 3);
 
 --
@@ -285,13 +290,13 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT per la tabella `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -303,7 +308,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Limiti per le tabelle scaricate
