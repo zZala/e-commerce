@@ -83,26 +83,73 @@
             <div class="row align-items-center">
                 <div class="col-md-3">
                     <div class="logo">
-                        <a href="index.html">
+                        <a href="index.php">
                             <img src="img/logo.png" alt="Logo">
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="search">
-                        <input type="text" placeholder="Search">
-                        <button><i class="fa fa-search"></i></button>
+                        <form action="product-list.php" method="get">
+                            <input type="text" name="filter" placeholder="Search">
+                            <button><a href="#"><i class="fa fa-search"></i></a></button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="user">
                         <a href="wishlist.html" class="btn wishlist">
                             <i class="fa fa-heart"></i>
-                            <span>(0)</span>
+                            <?php
+                            if (isset($_SESSION["ID"])) {
+                                $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
+                                ON includes.IdWishlist = wishlists.Id
+                                WHERE wishlists.IdUser = '" . $_SESSION["ID"] . "'";
+
+                                $result = $conn->query($sql);
+
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDWishlistGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
+                                ON includes.IdWishlist = wishlists.Id
+                                WHERE wishlists.Id = '" . $_SESSION["IDWishlistGuest"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else
+                                $n = 0;
+                            echo "<span>(" . $n . ")</span>";
+                            ?>
                         </a>
                         <a href="cart.html" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
-                            <span>(0)</span>
+                            <?php
+                            if (isset($_SESSION["ID"])) {
+                                $sql = "SELECT COUNT(*) FROM contains JOIN carts
+                                ON contains.IdCart = carts.Id
+                                WHERE carts.IdUser = '" . $_SESSION["ID"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDCartGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM contains JOIN carts
+                                ON contains.IdCart = carts.Id
+                                WHERE carts.Id = '" . $_SESSION["IDCartGuest"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else
+                                $n = 0;
+                            echo "<span>(" . $n . ")</span>"
+                            ?>
                         </a>
                     </div>
                 </div>

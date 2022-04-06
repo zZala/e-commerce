@@ -111,10 +111,9 @@ session_start();
                 </div>
                 <div class="col-md-6">
                     <div class="search">
-                        <!-- DA FARE NELL'INDEX-->
-                        <form action="index.php" method="get">
-                            <input type="text" placeholder="Search">
-                            <button><a href="index.php"><i class="fa fa-search"></i></a></button>
+                        <form action="product-list.php" method="get">
+                            <input type="text" name="filter" placeholder="Search">
+                            <button><a href="#"><i class="fa fa-search"></i></a></button>
                         </form>
                     </div>
                 </div>
@@ -133,6 +132,15 @@ session_start();
 
                                 $row = $result->fetch_assoc();
                                 $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDWishlistGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
+                                ON includes.IdWishlist = wishlists.Id
+                                WHERE wishlists.Id = '" . $_SESSION["IDWishlistGuest"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
                             } else
                                 $n = 0;
                             echo "<span>(" . $n . ")</span>";
@@ -145,6 +153,15 @@ session_start();
                                 $sql = "SELECT COUNT(*) FROM contains JOIN carts
                                 ON contains.IdCart = carts.Id
                                 WHERE carts.IdUser = '" . $_SESSION["ID"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDCartGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM contains JOIN carts
+                                ON contains.IdCart = carts.Id
+                                WHERE carts.Id = '" . $_SESSION["IDCartGuest"] . "'";
 
                                 $result = $conn->query($sql);
 
@@ -222,7 +239,11 @@ session_start();
 
                         <?php
                         //caricare prodotti 15 per pagina
-                        $sql = "SELECT * FROM articles JOIN categories ON articles.IdCategory = categories.Id";
+
+
+                        $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id";
+                        if (isset($_GET["filter"]))
+                            $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%'";
 
                         $result = $conn->query($sql);
 

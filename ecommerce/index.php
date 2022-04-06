@@ -116,10 +116,9 @@ session_start();
                 </div>
                 <div class="col-md-6">
                     <div class="search">
-                        <!-- DA FARE NELL'INDEX-->
-                        <form action="index.php" method="get">
-                            <input type="text" placeholder="Search">
-                            <button><a href="index.php"><i class="fa fa-search"></i></a></button>
+                        <form action="product-list.php" method="get">
+                            <input type="text" name="filter" placeholder="Search">
+                            <button><a href="#"><i class="fa fa-search"></i></a></button>
                         </form>
                     </div>
                 </div>
@@ -138,6 +137,15 @@ session_start();
 
                                 $row = $result->fetch_assoc();
                                 $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDWishlistGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
+                                ON includes.IdWishlist = wishlists.Id
+                                WHERE wishlists.Id = '" . $_SESSION["IDWishlistGuest"] . "'";
+
+                                $result = $conn->query($sql);
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
                             } else
                                 $n = 0;
                             echo "<span>(" . $n . ")</span>";
@@ -153,6 +161,15 @@ session_start();
 
                                 $result = $conn->query($sql);
                                 $conn->close();
+
+                                $row = $result->fetch_assoc();
+                                $n = $row["COUNT(*)"];
+                            } else if (isset($_SESSION["IDCartGuest"])) {
+                                $sql = "SELECT COUNT(*) FROM contains JOIN carts
+                                ON contains.IdCart = carts.Id
+                                WHERE carts.Id = '" . $_SESSION["IDCartGuest"] . "'";
+
+                                $result = $conn->query($sql);
 
                                 $row = $result->fetch_assoc();
                                 $n = $row["COUNT(*)"];
