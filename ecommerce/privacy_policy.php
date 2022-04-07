@@ -177,15 +177,28 @@
             <div class="login-form">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Shipping Policy</h1>
-                        <p>Free shipping for orders greater than $35 (before discounts and promotions) applies to EU Domestic shipments only.</p>
-                        <p>Shipping is calculated at checkout.<br>
-                            <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
+                        <h1>Privacy Policy</h1>
+                        <p>
+                            We use your personal information to operate, provide, develop, and improve the products and services that we offer our customers. These purposes include:
+                        <ul>
+                            <li>Purchase and delivery of products and services. We use your personal information to take and handle orders, deliver products and services, process payments, and communicate with you about orders, products and services, and promotional offers.
+                            </li>
+                            <li>Provide, troubleshoot, and improve EStore Services. We use your personal information to provide functionality, analyze performance, fix errors, and improve the usability and effectiveness of the EStore Services.
+                            </li>
+                            <li>Recommendations and personalization. We use your personal information to recommend features, products, and services that might be of interest to you, identify your preferences, and personalize your experience with EStore Services.
+                            </li>
+                            <li>Provide voice, image and camera services. When you use our voice, image and camera services, we use your voice input, images, videos, and other personal information to respond to your requests, provide the requested service to you, and improve our services. For more information about Alexa voice services , click here.
+                            </li>
+                            <li>Comply with legal obligations. In certain cases, we collect and use your personal information to comply with laws. For instance, we collect from sellers information regarding place of establishment and bank account information for identity verification and other purposes.
+                            </li>
+                            <li>Communicate with you. We use your personal information to communicate with you in relation to EStore Services via different channels (e.g., by phone, email, chat).
+                            </li>
+                            <li>Advertising. We use your personal information to display interest-based ads for features, products, and services that might be of interest to you. We do not use information that personally identifies you to display interest-based ads. To learn more, please read our Interest-Based Ads notice.
+                            </li>
+                            <li>Fraud Prevention and Credit Risks. We use personal information to prevent and detect fraud and abuse in order to protect the security of our customers, EStore, and others. We may also use scoring methods to assess and manage credit risks.
+                            </li>
+                        </ul>
                         </p>
-                        <h1>Delivery Policy</h1>
-                        <p>We are offering expedited domestic shipping through <b>UPS</b>. Rates are calculated at checkout and please note <b>shipping times are estimates</b>. We cannot guarantee delivery times due to inclement weather, customs, and other factors outside of our control.</p>
-
-                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
                     </div>
                 </div>
             </div>

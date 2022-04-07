@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Shipping and Delivery Policy</title>
+    <title>Terms & Conditions</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -177,15 +177,29 @@
             <div class="login-form">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Shipping Policy</h1>
-                        <p>Free shipping for orders greater than $35 (before discounts and promotions) applies to EU Domestic shipments only.</p>
-                        <p>Shipping is calculated at checkout.<br>
-                            <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
-                        </p>
-                        <h1>Delivery Policy</h1>
-                        <p>We are offering expedited domestic shipping through <b>UPS</b>. Rates are calculated at checkout and please note <b>shipping times are estimates</b>. We cannot guarantee delivery times due to inclement weather, customs, and other factors outside of our control.</p>
-
-                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
+                        <h1>Terms & Conditions</h1>
+                        <h5>Last updated: May 3, 2021</h5>
+                        <br>
+                        <b>COPYRIGHT</b>
+                        <br>
+                        All content included in or made available through any EStore Service, such as text, graphics, logos, button icons, images, audio clips, digital downloads, data compilations, and software is the property of EStore or its content suppliers and protected by United States and international copyright laws. The compilation of all content included in or made available through any EStore Service is the exclusive property of EStore and protected by U.S. and international copyright laws.
+                        <br><br>
+                        <b>LICENSE AND ACCESS</b>
+                        <br>
+                        Subject to your compliance with these Conditions of Use and any Service Terms, and your payment of any applicable fees, EStore or its content providers grant you a limited, non-exclusive, non-transferable, non-sublicensable license to access and make personal and non-commercial use of the EStore Services. This license does not include any resale or commercial use of any EStore Service, or its contents; any collection and use of any product listings, descriptions, or prices; any derivative use of any EStore Service or its contents; any downloading, copying, or other use of account information for the benefit of any third party; or any use of data mining, robots, or similar data gathering and extraction tools. All rights not expressly granted to you in these Conditions of Use or any Service Terms are reserved and retained by EStore or its licensors, suppliers, publishers, rightsholders, or other content providers. No EStore Service, nor any part of any EStore Service, may be reproduced, duplicated, copied, sold, resold, visited, or otherwise exploited for any commercial purpose without express written consent of EStore. You may not frame or utilize framing techniques to enclose any trademark, logo, or other proprietary information (including images, text, page layout, or form) of EStore without express written consent. You may not use any meta tags or any other "hidden text" utilizing EStore's name or trademarks without the express written consent of EStore. You may not misuse the EStore Services. You may use the EStore Services only as permitted by law. The licenses granted by EStore terminate if you do not comply with these Conditions of Use or any Service Terms.
+                        <br><br>
+                        <b>YOUR ACCOUNT</b>
+                        <br>
+                        You may need your own EStore account to use certain EStore Services, and you may be required to be logged in to the account and have a valid payment method associated with it. If there is a problem charging your selected payment method, we may charge any other valid payment method associated with your account. Visit Your Payments to manage your payment options. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account, and you agree to accept responsibility for all activities that occur under your account or password. EStore does sell products for children, but it sells them to adults, who can purchase with a credit card or other permitted payment method. If you are under 18, you may use the EStore Services only with involvement of a parent or guardian. Parents and guardians may create profiles for teenagers in their EStore Household. Alcohol listings on EStore are intended for adults. You must be at least 21 years of age to purchase alcohol, or use any site functionality related to alcohol. EStore reserves the right to refuse service, terminate accounts, terminate your rights to use EStore Services, remove or edit content, or cancel orders in its sole discretion.
+                        <br><br>
+                        <b>REVIEWS, COMMENTS, COMMUNICATIONS, AND OTHER CONTENT</b>
+                        <br>
+                        You may post reviews, comments, photos, videos, and other content; send e-cards and other communications; and submit suggestions, ideas, comments, questions, or other information, so long as the content is not illegal, obscene, threatening, defamatory, invasive of privacy, infringing of intellectual property rights (including publicity rights), or otherwise injurious to third parties or objectionable, and does not consist of or contain software viruses, political campaigning, commercial solicitation, chain letters, mass mailings, or any form of "spam" or unsolicited commercial electronic messages. You may not use a false e-mail address, impersonate any person or entity, or otherwise mislead as to the origin of a card or other content. EStore reserves the right (but not the obligation) to remove or edit such content, but does not regularly review posted content.
+                        If you do post content or submit material, and unless we indicate otherwise, you grant EStore a nonexclusive, royalty-free, perpetual, irrevocable, and fully sublicensable right to use, reproduce, modify, adapt, publish, perform, translate, create derivative works from, distribute, and display such content throughout the world in any media. You grant EStore and sublicensees the right to use the name that you submit in connection with such content, if they choose. You represent and warrant that you own or otherwise control all of the rights to the content that you post; that the content is accurate; that use of the content you supply does not violate this policy and will not cause injury to any person or entity; and that you will indemnify EStore for all claims resulting from content you supply. EStore has the right but not the obligation to monitor and edit or remove any activity or content. EStore takes no responsibility and assumes no liability for any content posted by you or any third party.
+                        <br><br>
+                        <b>RETURNS, REFUNDS AND TITLE</b>
+                        <br>
+                        EStore does not take title to returned items until the item arrives at our fulfillment center. At our discretion, a refund may be issued without requiring a return. In this situation, EStore does not take title to the refunded item. For more information about our returns and refunds, please see our Returns Center.
                     </div>
                 </div>
             </div>
