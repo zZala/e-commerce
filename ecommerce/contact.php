@@ -166,8 +166,7 @@
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item active">Contact</li>
             </ul>
         </div>
@@ -187,7 +186,6 @@
                         <div class="social">
                             <a href=""><i class="fab fa-twitter"></i></a>
                             <a href=""><i class="fab fa-facebook-f"></i></a>
-                            <a href=""><i class="fab fa-linkedin-in"></i></a>
                             <a href=""><i class="fab fa-instagram"></i></a>
                             <a href=""><i class="fab fa-youtube"></i></a>
                         </div>
@@ -202,7 +200,6 @@
                         <div class="social">
                             <a href=""><i class="fab fa-twitter"></i></a>
                             <a href=""><i class="fab fa-facebook-f"></i></a>
-                            <a href=""><i class="fab fa-linkedin-in"></i></a>
                             <a href=""><i class="fab fa-instagram"></i></a>
                             <a href=""><i class="fab fa-youtube"></i></a>
                         </div>

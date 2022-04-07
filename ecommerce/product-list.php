@@ -238,14 +238,14 @@ session_start();
                         $numProdPerPagina = 15;
                         //primo prodotto
                         $offset = ($numProdPerPagina * $pag) - $numProdPerPagina;
-                        $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id LIMIT $numProdPerPagina OFFSET $offset";
+                        $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id LIMIT $numProdPerPagina OFFSET $offset";
                         if (isset($_GET["filter"])) {
                             switch ($_GET["filter"]) {
                                 case "sales":
-                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "usage":
-                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "newest":
                                     break;
@@ -254,13 +254,16 @@ session_start();
                                 case "review":
                                     break;
                                 case "<25":
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price < 25 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "<50":
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price > 25 AND Price < 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case ">50":
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price > 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 default:
-                                    $sql = "SELECT Title, articles.Id, Price FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                             }
                         }
@@ -290,9 +293,13 @@ session_start();
                                                         <a href='#'><i class='fa fa-search'></i></a>
                                                     </div>
                                                 </div>
-                                                <div class='product-price'>
-                                                    <h3><span>$</span>" . $row["Price"] . "</h3>
-                                                    <a class='btn' href='#'><i class='fa fa-shopping-cart'></i>Buy Now</a>
+                                                <div class='product-price'>";
+                                if ($row["Discount"] != 0)
+                                    echo "<h3><span>$</span>" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                                else
+                                    echo "<h3><span>$</span>" . $row["Price"] . "</h3>";
+
+                                echo "<a class='btn' href='#'><i class='fa fa-shopping-cart'></i>Buy Now</a>;
                                                 </div>
                                             </div>
                                     </div>";

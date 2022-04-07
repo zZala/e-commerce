@@ -1,12 +1,15 @@
+<?php
+include("db/connection.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>E Store - eCommerce HTML Template</title>
+    <title>Cart</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="eCommerce HTML Template Free Download" name="keywords">
-    <meta content="eCommerce HTML Template Free Download" name="description">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -22,6 +25,18 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <?php
+    if (isset($_GET['msg'])) {
+        alert($_GET['msg']);
+    }
+
+    function alert($msg)
+    {
+        echo "<script type='text/javascript'>alert('$msg');</script>";
+    }
+    ?>
+
 </head>
 
 <body>
@@ -186,34 +201,51 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>Price</th>
+                                        <th>Discount</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
                                         <th>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody class="align-middle">
-                                    <?php
 
-                                    /*
-                                        <tr>
-                                            <td>
-                                                <div class="img">
-                                                    <a href="#"><img src="img/product-1.jpg" alt="Image"></a>
-                                                    <p>Product Name</p>
-                                                </div>
-                                            </td>
-                                            <td>$99</td>
-                                            <td>
-                                                <div class="qty">
-                                                    <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                    <input type="text" value="1">
-                                                    <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                                </div>
-                                            </td>
-                                            <td>$99</td>
-                                            <td><button><i class="fa fa-trash"></i></button></td>
-                                        </tr>
-                                    */
+                                    <?php
+                                    if (isset($_SESSION["IDCart"]))
+                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
+                                    else if (isset($_SESSION["IDCartGuest"]))
+                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+
+                                    $result = $conn->query($sql);
+
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>
+                                                    <td>
+                                                        <div class='img'>
+                                                            <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
+                                                            <p>" . $row["Title"] . "</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>$" . $row["Price"] . "</td>
+                                                    <td>" . $row["Discount"] . "%</td>
+                                                    <td>
+                                                        <div class='qty'>
+                                                            <button class='btn-minus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] - 1) . "'><i class='fa fa-minus'></i></a></button>
+                                                            <input type='text' value='" . $row["Quantity"] . "'>
+                                                            <button class='btn-plus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] + 1) . "'><i class='fa fa-plus'></i></a></button>
+                                                        </div>
+                                                    </td>";
+                                            if ($row["Discount"] != 0)
+                                                echo "
+                                                    <td>$" . $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100 . "</td>";
+                                            else
+                                                echo "
+                                                    <td>$" . $row["Price"] * $row["Quantity"] . "</td>";
+
+                                            echo "<td><button><a class='noLinkAddCart' href='check/removeFromWishlist.php?id=" . $row["Id"] . "'><i class='fa fa-trash'></i></a></button></td>
+                                                        </tr>";
+                                        }
+                                    }
                                     ?>
                                 </tbody>
                             </table>
@@ -224,23 +256,35 @@
                     <div class="cart-page-inner">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="coupon">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <button>Apply Code</button>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
                                 <div class="cart-summary">
                                     <div class="cart-content">
                                         <h1>Cart Summary</h1>
-                                        <p>Sub Total<span>$99</span></p>
-                                        <p>Shipping Cost<span>$1</span></p>
-                                        <h2>Grand Total<span>$100</span></h2>
+                                        <?php
+                                        $totPrice = 0;
+                                        if (isset($_SESSION["IDCart"]))
+                                            $sql = "SELECT Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
+                                        else if (isset($_SESSION["IDCartGuest"]))
+                                            $sql = "SELECT Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+                                        $result = $conn->query($sql);
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                if ($row["Discount"] != 0)
+                                                    $totPrice += $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                                else
+                                                    $totPrice += $row["Price"] * $row["Quantity"];
+                                            }
+                                        }
+                                        echo "<p>Sub Total<span>$" . $totPrice . "</span></p>
+                                              <p>Shipping Cost<span>$5</span></p>                                        
+                                              <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
+                                        ?>
                                     </div>
-                                    <div class="cart-btn">
-                                        <button>Update Cart</button>
-                                        <button>Checkout</button>
-                                    </div>
+                                    <center>
+                                        <div class="cart-btn">
+                                            <a href='check/cleanCart.php'><button>Clear All</button></a>
+                                            <a href='checkout.php'><button>Checkout</button></a>
+                                        </div>
+                                    </center>
                                 </div>
                             </div>
                         </div>

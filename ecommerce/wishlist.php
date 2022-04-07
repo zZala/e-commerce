@@ -1,3 +1,8 @@
+<?php
+include("db/connection.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +25,18 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <?php
+    if (isset($_GET['msg'])) {
+        alert($_GET['msg']);
+    }
+
+    function alert($msg)
+    {
+        echo "<script type='text/javascript'>alert('$msg');</script>";
+    }
+    ?>
+
 </head>
 
 <body>
@@ -184,102 +201,35 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>Price</th>
-                                        <th>Quantity</th>
                                         <th>Add to Cart</th>
                                         <th>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody class="align-middle">
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-6.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-7.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-8.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-9.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="img">
-                                                <a href="#"><img src="img/product-10.jpg" alt="Image"></a>
-                                                <p>Product Name</p>
-                                            </div>
-                                        </td>
-                                        <td>$99</td>
-                                        <td>
-                                            <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </td>
-                                        <td><button class="btn-cart">Add to Cart</button></td>
-                                        <td><button><i class="fa fa-trash"></i></button></td>
-                                    </tr>
+                                    <?php
+                                    if (isset($_SESSION["IDWishlist"]))
+                                        $sql = "SELECT articles.Id, Title, Price FROM includes JOIN articles ON includes.IdArticle = articles.Id WHERE IdWishlist = '" . $_SESSION["IDWishlist"] . "'";
+                                    else if (isset($_SESSION["IDWishlistGuest"]))
+                                        $sql = "SELECT articles.Id, Title, Price FROM includes JOIN articles ON includes.IdArticle = articles.Id WHERE IdWishlist = '" . $_SESSION["IDWishlistGuest"] . "'";
+
+                                    $result = $conn->query($sql);
+
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>
+                                                    <td>
+                                                        <div class='img'>
+                                                            <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
+                                                            <p>" . $row["Title"] . "</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>$" . $row["Price"] . "</td>
+                                                    <td><button class='btn-cart'><a class='noLinkAddCart' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'>Add to Cart</a></button></td> 
+                                                    <td><button><a class='noLinkAddCart' href='check/removeFromWishlist.php?id=" . $row["Id"] . "'><i class='fa fa-trash'></i></a></button></td>
+                                                </tr>";
+                                        }
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

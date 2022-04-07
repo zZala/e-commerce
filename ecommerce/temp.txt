@@ -1,5 +1,5 @@
 finire filtri:
-newest, popular, review, <25, <50, >50
+newest, popular, review
 
 fare filtri e pag categoria
 
@@ -7,5 +7,8 @@ finire pagine in fondo
 About Us
 Privacy Policy
 Terms & Condition
+Contact Us
 
 Da fare button By Now 
+
+Fare checkout.php

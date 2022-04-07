@@ -59,11 +59,3 @@ if (isset($idWishlist) && isset($idArticle)) {
         header("location:..\product-list.php?msg=Added to wishlist successfully!");
     }
 }
-
-
-function console_log($data)
-{
-    echo '<script>';
-    echo 'console.log(' . json_encode($data) . ')';
-    echo '</script>';
-}
