@@ -3,10 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>E-Commerce Policy</title>
+    <title>Return Policy</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="eCommerce HTML Template Free Download" name="keywords">
-    <meta content="eCommerce HTML Template Free Download" name="description">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -31,11 +29,11 @@
             <div class="row">
                 <div class="col-sm-6">
                     <i class="fa fa-envelope"></i>
-                    support@email.com
+                    <a href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a>
                 </div>
                 <div class="col-sm-6">
                     <i class="fa fa-phone-alt"></i>
-                    +012-345-6789
+                    <a href="tel:+390254562430">+39 02-5456-2430</a>
                 </div>
             </div>
         </div>
@@ -48,27 +46,31 @@
             <nav class="navbar navbar-expand-md bg-dark navbar-dark">
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        <a href="product-list.html" class="nav-item nav-link">Products</a>
-                        <a href="cart.html" class="nav-item nav-link">Cart</a>
-                        <a href="checkout.html" class="nav-item nav-link">Checkout</a>
-                        <a href="my-account.html" class="nav-item nav-link">My Account</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">More Pages</a>
-                            <div class="dropdown-menu">
-                                <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                <a href="login.php" class="dropdown-item active">Login & Register</a>
-                                <a href="contact.html" class="dropdown-item">Contact Us</a>
-                            </div>
-                        </div>
+                        <a href="index.php" class="nav-item nav-link">Home</a>
+                        <a href="product-list.php" class="nav-item nav-link">Products</a>
+                        <a href="product-list.php?filter=sales" class="nav-item nav-link">Sales</a>
+                        <a href="product-list.php?filter=usage" class="nav-item nav-link">Warehouse</a>
+                        <a href="categories.php" class="nav-item nav-link">Categories</a>
+                        <a href="contact.php" class="nav-item nav-link">Contact Us</a>
                     </div>
-                    <div class="navbar-nav ml-auto">
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Login</a>
-                                <a href="#" class="dropdown-item">Register</a>
-                            </div>
+                    <div class="navbar-nav ml-auto pr-sm-5" style='width: 9.5rem;'>
+                        <div class="nav-item dropdown pr-sm-5">
+                            <?php
+                            if (isset($_SESSION["ID"])) {
+                                echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
+                                <div class='dropdown-menu'>
+                                    <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
+                                    <a href='returns_and_orders.php' class='dropdown-item userDropdown'>Returns and Orders</a>
+                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                </div>";
+                            } else {
+                                echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
+                                <div class='dropdown-menu'>
+                                    <a href='login.php' class='dropdown-item userDropdown'>Login</a>
+                                    <a href='login.php' class='dropdown-item userDropdown'>Register</a>
+                                </div>";
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -92,13 +94,13 @@
                     <div class="search">
                         <form action="product-list.php" method="get">
                             <input type="text" name="filter" placeholder="Search">
-                            <button><a href="#"><i class="fa fa-search"></i></a></button>
+                            <button><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="user">
-                        <a href="wishlist.html" class="btn wishlist">
+                        <a href="wishlist.php" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {
@@ -125,7 +127,7 @@
                             echo "<span>(" . $n . ")</span>";
                             ?>
                         </a>
-                        <a href="cart.html" class="btn cart">
+                        <a href="cart.php" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <?php
                             if (isset($_SESSION["ID"])) {
@@ -208,9 +210,9 @@
                     <div class="footer-widget">
                         <h2>Get in Touch</h2>
                         <div class="contact-info">
-                            <p><i class="fa fa-map-marker"></i>Via Giuseppe Mengoni 3, Milano</p>
-                            <p><i class="fa fa-envelope"></i>E-StoreIT@gmail.com</p>
-                            <p><i class="fa fa-phone"></i>+39 02-5456-2430</p>
+                            <p><i class="fa fa-map-marker"></i><a class="noChangeColorLink" href="https://maps.google.com/?q=Via+Giuseppe+Mengoni+3,+Milano">Via Giuseppe Mengoni 3, Milano</a></p>
+                            <p><i class="fa fa-envelope"></i><a class="noChangeColorLink" href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a></p>
+                            <p><i class="fa fa-phone"></i><a class="noChangeColorLink" href="tel:+390254562430">+39 02-5456-2430</a></p>
                         </div>
                     </div>
                 </div>
@@ -220,11 +222,19 @@
                         <h2>Follow Us</h2>
                         <div class="contact-info">
                             <div class="social">
-                                <a href=""><i class="fab fa-twitter"></i></a>
-                                <a href=""><i class="fab fa-facebook-f"></i></a>
-                                <a href=""><i class="fab fa-instagram"></i></a>
-                                <a href=""><i class="fab fa-youtube"></i></a>
+                                <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                                <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.youtube.com"><i class="fab fa-youtube"></i></a>
                             </div>
+                        </div>
+                    </div>
+                    <div class="footer-widget">
+                        <h5><b>Subscribe to the newsletter</b></h5>
+                        <div>
+                            <form action="#" method="POST">
+                                <input type="text" name="emailNewsletter">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -233,9 +243,9 @@
                     <div class="footer-widget">
                         <h2>Company Info</h2>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Condition</a></li>
+                            <li><a href="about_us.php">About Us</a></li>
+                            <li><a href="privacy_policy.php">Privacy Policy</a></li>
+                            <li><a href="terms_and_condition.php">Terms & Condition</a></li>
                         </ul>
                     </div>
                 </div>
@@ -253,6 +263,7 @@
             </div>
         </div>
     </div>
+
     <div class="footer">
         <div class="row payment align-items-center">
             <div class="col-md-6">
@@ -271,6 +282,7 @@
             </div>
         </div>
     </div>
+    <!-- Footer End -->
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

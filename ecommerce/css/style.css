@@ -2407,10 +2407,14 @@ h2 {
     }
 }
 
-.widthImportantDropdown1{
-    min-width: 93px!important;
+.widthImportantDropdown1 {
+    min-width: 93px !important;
 }
 
-.widthImportantDropdown2{
-    min-width: 74px!important;
+.widthImportantDropdown2 {
+    min-width: 74px !important;
+}
+
+.noChangeColorLink {
+    color: #353535;
 }

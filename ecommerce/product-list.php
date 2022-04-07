@@ -331,9 +331,9 @@ session_start();
                     <div class="footer-widget">
                         <h2>Get in Touch</h2>
                         <div class="contact-info">
-                            <p><i class="fa fa-map-marker"></i><a href="https://maps.google.com/?q=Via+Giuseppe+Mengoni+3,+Milano">Via Giuseppe Mengoni 3, Milano</a></p>
-                            <p><i class="fa fa-envelope"></i><a href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a></p>
-                            <p><i class="fa fa-phone"></i><a href="tel:+390254562430">+39 02-5456-2430</a></p>
+                            <p><i class="fa fa-map-marker"></i><a class="noChangeColorLink" href="https://maps.google.com/?q=Via+Giuseppe+Mengoni+3,+Milano">Via Giuseppe Mengoni 3, Milano</a></p>
+                            <p><i class="fa fa-envelope"></i><a class="noChangeColorLink" href="mailto:E-StoreIT@gmail.com">E-StoreIT@gmail.com</a></p>
+                            <p><i class="fa fa-phone"></i><a class="noChangeColorLink" href="tel:+390254562430">+39 02-5456-2430</a></p>
                         </div>
                     </div>
                 </div>
@@ -350,8 +350,14 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    Follow the newsletter:
-                    <input type="text" name="emailNewsletter">
+                    <div class="footer-widget">
+                        <h5><b>Subscribe to the newsletter</b></h5>
+                        <div>
+                            <form action="#" method="POST">
+                                <input type="text" name="emailNewsletter">
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-3 col-md-6">
@@ -378,6 +384,7 @@ session_start();
             </div>
         </div>
     </div>
+
     <div class="footer">
         <div class="row payment align-items-center">
             <div class="col-md-6">
@@ -396,6 +403,7 @@ session_start();
             </div>
         </div>
     </div>
+    <!-- Footer End -->
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

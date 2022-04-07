@@ -1,6 +1,8 @@
 finire filtri:
 newest, popular, review, <25, <50, >50
 
+fare filtri e pag categoria
+
 finire pagine in fondo
 About Us
 Privacy Policy
