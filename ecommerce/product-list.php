@@ -242,28 +242,33 @@ session_start();
                         if (isset($_GET["filter"])) {
                             switch ($_GET["filter"]) {
                                 case "sales":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "usage":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "newest":
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles ORDER BY articles.Id DESC LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "popular":
+                                    //NON FUNZIONANTE
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles ORDER BY (SELECT COUNT(*) FROM contains GROUP BY contains.IdArticle) DESC";
                                     break;
                                 case "review":
+                                    //NON FUNZIONANTE
+                                    $sql = "SELECT articles.Title, articles.Id, Price, Discount FROM articles JOIN reviews ON articles.Id = reviews.IdArticle ORDER BY (SELECT AVG(Stars) FROM reviews GROUP BY reviews.IdArticle) DESC";
                                     break;
                                 case "<25":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price < 25 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price < 25 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "<50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price > 25 AND Price < 50 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price > 25 AND Price < 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case ">50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Price > 50 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price > 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 default:
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                             }
                         }

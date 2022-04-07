@@ -242,8 +242,7 @@ session_start();
                                                 echo "
                                                     <td>$" . $row["Price"] * $row["Quantity"] . "</td>";
 
-                                            echo "<td><button><a class='noLinkAddCart' href='check/removeFromWishlist.php?id=" . $row["Id"] . "'><i class='fa fa-trash'></i></a></button></td>
-                                                        </tr>";
+                                            echo "<td><a class='noLinkAddCart' href='check/removeFromCart.php?id=" . $row["Id"] . "'><button><i class='fa fa-trash'></i></button></a></td></tr>";
                                         }
                                     }
                                     ?>

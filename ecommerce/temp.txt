@@ -1,6 +1,3 @@
-finire filtri:
-newest, popular, review
-
 fare filtri e pag categoria
 
 finire pagine in fondo
