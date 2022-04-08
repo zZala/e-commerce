@@ -2428,3 +2428,22 @@ h2 {
     display: flex !important;
     flex-direction: row !important;
 }
+
+.divCard {
+    background-repeat: no-repeat;
+}
+
+.cardsTitle {
+    text-align: center;
+    font-weight: bold;
+    height: 295px;
+    transform: translateY(96%);
+    color: rgb(255, 255, 255);
+    width: auto !important;
+}
+
+.cardsTitle {
+    background: white !important;
+    opacity: 0.8 !important;
+    color: #FF6F61 !important;
+}

@@ -8,7 +8,7 @@ session_start();
 
 <head>
     <meta charset="utf-8">
-    <title>About us</title>
+    <title>Categories</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -170,7 +170,7 @@ session_start();
         <div class="container-fluid">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">About us</li>
+                <li class="breadcrumb-item active">Categories</li>
             </ul>
         </div>
     </div>
@@ -182,15 +182,21 @@ session_start();
             <div class="login-form">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Shipping Policy</h1>
-                        <p>Free shipping for orders greater than $35 (before discounts and promotions) applies to EU Domestic shipments only.</p>
-                        <p>Shipping is calculated at checkout.<br>
-                            <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
-                        </p>
-                        <h1>Delivery Policy</h1>
-                        <p>We are offering expedited domestic shipping through <b>UPS</b>. Rates are calculated at checkout and please note <b>shipping times are estimates</b>. We cannot guarantee delivery times due to inclement weather, customs, and other factors outside of our control.</p>
-
-                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
+                        <div>
+                            <?php
+                            $sql = "SELECT Id, Type FROM categories";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<a href='product-list.php?category=" . $row["Type"] . "'><div class='col-sm-3 divCard card d-inline-block' style='background-image: url(img/category-" . $row["Id"] . ".jpg);'>
+                                                <div class='card-block'>
+                                                    <h5 class='card-title cardsTitle'>" . $row["Type"] . "</h5>
+                                                </div>
+                                            </div></a>";
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
