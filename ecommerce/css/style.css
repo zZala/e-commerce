@@ -2431,6 +2431,7 @@ h2 {
 
 .divCard {
     background-repeat: no-repeat;
+    border: 10px solid white;
 }
 
 .cardsTitle {

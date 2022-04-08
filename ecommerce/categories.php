@@ -192,7 +192,7 @@ session_start();
                                                 <div class='card-block'>
                                                     <h5 class='card-title cardsTitle'>" . $row["Type"] . "</h5>
                                                 </div>
-                                            </div></a>";
+                                          </div></a>";
                                 }
                             }
                             ?>
