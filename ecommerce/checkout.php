@@ -271,26 +271,43 @@ session_start();
                                 <h1>Cart Total</h1>
                                 <?php
                                 $totPrice = 0;
-                                if (isset($_SESSION["IDCart"]))
-                                    $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
-                                else if (isset($_SESSION["IDCartGuest"]))
-                                    $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
+                                //button BuyNow
+                                if (isset($_GET["id"])) {
+                                    $sql = "SELECT Title, Price, Discount FROM articles WHERE Id = '" . $_GET["id"] . "'";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        $row = $result->fetch_assoc();
                                         if ($row["Discount"] != 0) {
-                                            $discountedPrice = $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                            $discountedPrice = $row["Price"] * (100 - $row["Discount"]) / 100;
                                             $totPrice += $discountedPrice;
-                                            echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"] * $row["Quantity"] . "</s> $$discountedPrice</span></p>";
+                                            echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"]  . "</s> $$discountedPrice</span></p>";
                                         } else {
-                                            $totPrice += $row["Price"] * $row["Quantity"];
-                                            echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] * $row["Quantity"] . "</span></p>";
+                                            $totPrice += $row["Price"];
+                                            echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] . "</span></p>";
                                         }
                                     }
-                                    echo "<p class='sub-total'>Sub Total<span>$$totPrice</span></p>
+                                } else {
+                                    if (isset($_SESSION["IDCart"]))
+                                        $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
+                                    else if (isset($_SESSION["IDCartGuest"]))
+                                        $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+                                    $result = $conn->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            if ($row["Discount"] != 0) {
+                                                $discountedPrice = $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                                $totPrice += $discountedPrice;
+                                                echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"] * $row["Quantity"] . "</s> $$discountedPrice</span></p>";
+                                            } else {
+                                                $totPrice += $row["Price"] * $row["Quantity"];
+                                                echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] * $row["Quantity"] . "</span></p>";
+                                            }
+                                        }
+                                    }
+                                }
+                                echo "<p class='sub-total'>Sub Total<span>$$totPrice</span></p>
                                         <p class='ship-cost'>Shipping Cost<span>$5</span></p>
                                         <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
-                                }
                                 ?>
 
 

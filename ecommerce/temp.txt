@@ -3,6 +3,6 @@ About Us
 returns e order
 my account
 
-Da fare button By Now 
 
-Fare checkout.php
+Fare checkOrder.php
+sistemare la disponibilita dei prodotti
