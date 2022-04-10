@@ -29,6 +29,8 @@ session_start();
     <?php
     if (isset($_GET['msg'])) {
         alert($_GET['msg']);
+        if ($_GET['msg'] == "Ordered successfully!")
+            header("location: check/cleanCart.php?msg=order");
     }
 
     function alert($msg)

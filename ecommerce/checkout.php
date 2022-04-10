@@ -183,8 +183,8 @@ session_start();
 
     <!-- Checkout Start -->
     <div class="checkout">
-        <form action="checkOrder.php">
-            <div class="container-fluid">
+        <div class="container-fluid">
+            <form action="check/checkOrder.php" method="POST">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="checkout-inner">
@@ -209,7 +209,7 @@ session_start();
                                     </div>
                                     <div class="col-md-12">
                                         <label>Address</label>
-                                        <input class="form-control" type="text" placeholder="Address" required>
+                                        <input class="form-control" type="text" name="address" placeholder="Address" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Country</label>
@@ -230,7 +230,7 @@ session_start();
                                     </div>
                                     <div class="col-md-12">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="shipto">
+                                            <input type="checkbox" class="custom-control-input" name="check" id="shipto">
                                             <label class="custom-control-label" for="shipto">Ship to different address</label>
                                         </div>
                                     </div>
@@ -242,7 +242,7 @@ session_start();
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label>Address</label>
-                                        <input class="form-control" type="text" placeholder="Address">
+                                        <input class="form-control" type="text" name="addressB" placeholder="Address">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Country</label>
@@ -271,43 +271,26 @@ session_start();
                                 <h1>Cart Total</h1>
                                 <?php
                                 $totPrice = 0;
-                                //button BuyNow
-                                if (isset($_GET["id"])) {
-                                    $sql = "SELECT Title, Price, Discount FROM articles WHERE Id = '" . $_GET["id"] . "'";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        $row = $result->fetch_assoc();
+                                if (isset($_SESSION["IDCart"]))
+                                    $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
+                                else if (isset($_SESSION["IDCartGuest"]))
+                                    $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+                                $result = $conn->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
                                         if ($row["Discount"] != 0) {
-                                            $discountedPrice = $row["Price"] * (100 - $row["Discount"]) / 100;
+                                            $discountedPrice = $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
                                             $totPrice += $discountedPrice;
-                                            echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"]  . "</s> $$discountedPrice</span></p>";
+                                            echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"] * $row["Quantity"] . "</s> $$discountedPrice</span></p>";
                                         } else {
-                                            $totPrice += $row["Price"];
-                                            echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] . "</span></p>";
+                                            $totPrice += $row["Price"] * $row["Quantity"];
+                                            echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] * $row["Quantity"] . "</span></p>";
                                         }
                                     }
-                                } else {
-                                    if (isset($_SESSION["IDCart"]))
-                                        $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
-                                    else if (isset($_SESSION["IDCartGuest"]))
-                                        $sql = "SELECT Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            if ($row["Discount"] != 0) {
-                                                $discountedPrice = $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
-                                                $totPrice += $discountedPrice;
-                                                echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"] * $row["Quantity"] . "</s> $$discountedPrice</span></p>";
-                                            } else {
-                                                $totPrice += $row["Price"] * $row["Quantity"];
-                                                echo "<p>" . $row["Title"] . "<span>$" . $row["Price"] * $row["Quantity"] . "</span></p>";
-                                            }
-                                        }
-                                    }
-                                }
-                                echo "<p class='sub-total'>Sub Total<span>$$totPrice</span></p>
+                                    echo "<p class='sub-total'>Sub Total<span>$$totPrice</span></p>
                                         <p class='ship-cost'>Shipping Cost<span>$5</span></p>
                                         <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
+                                }
                                 ?>
 
 
@@ -318,7 +301,7 @@ session_start();
                                     <h1>Payment Methods</h1>
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-1" name="payment">
+                                            <input type="radio" name="radio" value="Paypal" class="custom-control-input" id="payment-1" name="payment">
                                             <label class="custom-control-label" for="payment-1">Paypal</label>
                                         </div>
                                         <div class="payment-content" id="payment-1-show">
@@ -329,7 +312,7 @@ session_start();
                                     </div>
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-2" name="payment">
+                                            <input type="radio" name="radio" value="Credit Card" class="custom-control-input" id="payment-2" name="payment">
                                             <label class="custom-control-label" for="payment-2">Credit Card</label>
                                         </div>
                                         <div class="payment-content" id="payment-2-show">
@@ -344,7 +327,7 @@ session_start();
                                     </div>
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="payment-5" name="payment">
+                                            <input type="radio" name="radio" value="Cash on Delivery" class="custom-control-input" id="payment-5" name="payment">
                                             <label class="custom-control-label" for="payment-5">Cash on Delivery</label>
                                         </div>
                                         <div class="payment-content" id="payment-5-show">
@@ -358,8 +341,8 @@ session_start();
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <!-- Checkout End -->
 

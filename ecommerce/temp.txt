@@ -3,6 +3,5 @@ About Us
 returns e order
 my account
 
-
-Fare checkOrder.php
+schedaArticolo.php
 sistemare la disponibilita dei prodotti

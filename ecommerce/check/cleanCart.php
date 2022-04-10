@@ -1,8 +1,11 @@
 <?php
 include("../db/connection.php");
-
 session_start();
 
+if (isset($_GET['msg']))
+    $indirizzo = "location:..\cart.php?msg=Ordered successfully!";
+else
+    $indirizzo = "location:..\cart.php?msg=Clean successfully!";
 $idCart;
 
 //controllo se loggato
@@ -27,5 +30,5 @@ if (isset($idCart)) {
     //elimino tutte le righe nella tabella contains di quel cart
     $sql = "DELETE contains FROM contains WHERE IdCart = '$idCart'";
     $conn->query($sql);
-    header("location:..\cart.php?msg=Clean successfully!");
+    header($indirizzo);
 }
