@@ -302,7 +302,7 @@ session_start();
                                                 </div>
                                                 <div class='product-price'>";
                                 if ($row["Discount"] != 0)
-                                    echo "<h3><span>$</span>" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                                    echo "<h3><span>$</span><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
                                 else
                                     echo "<h3><span>$</span>" . $row["Price"] . "</h3>";
 
@@ -418,6 +418,9 @@ session_start();
         </div>
     </div>
     <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -235,12 +235,11 @@ session_start();
                                                             <button class='btn-plus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] + 1) . "'><i class='fa fa-plus'></i></a></button>
                                                         </div>
                                                     </td>";
+
                                             if ($row["Discount"] != 0)
-                                                echo "
-                                                    <td>$" . $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100 . "</td>";
+                                                echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 * $row["Quantity"] . "</td>";
                                             else
-                                                echo "
-                                                    <td>$" . $row["Price"] * $row["Quantity"] . "</td>";
+                                                echo "<td>$" . $row["Price"] * $row["Quantity"] . "</td>";
 
                                             echo "<td><a class='noLinkAddCart' href='check/removeFromCart.php?id=" . $row["Id"] . "'><button><i class='fa fa-trash'></i></button></a></td></tr>";
                                         }
@@ -273,6 +272,7 @@ session_start();
                                                     $totPrice += $row["Price"] * $row["Quantity"];
                                             }
                                         }
+
                                         echo "<p>Sub Total<span>$" . $totPrice . "</span></p>
                                               <p>Shipping Cost<span>$5</span></p>                                        
                                               <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
@@ -375,6 +375,9 @@ session_start();
         </div>
     </div>
     <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
