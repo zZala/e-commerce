@@ -12,8 +12,10 @@ $date = new DateTime('now');
 $date->add(new DateInterval('P7D'));
 $date = $date->format("Y-m-d");
 echo $date;
+
 if (isset($_POST["radio"]))
     $paymentMethod = $_POST["radio"];
+
 if (isset($_SESSION["IDCart"]))
     $idCart = $_SESSION["IDCart"];
 else if (isset($_SESSION["IDCartGuest"]))

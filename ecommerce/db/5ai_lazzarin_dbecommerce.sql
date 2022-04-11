@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 07, 2022 alle 17:40
+-- Creato il: Apr 11, 2022 alle 16:58
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -45,7 +45,7 @@ CREATE TABLE `articles` (
 
 INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
 (1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 10, 1, 4),
-(2, 'Apple AirPods con custodia di ricarica tramite cavo (seconda generazione)', 'Informazioni su questo articolo\r\nTaglia unica, comodi da indossare tutto ilgiorno\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning\r\nSi accendono automaticamente esicollegano all’istante\r\nSetup semplicissimo su tutti i dispositivi Apple\r\nAttivazione rapida di Siri con il comando “Ehi Siri”\r\nConnessione istantanea anche da un dispositivo all’altro\r\nCustodia di ricarica per oltre 24 ore di autonomia', 'zzala', 'Usage', 110.98, 0, 2, 7);
+(2, 'Apple AirPods con custodia di ricarica tramite cavo (seconda generazione)', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,8 @@ INSERT INTO `categories` (`Id`, `Type`) VALUES
 (8, 'Food'),
 (9, 'Home, Garden & Tools'),
 (10, 'Beverages'),
-(11, 'Computers');
+(11, 'Computers'),
+(12, 'Sport');
 
 -- --------------------------------------------------------
 
@@ -111,9 +112,8 @@ CREATE TABLE `contains` (
 --
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
-(1, 2, 4),
-(1, 3, 3),
-(2, 2, 2);
+(1, 3, 2),
+(2, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE `includes` (
 
 INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
 (1, 1),
-(6, 1);
+(6, 2);
 
 -- --------------------------------------------------------
 
@@ -142,13 +142,21 @@ INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
 
 CREATE TABLE `orders` (
   `Id` int(11) NOT NULL,
-  `SubmissionDate` date NOT NULL,
-  `DeliveryDate` date NOT NULL,
-  `PaymentMethod` int(11) NOT NULL,
-  `ShippingAddress` int(11) NOT NULL,
+  `SubmissionDate` date NOT NULL DEFAULT current_timestamp(),
+  `DeliveryDate` date NOT NULL DEFAULT current_timestamp(),
+  `PaymentMethod` varchar(255) NOT NULL,
+  `ShippingAddress` varchar(255) NOT NULL,
   `ShippingCosts` float NOT NULL,
   `IdCart` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `orders`
+--
+
+INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `ShippingAddress`, `ShippingCosts`, `IdCart`) VALUES
+(1, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2),
+(19, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2);
 
 -- --------------------------------------------------------
 
@@ -157,12 +165,13 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `reviews` (
+  `Id` int(11) NOT NULL,
   `IdArticle` int(11) NOT NULL,
   `IdUser` int(11) NOT NULL,
-  `Text` text NOT NULL,
+  `Title` varchar(50) NOT NULL,
   `Stars` enum('1','2','3','4','5') NOT NULL,
-  `Date` date NOT NULL,
-  `Title` varchar(50) NOT NULL
+  `Text` text NOT NULL,
+  `Date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -262,8 +271,9 @@ ALTER TABLE `orders`
 -- Indici per le tabelle `reviews`
 --
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`IdArticle`,`IdUser`),
-  ADD KEY `ReviewUser` (`IdUser`);
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `ReviewUser` (`IdUser`),
+  ADD KEY `ReviewArticle` (`IdArticle`);
 
 --
 -- Indici per le tabelle `users`
@@ -299,7 +309,19 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT per la tabella `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT per la tabella `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT per la tabella `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -350,11 +372,11 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`);
 
 --
--- Limiti per la tabella `reviews`
+-- Limiti per la tabella `wishlists`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `ReviewArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`),
-  ADD CONSTRAINT `ReviewUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`);
+  ADD CONSTRAINT `ReviewUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`),
+  ADD CONSTRAINT `ReviewArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`);
 
 --
 -- Limiti per la tabella `wishlists`

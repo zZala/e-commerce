@@ -27,7 +27,7 @@ session_start();
     <link href="css/style.css" rel="stylesheet">
 
     <?php
-    if (isset($_GET['msg']) && $_GET['msg'] == "Registered successfully!") {
+    if (isset($_GET['msg'])) {
         alert($_GET['msg']);
     }
 
