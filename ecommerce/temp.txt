@@ -3,5 +3,4 @@ About Us
 returns e order
 my account
 
-schedaArticolo.php
 sistemare la disponibilita dei prodotti

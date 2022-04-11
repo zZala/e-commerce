@@ -27,6 +27,18 @@ if (isset($paymentMethod)) {
     $sql = $conn->prepare("INSERT INTO orders (DeliveryDate, PaymentMethod, ShippingAddress, ShippingCosts, IdCart) VALUES (?, ?, ?, ?, ?)");
     $sql->bind_param('sssii', $date, $paymentMethod, $address, $shippingCost, $idCart);
     $sql->execute();
+
+    if (isset($_SESSION["ID"])) {
+        //nuovo carrello per l'utente
+        $sql = $conn->prepare("INSERT INTO carts (IdUser) VALUES (?)");
+        $sql->bind_param('i', $_SESSION["ID"]);
+        $sql->execute();
+    } else if (isset($_SESSION["IDCartGuest"])) {
+        //nuovo cookie carrello guest
+        $sql = $conn->prepare("INSERT INTO carts ()");
+        $sql->execute();
+    }
+
     header("location: ..\cart.php?msg=Ordered successfully!");
 } else
     header("location: ..\cart.php?msg=Error!");

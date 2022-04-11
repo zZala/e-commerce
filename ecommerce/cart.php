@@ -29,8 +29,6 @@ session_start();
     <?php
     if (isset($_GET['msg'])) {
         alert($_GET['msg']);
-        if ($_GET['msg'] == "Ordered successfully!")
-            header("location: check/cleanCart.php?msg=order");
     }
 
     function alert($msg)
@@ -213,9 +211,9 @@ session_start();
 
                                     <?php
                                     if (isset($_SESSION["IDCart"]))
-                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
+                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity, Pieces FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
                                     else if (isset($_SESSION["IDCartGuest"]))
-                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+                                        $sql = "SELECT articles.Id, Title, Price, Discount, Quantity, Pieces FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
 
                                     $result = $conn->query($sql);
 
@@ -233,7 +231,7 @@ session_start();
                                                     <td>
                                                         <div class='qty'>
                                                             <button class='btn-minus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] - 1) . "'><i class='fa fa-minus'></i></a></button>
-                                                            <input type='text' value='" . $row["Quantity"] . "'>
+                                                            <input type='number' name='q' value='" . $row["Quantity"] . "' min=1 max=" . $row["Pieces"] . ">
                                                             <button class='btn-plus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] + 1) . "'><i class='fa fa-plus'></i></a></button>
                                                         </div>
                                                     </td>";

@@ -191,10 +191,10 @@ session_start();
     <div class="product-detail">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="product-detail-top">
                         <div class="row align-items-center">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="product-slider-single normal-slider">
                                     <?php
                                     echo "<img src='img/product-" . $_GET["id"] . ".jpg' alt='Product Image'>";
@@ -211,49 +211,58 @@ session_start();
                                 </div>
                                 -->
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="product-content">
                                     <?php
-                                    $sql = "SELECT articles.Id, articles.Title, Price, Discount, AVG(Stars) FROM articles JOIN reviews ON articles.Id = reviews.IdArticle WHERE articles.Id = '" . $_GET["id"] . "' GROUP BY articles.Id";
+                                    $sql = "SELECT articles.Id, articles.Title, Price, Discount, AVG(Stars), Pieces FROM articles JOIN reviews ON articles.Id = reviews.IdArticle WHERE articles.Id = '" . $_GET["id"] . "' GROUP BY articles.Id";
                                     $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
                                         $row = $result->fetch_assoc();
-                                        echo "<form method='get'><div class='title'>
+                                        echo "<form method='get' action='check/addToCart.php'><div class='title'>
                                                 <h2>" . $row["Title"] . "</h2>
                                             </div>
                                             <div class='ratting'>";
                                         for ($i = 0; $i < $row["AVG(Stars)"]; $i++) {
                                             echo "<i class='fa fa-star'></i>";
                                         }
-                                        echo "</div>
-                                            <div class='price'>
-                                                <h4>Price:</h4>";
-                                        if ($row["Discount"] != 0)
-                                            echo "<p>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "<span>$" . $row["Price"] . "</span></p>";
-                                        else
-                                            echo "<p>$" . $row["Price"] . "</p>";
+                                        for ($i = $row["AVG(Stars)"]; $i < 5; $i++) {
+                                            echo "<i class='far fa-star'></i>";
+                                        }
+                                    } else {
+                                        $sql = "SELECT articles.Id, articles.Title, Price, Discount, Pieces FROM articles WHERE articles.Id = '" . $_GET["id"] . "'";
+                                        $result = $conn->query($sql);
+                                        if ($result->num_rows > 0) {
+                                            $row = $result->fetch_assoc();
+                                            echo "<form method='get' action='check/addToCart.php'><div class='title'>
+                                                <h2>" . $row["Title"] . "</h2>
+                                            </div>
+                                            <div class='ratting'>";
+                                            for ($i = 0; $i < 5; $i++) {
+                                                echo "<i class='far fa-star'></i>";
+                                            }
+                                        }
+                                    }
+                                    echo "</div>
+                                        <div class='price'>
+                                            <h4>Price:</h4>";
+                                    if ($row["Discount"] != 0)
+                                        echo "<p>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "<span>$" . $row["Price"] . "</span></p>";
+                                    else
+                                        echo "<p>$" . $row["Price"] . "</p>";
 
-                                        echo "</div>
+                                    echo "</div>
                                             <div class='quantity'>
                                                 <h4>Quantity:</h4>
                                                 <div class='qty'>
-                                                    <input type='number' name='q' value='1'>
+                                                    <input type='number' name='q' value='1' min=1 max=" . $row["Pieces"] . " value='" . $row["Id"] . "'>
                                                     <input type='hidden' name='id' value='" . $row["Id"] . "'>
                                                 </div>
-                                            </div>";
-                                        if (isset($_GET["q"]))
-                                            echo "
+                                            </div>
                                             <div class='action'>
-                                                <a class='btn' href='check/addToCart.php?id=" . $row["Id"] . "&q=" . $_GET["q"] . "''><i class='fa fa-shopping-cart'></i>Add to Cart</a>
-                                                <a class='btn' href='check/checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-bag'></i>Buy Now</a>
-                                            </div></form>";
-                                        else
-                                            echo "
-                                            <div class='action'>
-                                                <a class='btn' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'><i class='fa fa-shopping-cart'></i>Add to Cart</a>
-                                                <a class='btn' href='check/checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-bag'></i>Buy Now</a>
-                                            </div></form>";
-                                    }
+                                                <button class='btn'><i class='fa fa-shopping-cart'></i>Add to Cart</button>
+                                                <button class='btn'><i class='fa fa-shopping-bag'></i>Buy Now</button>
+                                            </div>
+                                        </form>";
                                     ?>
                                 </div>
                             </div>
@@ -347,8 +356,6 @@ session_start();
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

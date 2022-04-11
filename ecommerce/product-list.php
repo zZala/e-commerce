@@ -297,7 +297,7 @@ session_start();
                                                     <div class='product-action'>
                                                         <a href='check/addToCart.php?id=" . $row["Id"] . "&q=1'><i class='fa fa-cart-plus'></i></a>
                                                         <a href='check/addToWishlist.php?id=" . $row["Id"] . "&q=1'><i class='fa fa-heart'></i></a>
-                                                        <a href='product-detail.php?id=" . $row["Id"] . "'><i class='fa fa-search'></i></a>
+                                                        <a href='product-detail.php?id=" . $row["Id"] . "&q=1'><i class='fa fa-search'></i></a>
                                                     </div>
                                                 </div>
                                                 <div class='product-price'>";
@@ -306,7 +306,7 @@ session_start();
                                 else
                                     echo "<h3><span>$</span>" . $row["Price"] . "</h3>";
 
-                                echo "<a class='btn' href='checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>;
+                                echo "<a class='btn' href='checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                                 </div>
                                             </div>
                                     </div>";
