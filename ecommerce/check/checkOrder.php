@@ -28,15 +28,20 @@ if (isset($paymentMethod)) {
     $sql->bind_param('sssii', $date, $paymentMethod, $address, $shippingCost, $idCart);
     $sql->execute();
 
-    if (isset($_SESSION["ID"])) {
+    if (isset($_SESSION["IDCart"])) {
         //nuovo carrello per l'utente
         $sql = $conn->prepare("INSERT INTO carts (IdUser) VALUES (?)");
         $sql->bind_param('i', $_SESSION["ID"]);
         $sql->execute();
     } else if (isset($_SESSION["IDCartGuest"])) {
-        //nuovo cookie carrello guest
-        $sql = $conn->prepare("INSERT INTO carts ()");
+        //creo nuovo carrello guest
+        $sql = $conn->prepare("INSERT INTO carts () VALUES ()");
         $sql->execute();
+
+        //aggiorno cookie
+        $cookie_name = "IDCartGuest";
+        $cookie_value = $idCart;
+        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1  
     }
 
     header("location: ..\cart.php?msg=Ordered successfully!");

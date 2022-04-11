@@ -15,12 +15,12 @@ if ($result->num_rows > 0) {
   $_SESSION['ID'] = $row['Id'];
   $_SESSION['Username'] = $row['Username'];
 
-  $sql = "SELECT Id FROM carts WHERE IdUser = '" . $_SESSION['ID'] . "'";
+  $sql = "SELECT Id FROM carts WHERE IdUser = '" . $_SESSION['ID'] . "' ORDER BY Id DESC LIMIT 1";
   $result = $conn->query($sql);
   $row = $result->fetch_assoc();
   $_SESSION['IDCart'] = $row['Id'];
 
-  $sql = "SELECT Id FROM wishlists WHERE IdUser = '" . $_SESSION['ID'] . "'";
+  $sql = "SELECT Id FROM wishlists WHERE IdUser = '" . $_SESSION['ID'] . "' ORDER BY Id DESC LIMIT 1";
   $result = $conn->query($sql);
   $row = $result->fetch_assoc();
   $_SESSION['IDWishlist'] = $row['Id'];
