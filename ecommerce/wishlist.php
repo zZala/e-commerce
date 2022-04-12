@@ -207,29 +207,32 @@ session_start();
                                 </thead>
                                 <tbody class="align-middle">
                                     <?php
+                                    $sql = "";
                                     if (isset($_SESSION["IDWishlist"]))
                                         $sql = "SELECT articles.Id, Title, Price, Discount FROM includes JOIN articles ON includes.IdArticle = articles.Id WHERE IdWishlist = '" . $_SESSION["IDWishlist"] . "'";
                                     else if (isset($_SESSION["IDWishlistGuest"]))
                                         $sql = "SELECT articles.Id, Title, Price, Discount FROM includes JOIN articles ON includes.IdArticle = articles.Id WHERE IdWishlist = '" . $_SESSION["IDWishlistGuest"] . "'";
 
-                                    $result = $conn->query($sql);
+                                    if ($sql != "") {
+                                        $result = $conn->query($sql);
 
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr>
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>
                                                     <td>
                                                         <div class='img'>
                                                             <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
                                                             <p>" . $row["Title"] . "</p>
                                                         </div>
                                                     </td>";
-                                            if ($row["Discount"] != 0)
-                                                echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</td>";
-                                            else
-                                                echo "<td>$" . $row["Price"] . "</td>";
-                                            echo "<td><button class='btn-cart'><a class='noLinkAddCart' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'>Add to Cart</a></button></td> 
+                                                if ($row["Discount"] != 0)
+                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</td>";
+                                                else
+                                                    echo "<td>$" . $row["Price"] . "</td>";
+                                                echo "<td><button class='btn-cart'><a class='noLinkAddCart' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'>Add to Cart</a></button></td> 
                                                     <td><button><a class='noLinkAddCart' href='check/removeFromWishlist.php?id=" . $row["Id"] . "'><i class='fa fa-trash'></i></a></button></td>
                                                 </tr>";
+                                            }
                                         }
                                     }
                                     ?>

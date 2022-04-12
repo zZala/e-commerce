@@ -289,7 +289,7 @@ session_start();
                                     }
                                     echo "<p class='sub-total'>Sub Total<span>$$totPrice</span></p>
                                         <p class='ship-cost'>Shipping Cost<span>$5</span></p>
-                                        <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
+                                        <h2>Grand Total<span>$" . ($totPrice + 5) . "</span></h2>";
                                 }
                                 ?>
 

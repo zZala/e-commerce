@@ -210,16 +210,19 @@ session_start();
                                 <tbody class="align-middle">
 
                                     <?php
+                                    $sql = "";
                                     if (isset($_SESSION["IDCart"]))
                                         $sql = "SELECT articles.Id, Title, Price, Discount, Quantity, Pieces FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
                                     else if (isset($_SESSION["IDCartGuest"]))
                                         $sql = "SELECT articles.Id, Title, Price, Discount, Quantity, Pieces FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
+                                    if ($sql != "") {
+                                        $result = $conn->query($sql);
 
-                                    $result = $conn->query($sql);
+                                        $result = $conn->query($sql);
 
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr>
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>
                                                     <td>
                                                         <div class='img'>
                                                             <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
@@ -236,12 +239,13 @@ session_start();
                                                         </div>
                                                     </td>";
 
-                                            if ($row["Discount"] != 0)
-                                                echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 * $row["Quantity"] . "</td>";
-                                            else
-                                                echo "<td>$" . $row["Price"] * $row["Quantity"] . "</td>";
+                                                if ($row["Discount"] != 0)
+                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 * $row["Quantity"] . "</td>";
+                                                else
+                                                    echo "<td>$" . $row["Price"] * $row["Quantity"] . "</td>";
 
-                                            echo "<td><a class='noLinkAddCart' href='check/removeFromCart.php?id=" . $row["Id"] . "'><button><i class='fa fa-trash'></i></button></a></td></tr>";
+                                                echo "<td><a class='noLinkAddCart' href='check/removeFromCart.php?id=" . $row["Id"] . "'><button><i class='fa fa-trash'></i></button></a></td></tr>";
+                                            }
                                         }
                                     }
                                     ?>
@@ -258,24 +262,28 @@ session_start();
                                     <div class="cart-content">
                                         <h1>Cart Summary</h1>
                                         <?php
+                                        $sql = "";
                                         $totPrice = 0;
                                         if (isset($_SESSION["IDCart"]))
                                             $sql = "SELECT Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCart"] . "'";
                                         else if (isset($_SESSION["IDCartGuest"]))
                                             $sql = "SELECT Price, Discount, Quantity FROM contains JOIN articles ON contains.IdArticle = articles.Id WHERE IDCart = '" . $_SESSION["IDCartGuest"] . "'";
-                                        $result = $conn->query($sql);
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                if ($row["Discount"] != 0)
-                                                    $totPrice += $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
-                                                else
-                                                    $totPrice += $row["Price"] * $row["Quantity"];
+                                        if ($sql != "") {
+                                            $result = $conn->query($sql);
+
+                                            $result = $conn->query($sql);
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    if ($row["Discount"] != 0)
+                                                        $totPrice += $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                                    else
+                                                        $totPrice += $row["Price"] * $row["Quantity"];
+                                                }
                                             }
                                         }
-
                                         echo "<p>Sub Total<span>$" . $totPrice . "</span></p>
                                               <p>Shipping Cost<span>$5</span></p>                                        
-                                              <h2>Grand Total<span>$" . $totPrice + 5 . "</span></h2>";
+                                              <h2>Grand Total<span>$" . ($totPrice + 5) . "</span></h2>";
                                         ?>
                                     </div>
                                     <center>
