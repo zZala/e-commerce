@@ -1,3 +1,8 @@
+<?php
+include("db/connection.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -159,7 +164,6 @@
         </div>
     </div>
     <!-- Bottom Bar End -->
-
     <!-- Breadcrumb Start -->
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
@@ -188,10 +192,52 @@
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel" aria-labelledby="dashboard-nav">
-                            <h4>Dashboard</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque.
-                            </p>
+                            <h3 style="text-align:center;">Dashboard</h3>
+                            <form action="check/updateUser.php" method="post">
+                                <div class="container">
+                                    <?php
+                                    $sql = "SELECT * FROM users WHERE Id = '" . $_SESSION["ID"] . "'";
+
+                                    $result = $conn->query($sql);
+
+                                    if ($result->num_rows > 0) {
+                                        $row = $result->fetch_assoc();
+                                        echo "
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Username: </div>
+                                                    <div class='col-md-3'><input type='text' name='username' style = 'width: 300px' class='form-control' value='" . $row["Username"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>First Name: </div>
+                                                    <div class='col-md-3'><input type='text' name='firstName' style = 'width: 300px' class='form-control' value='" . $row["FirstName"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Last Name: </div>
+                                                    <div class='col-md-3'><input type='text' name='lastName' style = 'width: 300px' class='form-control' value='" . $row["LastName"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Birth Date: </div>
+                                                    <div class='col-md-3'><input type='date' name='birthDate' style = 'width: 300px' class='form-control' value='" . $row["BirthDate"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Email: </div>
+                                                    <div class='col-md-3'><input type='email' name='email' style = 'width: 300px' class='form-control' style='width:auto;' value='" . $row["Email"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Mobile Number: </div>
+                                                    <div class='col-md-3'><input type='text' name='mobileNumber' style = 'width: 300px' class='form-control' value='" . $row["MobilePhoneNumber"] . "'></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Password: </div>
+                                                    <div class='col-md-3'><input type='password' name='password' style = 'width: 300px' class='form-control' value='" . md5($row["Password"]) . "'></div>
+                                                </div>";
+                                    }
+
+                                    ?>
+                                    <input type="submit" value="Submit" class="btn">
+                                </div>
+
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
                             <div class="table-responsive">
