@@ -1,9 +1,7 @@
 finire pagine in fondo:
 About Us
-returns e order
-my account
 
 sistemare la disponibilita dei prodotti
 
-
-updateUser.php !!!!!!!
+possibilità di aggiungere in users address ecc. e tabella collegata payments
+in my-account.php finestra per visualizzare meglio l'ordine  

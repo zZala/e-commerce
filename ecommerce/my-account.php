@@ -25,6 +25,17 @@ session_start();
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <?php
+    if (isset($_GET['msg']) && $_GET['msg'] != "Password doesn't match!")
+        alert($_GET['msg']);
+
+
+    function alert($msg)
+    {
+        echo "<script type='text/javascript'>alert('$msg');</script>";
+    }
+    ?>
 </head>
 
 <body>
@@ -65,7 +76,6 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='returns_and_orders.php' class='dropdown-item userDropdown'>Returns and Orders</a>
                                     <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
@@ -181,20 +191,19 @@ session_start();
             <div class="row">
                 <div class="col-md-3">
                     <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="#dashboard-tab" role="tab"><i class="fa fa-tachometer-alt"></i>Dashboard</a>
+                        <a class="nav-link active" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-tachometer-alt"></i>Account Details</a>
                         <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Orders</a>
                         <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i class="fa fa-credit-card"></i>Payment Method</a>
-                        <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>address</a>
-                        <a class="nav-link" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-user"></i>Account Details</a>
+                        <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>Address</a>
                         <a class="nav-link" href='index.php?msg=logout'><i class="fa fa-sign-out-alt"></i>Logout</a>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel" aria-labelledby="dashboard-nav">
-                            <h3 style="text-align:center;">Dashboard</h3>
+                        <div class="tab-pane fade show active" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
                             <form action="check/updateUser.php" method="post">
                                 <div class="container">
+                                    <h4>Account Details</h4>
                                     <?php
                                     $sql = "SELECT * FROM users WHERE Id = '" . $_SESSION["ID"] . "'";
 
@@ -229,12 +238,20 @@ session_start();
                                                 </div>
                                                 <div class='row'>
                                                     <div class='col-md-3'>Password: </div>
-                                                    <div class='col-md-3'><input type='password' name='password' style = 'width: 300px' class='form-control' value='" . md5($row["Password"]) . "'></div>
+                                                    <div class='col-md-3'><input type='password' name='password' style = 'width: 300px' class='form-control' value=''></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>New Password: </div>
+                                                    <div class='col-md-3'><input type='password' name='retypePassword' style = 'width: 300px' class='form-control' value=''></div>
                                                 </div>";
                                     }
 
                                     ?>
                                     <input type="submit" value="Submit" class="btn">
+                                    <?php
+                                    if (isset($_GET['msg']) && $_GET['msg'] == "Password doesn't match!")
+                                        echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
+                                    ?>
                                 </div>
 
                             </form>
@@ -244,48 +261,50 @@ session_start();
                                 <table class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>No</th>
-                                            <th>Product</th>
-                                            <th>Date</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
+                                            <th>Id</th>
+                                            <th>Products</th>
+                                            <th>Shipping Costs</th>
+                                            <th>Shipping Address</th>
+                                            <th>Payment Method</th>
+                                            <th>Submission Date</th>
+                                            <th>Delivery Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Product Name</td>
-                                            <td>01 Jan 2020</td>
-                                            <td>$99</td>
-                                            <td>Approved</td>
-                                            <td><button class="btn">View</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Product Name</td>
-                                            <td>01 Jan 2020</td>
-                                            <td>$99</td>
-                                            <td>Approved</td>
-                                            <td><button class="btn">View</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Product Name</td>
-                                            <td>01 Jan 2020</td>
-                                            <td>$99</td>
-                                            <td>Approved</td>
-                                            <td><button class="btn">View</button></td>
-                                        </tr>
+                                        <?php
+                                        $sql = "SELECT *
+                                                FROM orders
+                                                JOIN carts ON orders.IdCart = carts.Id
+                                                JOIN `contains` ON carts.Id = `contains`.IdCart
+                                                JOIN articles ON articles.Id = `contains`.IdArticle
+                                                WHERE orders.IdCart = '" . $_SESSION["IDCart"] . "'
+                                                GROUP BY carts.Id";
+                                        $result = $conn->query($sql);
+
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "
+                                                    <tr>
+                                                        <td>" . $row["Id"] . "</td>
+                                                        <td>" . $row["Title"] . "</td>
+                                                        <td>$" . $row["ShippingCosts"] . "</td>
+                                                        <td>" . $row["ShippingAddress"] . "</td>
+                                                        <td>" . $row["PaymentMethod"] . "</td>
+                                                        <td>" . $row["SubmissionDate"] . "</td>
+                                                        <td>" . $row["DeliveryDate"] . "</td>
+                                                        <td><button class='btn'>View</button></td>
+                                                    </tr>";
+                                            }
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
                             <h4>Payment Method</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque.
-                            </p>
+                            <p></p>
                         </div>
                         <div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
                             <h4>Address</h4>
@@ -301,45 +320,6 @@ session_start();
                                     <p>123 Shipping Street, Los Angeles, CA</p>
                                     <p>Mobile: 012-345-6789</p>
                                     <button class="btn">Edit Address</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
-                            <h4>Account Details</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="First Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="Last Name">
-                                </div>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="Mobile">
-                                </div>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="Email">
-                                </div>
-                                <div class="col-md-12">
-                                    <input class="form-control" type="text" placeholder="Address">
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn">Update Account</button>
-                                    <br><br>
-                                </div>
-                            </div>
-                            <h4>Password change</h4>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input class="form-control" type="password" placeholder="Current Password">
-                                </div>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="New Password">
-                                </div>
-                                <div class="col-md-6">
-                                    <input class="form-control" type="text" placeholder="Confirm Password">
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn">Save Changes</button>
                                 </div>
                             </div>
                         </div>

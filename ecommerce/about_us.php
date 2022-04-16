@@ -1,3 +1,8 @@
+<?php
+include("db/connection.php");
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +65,6 @@
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='returns_and_orders.php' class='dropdown-item userDropdown'>Returns and Orders</a>
                                     <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
@@ -164,7 +168,7 @@
     <div class="breadcrumb-wrap">
         <div class="container-fluid">
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item active">About us</li>
             </ul>
         </div>
@@ -177,15 +181,24 @@
             <div class="login-form">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>Shipping Policy</h1>
-                        <p>Free shipping for orders greater than $35 (before discounts and promotions) applies to EU Domestic shipments only.</p>
-                        <p>Shipping is calculated at checkout.<br>
-                            <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
+                        <h1>About Us</h1>
+                        <h5>Welcome to EStore!</h5>
+                        <p>
+                            We aim to offer our customers a variety of the best products. We’ve come a long way, so we know exactly which direction to take when supplying you with high quality yet budget-friendly products. We offer all of this while providing excellent customer service and friendly support.
                         </p>
-                        <h1>Delivery Policy</h1>
-                        <p>We are offering expedited domestic shipping through <b>UPS</b>. Rates are calculated at checkout and please note <b>shipping times are estimates</b>. We cannot guarantee delivery times due to inclement weather, customs, and other factors outside of our control.</p>
+                        <p>
+                            We always keep an eye on the latest trends in clothes and put our customers’ wishes first. That is why we have satisfied customers all over the world.
+                        </p>
+                        <p>
+                            The interests of our customers are always top priority for us, so we hope you will enjoy our products as much as we enjoy making them available to you.
+                        </p>
+                        <p>
+                            If you’re looking for something new, you’re in the right place. We strive to be industrious and innovative, offering our customers something they want, putting their desires at the top of our priority list.
+                        </p>
+                        <p>
+                            With a motivated team, we strive to be the creative minds that bring a smile to your face. That’s why we’re always looking for innovative new ways to get the best to you.
+                        </p>
 
-                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
                     </div>
                 </div>
             </div>
