@@ -2448,3 +2448,11 @@ h2 {
     opacity: 0.8 !important;
     color: #FF6F61 !important;
 }
+
+.product-title {
+    height: 10% !important;
+}
+
+.product-image {
+    height: 40% !important;
+}
