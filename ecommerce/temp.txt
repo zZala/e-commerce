@@ -1,7 +1,12 @@
 finire pagine in fondo:
-About Us
 
-sistemare la disponibilita dei prodotti
+index.php
+
+sistemare la disponibilita dei prodotti e altezza delle cards
 
 possibilità di aggiungere in users address ecc. e tabella collegata payments
-in my-account.php finestra per visualizzare meglio l'ordine  
+in my-account.php finestra per visualizzare meglio l'ordine
+
+aggiungere la possibilità di diventare un rivenditore e sellProduct.php
+
+PLUS: bot telegram per utenti registrati alla newsletter :)
