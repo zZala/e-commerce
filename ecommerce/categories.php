@@ -187,11 +187,11 @@ session_start();
                             $result = $conn->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<a href='product-list.php?category=" . $row["Type"] . "'><div class='col-sm-3 divCard card d-inline-block' style='background-image: url(img/category-" . $row["Id"] . ".jpg);'>
+                                    echo "<div class='col-sm-3 divCard card d-inline-block' style='background-image: url(img/category-" . $row["Id"] . ".jpg);'><a href='product-list.php?category=" . $row["Type"] . "'>
                                                 <div class='card-block'>
                                                     <h5 class='card-title cardsTitle'>" . $row["Type"] . "</h5>
-                                                </div>
-                                          </div></a>";
+                                                </div></a>
+                                          </div>";
                                 }
                             }
                             ?>

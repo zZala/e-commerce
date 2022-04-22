@@ -1,8 +1,6 @@
 finire pagine in fondo:
 
-index.php
-
-sistemare la disponibilita dei prodotti e altezza delle cards
+sistemare la disponibilita dei prodotti e quando ordinate ridurre la quantita disponibile
 
 possibilità di aggiungere in users address ecc. e tabella collegata payments
 in my-account.php finestra per visualizzare meglio l'ordine

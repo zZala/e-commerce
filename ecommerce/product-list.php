@@ -233,11 +233,15 @@ session_start();
                             $pag = $_GET["p"];
                         else
                             $pag = 1;
+
                         //caricare prodotti 15 per pagina
                         $numProdPerPagina = 15;
                         //primo prodotto
                         $offset = ($numProdPerPagina * $pag) - $numProdPerPagina;
+
                         $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id LIMIT $numProdPerPagina OFFSET $offset";
+
+                        //per categorie
                         if (isset($_GET["filter"])) {
                             switch ($_GET["filter"]) {
                                 case "sales":
@@ -268,6 +272,13 @@ session_start();
                                     $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                             }
+                        }
+                        //per index.php
+                        if (isset($_GET["filters"])) {
+                            $categories = explode(",", $_GET["filters"]);
+                            if (count($categories) < 3)
+                                $categories[2] = "";
+                            $sql = "SELECT Title, articles.Id, Price, Discount FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Type = '" . $categories[0] . "' OR Type = '" . $categories[1] . "' OR Type = '" . $categories[2] . "' LIMIT $numProdPerPagina OFFSET $offset";
                         }
 
                         if (isset($_GET["category"])) {
@@ -301,9 +312,9 @@ session_start();
                                                 </div>
                                                 <div class='product-price'>";
                                 if ($row["Discount"] != 0)
-                                    echo "<h3><span>$</span><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                                    echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
                                 else
-                                    echo "<h3><span>$</span>" . $row["Price"] . "</h3>";
+                                    echo "<h3>$" . $row["Price"] . "</h3>";
 
                                 echo "<a class='btn' href='checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>
                                                 </div>

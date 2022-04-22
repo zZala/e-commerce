@@ -277,7 +277,7 @@ h2 {
 
     .nav .navbar-dark a.nav-link {
         color: #ffffff;
-        font-size: 14px;
+        font-size: 16px;
         text-transform: uppercase;
     }
 
@@ -745,6 +745,7 @@ h2 {
 }
 
 .product-item .product-image img {
+    background-size: 100%;
     width: 100%;
     transition: all .3s;
 }
@@ -2453,6 +2454,8 @@ h2 {
     height: 10% !important;
 }
 
-.product-image {
-    height: 40% !important;
+.categoriesIndex {
+    opacity: 0.95 !important;
+    background-repeat: no-repeat;
+    border: 3px solid white;
 }
