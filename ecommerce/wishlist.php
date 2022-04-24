@@ -225,7 +225,7 @@ session_start();
                                                         </div>
                                                     </td>";
                                                 if ($row["Discount"] != 0)
-                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</td>";
+                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "</td>";
                                                 else
                                                     echo "<td>$" . $row["Price"] . "</td>";
                                                 echo "<td><button class='btn-cart'><a class='noLinkAddCart' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'>Add to Cart</a></button></td> 

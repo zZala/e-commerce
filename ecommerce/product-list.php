@@ -312,7 +312,7 @@ session_start();
                                                 </div>
                                                 <div class='product-price'>";
                                 if ($row["Discount"] != 0)
-                                    echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                                    echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "</h3>";
                                 else
                                     echo "<h3>$" . $row["Price"] . "</h3>";
 

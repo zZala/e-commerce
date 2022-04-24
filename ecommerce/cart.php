@@ -40,7 +40,6 @@ session_start();
 </head>
 
 <body>
-    <!-- Top bar Start -->
     <div class="top-bar">
         <div class="container-fluid">
             <div class="row">
@@ -239,7 +238,7 @@ session_start();
                                                     </td>";
 
                                                 if ($row["Discount"] != 0)
-                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . $row["Price"] * (100 - $row["Discount"]) / 100 * $row["Quantity"] . "</td>";
+                                                    echo "<td><s>$" . $row["Price"] . "</s> $" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) * $row["Quantity"] . "</td>";
                                                 else
                                                     echo "<td>$" . $row["Price"] * $row["Quantity"] . "</td>";
 
@@ -274,7 +273,7 @@ session_start();
                                             if ($result->num_rows > 0) {
                                                 while ($row = $result->fetch_assoc()) {
                                                     if ($row["Discount"] != 0)
-                                                        $totPrice += $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                                        $totPrice += round($row["Price"] * (100 - $row["Discount"]) / 100, 2) * $row["Quantity"];
                                                     else
                                                         $totPrice += $row["Price"] * $row["Quantity"];
                                                 }

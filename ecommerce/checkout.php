@@ -278,7 +278,7 @@ session_start();
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                         if ($row["Discount"] != 0) {
-                                            $discountedPrice = $row["Price"] * $row["Quantity"] * (100 - $row["Discount"]) / 100;
+                                            $discountedPrice = round($row["Price"] * (100 - $row["Discount"]) / 100, 2)  * $row["Quantity"];
                                             $totPrice += $discountedPrice;
                                             echo "<p>" . $row["Title"] . "<span><s>$" . $row["Price"] * $row["Quantity"] . "</s> $$discountedPrice</span></p>";
                                         } else {

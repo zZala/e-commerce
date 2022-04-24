@@ -228,7 +228,7 @@ session_start();
                 <div class="col-md-6">
                     <div class="header-slider normal-slider">
                         <div class="header-slider-item">
-                            <a href="">
+                            <a href="product-detail.php?id=3&q=1">
                                 <img src="img/slider-1.jpg" alt="Slider Image" />
                             </a>
                         </div>
@@ -238,7 +238,7 @@ session_start();
                             </a>
                         </div>
                         <div class="header-slider-item">
-                            <a href="">
+                            <a href="product-list.php?filter=sales">
                                 <img src="img/slider-3.png" alt="Slider Image" />
                             </a>
                         </div>
@@ -430,7 +430,7 @@ session_start();
                                         </div>
                                         <div class='product-price'>";
                         if ($row["Discount"] != 0)
-                            echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                            echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "</h3>";
                         else
                             echo "<h3>$" . $row["Price"] . "</h3>";
 
@@ -501,7 +501,7 @@ session_start();
                                         </div>
                                         <div class='product-price'>";
                         if ($row["Discount"] != 0)
-                            echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "</h3>";
+                            echo "<h3><span><s>$" . $row["Price"] . "</s> </span>$" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "</h3>";
                         else
                             echo "<h3>$" . $row["Price"] . "</h3>";
 

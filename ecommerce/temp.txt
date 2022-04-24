@@ -1,6 +1,6 @@
 finire pagine in fondo:
 
-sistemare la disponibilita dei prodotti e quando ordinate ridurre la quantita disponibile
+sistemare l' indisponibilita dei prodotti
 
 possibilità di aggiungere in users address ecc. e tabella collegata payments
 in my-account.php finestra per visualizzare meglio l'ordine

@@ -198,7 +198,11 @@ session_start();
                         <p>
                             With a motivated team, we strive to be the creative minds that bring a smile to your face. That’s why we’re always looking for innovative new ways to get the best to you.
                         </p>
-
+                        <p>
+                            We started as a small business in Italy, and our aim is to continue providing our customers with products that keep them happy, at prices that keep them happy.
+                            <br>
+                            Our customers are our top priority and through our products we work hard towards building long-lasting and meaningful relations with them.
+                        </p>
                     </div>
                 </div>
             </div>

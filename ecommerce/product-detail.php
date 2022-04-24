@@ -245,7 +245,7 @@ session_start();
                                         <div class='price'>
                                             <h4>Price:</h4>";
                                     if ($row["Discount"] != 0)
-                                        echo "<p>$" . $row["Price"] * (100 - $row["Discount"]) / 100 . "<span>$" . $row["Price"] . "</span></p>";
+                                        echo "<p>$" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "<span>$" . $row["Price"] . "</span></p>";
                                     else
                                         echo "<p>$" . $row["Price"] . "</p>";
 

@@ -183,13 +183,16 @@ session_start();
                     <div class="col-lg-12">
                         <h1>Shipping Policy</h1>
                         <p>Free shipping for orders greater than $35 (before discounts and promotions) applies to EU Domestic shipments only.</p>
-                        <p>Shipping is calculated at checkout.<br>
-                            <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
+                        <p>International shipping prices vary by territory. See shipping chioces by carrier in check-out.
+                            <br>Shipping is calculated at checkout.<br>
                         </p>
+                        <b>A note for international customers:</b> EStore is not responsible for any customs duties or fees assessed to your order. All fees are the responsibility of the customer.
+
                         <h1>Delivery Policy</h1>
                         <p>We are offering expedited domestic shipping through <b>UPS</b>. Rates are calculated at checkout and please note <b>shipping times are estimates</b>. We cannot guarantee delivery times due to inclement weather, customs, and other factors outside of our control.</p>
 
-                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
+                        <p>Orders ship from our EStore in Milan within three business day from when the order is processed. Orders placed on Friday after 12 p.m., Saturday, and Sunday are processed and shipped the following week. </p>
+                        <p>During high volume periods, like a sale, the processing time may increase. For domestic orders, UPS delivers shipments in 3-6 business days. For international orders, UPS shipments may take up to 15-21 business days.</p>
                     </div>
                 </div>
             </div>
