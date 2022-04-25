@@ -262,7 +262,6 @@ session_start();
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Id</th>
-                                            <th>Products</th>
                                             <th>Shipping Costs</th>
                                             <th>Shipping Address</th>
                                             <th>Payment Method</th>
@@ -276,10 +275,8 @@ session_start();
                                         $sql = "SELECT *
                                                 FROM orders
                                                 JOIN carts ON orders.IdCart = carts.Id
-                                                JOIN `contains` ON carts.Id = `contains`.IdCart
-                                                JOIN articles ON articles.Id = `contains`.IdArticle
-                                                WHERE orders.IdCart = '" . $_SESSION["IDCart"] . "'
-                                                GROUP BY carts.Id";
+                                                WHERE carts.IdUser = '" . $_SESSION["ID"] . "'
+                                                GROUP BY carts.IdUser";
                                         $result = $conn->query($sql);
 
                                         if ($result->num_rows > 0) {
@@ -287,19 +284,37 @@ session_start();
                                                 echo "
                                                     <tr>
                                                         <td>" . $row["Id"] . "</td>
-                                                        <td>" . $row["Title"] . "</td>
                                                         <td>$" . $row["ShippingCosts"] . "</td>
                                                         <td>" . $row["ShippingAddress"] . "</td>
                                                         <td>" . $row["PaymentMethod"] . "</td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
-                                                        <td><button class='btn'>View</button></td>
+                                                        <td><button class='btn' data-toggle='modal' data-target='#myModal'>View</button></td>
+                                                        <!-- Modal -->
                                                     </tr>";
                                             }
                                         }
                                         ?>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div id='myModal' class='modal fade' role='dialog'>
+                            <div class='modal-dialog'>
+                                <!-- Modal content-->
+                                <div class='modal-content'>
+                                    <div class='modal-header'>
+                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                        <h4 class='modal-title'>Modal Header</h4>
+                                    </div>
+                                    <div class='modal-body'>
+                                        <p>Some text in the modal.</p>
+                                    </div>
+                                    <div class='modal-footer'>
+                                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">

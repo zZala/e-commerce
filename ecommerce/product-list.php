@@ -260,13 +260,13 @@ session_start();
                                     $sql = "SELECT articles.Title, articles.Id, Price, Discount FROM articles JOIN reviews ON articles.Id = reviews.IdArticle GROUP BY reviews.IdArticle ORDER BY AVG(Stars) DESC LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "<25":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price < 25 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE (Price * (100 - Discount) / 100) < 25 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case "<50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price > 25 AND Price < 50 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE (Price * (100 - Discount) / 100) > 25 AND (Price * (100 - Discount) / 100) < 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 case ">50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Price > 50 LIMIT $numProdPerPagina OFFSET $offset";
+                                    $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE (Price * (100 - Discount) / 100) > 50 LIMIT $numProdPerPagina OFFSET $offset";
                                     break;
                                 default:
                                     $sql = "SELECT Title, articles.Id, Price, Discount FROM articles WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
@@ -329,15 +329,52 @@ session_start();
                     <div class="col-md-12">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
+                                <?php
+                                if (isset($_GET["p"]) && $_GET["p"] != 1) {
+                                    echo "  <li class='page-item active'>
+                                            <a class='page-link' href='product-list.php?p=" . $_GET["p"] - 1 . "' tabindex='-1'>Previous</a>
+                                            </li>";
+                                } else {
+                                    echo "  <li class='page-item disabled'>
+                                            <a class='page-link' href='' tabindex='-1'>Previous</a>
+                                            </li>";
+                                }
+
+                                if (isset($_GET["p"])) {
+                                    switch ($_GET["p"]) {
+                                        case 1:
+                                            echo "  <li class='page-item active'><a class='page-link' href='product-list.php?p=1'>1</a></li>
+                                                        <li class='page-item'><a class='page-link' href='product-list.php?p=2'>2</a></li>
+                                                        <li class='page-item'><a class='page-link' href='product-list.php?p=3'>3</a></li>";
+                                            break;
+                                        case 2:
+                                            echo "  <li class='page-item'><a class='page-link' href='product-list.php?p=1'>1</a></li>
+                                                <li class='page-item active'><a class='page-link' href='product-list.php?p=2'>2</a></li>
+                                                <li class='page-item'><a class='page-link' href='product-list.php?p=3'>3</a></li>";
+                                            break;
+                                        case 3:
+                                            echo "  <li class='page-item'><a class='page-link' href='product-list.php?p=1'>1</a></li>
+                                                    <li class='page-item'><a class='page-link' href='product-list.php?p=2'>2</a></li>
+                                                    <li class='page-item active'><a class='page-link' href='product-list.php?p=3'>3</a></li>";
+                                            break;
+                                        default:
+                                            for ($i = 1; $i < $_GET["p"]; $i++) {
+                                                echo "<li class='page-item'><a class='page-link' href='product-list.php?p=$i'>$i</a></li>";
+                                            }
+                                            echo "<li class='page-item active'><a class='page-link' href='product-list.php?p=" . $_GET["p"] . "'>" . $_GET["p"] . "</a></li>";
+                                    }
+                                    echo "  <li class='page-item active'>
+                                                <a class='page-link' href='product-list.php?p=" . $_GET["p"] + 1 . "' tabindex='-1'>Next</a>
+                                            </li>";
+                                } else {
+                                    echo "  <li class='page-item active'><a class='page-link' href='product-list.php?p=1'>1</a></li>
+                                                        <li class='page-item'><a class='page-link' href='product-list.php?p=2'>2</a></li>
+                                                        <li class='page-item'><a class='page-link' href='product-list.php?p=3'>3</a></li>";
+                                    echo "  <li class='page-item active'>
+                                                <a class='page-link' href='product-list.php?p=2' tabindex='-1'>Next</a>
+                                            </li>";
+                                }
+                                ?>
                             </ul>
                         </nav>
                     </div>
