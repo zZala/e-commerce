@@ -3,7 +3,8 @@ finire pagine in fondo:
 sistemare l' indisponibilita dei prodotti
 
 possibilità di aggiungere in users address ecc. e tabella collegata payments
-in my-account.php finestra per visualizzare meglio l'ordine
+
+fare deleteOrder.php
 
 aggiungere la possibilità di diventare un rivenditore e sellProduct.php
 

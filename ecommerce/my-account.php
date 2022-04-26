@@ -289,8 +289,7 @@ session_start();
                                                         <td>" . $row["PaymentMethod"] . "</td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
-                                                        <td><button class='btn' onclick='saveIdOrder(event, " . $row["Id"] . ")' data-toggle='modal' data-target='#myModal'>View</button></td>
-                                                        <!-- Modal -->
+                                                        <td><button class='btn' data-toggle='modal' data-whatever='" . $row["Id"] . "' data-target='#myModal'>View</button></td>
                                                     </tr>";
                                             }
                                         }
@@ -299,29 +298,43 @@ session_start();
                                 </table>
                             </div>
                         </div>
+                        <!-- Modal -->
                         <!-- ORDER WINDOW -->
                         <div id='myModal' class='modal fade' role='dialog'>
                             <div class='modal-dialog'>
                                 <div class='modal-content'>
                                     <!-- Modal content-->
+                                    <div class='modal-header'>
+                                        <form action="" method="get" onsubmit="">
+                                            <h4 class='modal-title' id="order_id"></h4>
+                                        </form>
+                                    </div>
                                     <?php
-                                    echo "<div class='modal-header'>
-                                            <input type='hidden' name='order_id' id='order_id' value='0'>
-                                            <h4 class='modal-title'>Order #" . $_GET["order_id"] . "</h4>
-                                          </div>";
-                                    $sql = "SELECT * FROM ((( articles JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
+                                    if (isset($_COOKIE["IdOrder"])) {
+                                        $id = $_COOKIE["IdOrder"];
+                                        unset($_COOKIE["IdOrder"]);
+                                    }
+                                    $sql = "SELECT articles.Id, Title, Quantity, Conditions, Seller, Price, Discount FROM ((( articles JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
                                         JOIN carts ON carts.Id = `contains`.IdCart)
-                                            JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = " . $_GET["order_id"];
+                                            JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = 1";
                                     $result = $conn->query($sql);
                                     echo "  <div class='modal-body'>";
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
-                                            echo "<p>" . $row["articles.Title"] . "</p>";
+                                            echo "<img src='img/product-" . $row["Id"] . ".jpg'>
+                                                    <p>Title: " . $row["Title"] . "<br>
+                                                    Quantity: " . $row["Quantity"] . "<br>
+                                                    Conditions: " . $row["Conditions"] . "<br>
+                                                    Seller: " . $row["Seller"] . "<br>
+                                                    Price: " . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) * $row["Quantity"] . "</p>";
                                         }
                                     }
+
                                     echo "</div>";
+
                                     ?>
                                     <div class='modal-footer'>
+                                        <a href=""><button class='btn'>Delete Order</button></a>
                                         <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                     </div>
                                 </div>
@@ -446,10 +459,21 @@ session_start();
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
     <script>
-        async function saveIdOrder(e, id) {
-            document.getElementById("order_id").value = id;
-            e.preventDefault();
-            document.body.innerHTML += '<br>' + await (await fetch('?id=' + id)).text();
+        $('#myModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var modal = $(this)
+            modal.find('.modal-title').text('Order #' + id)
+
+            //creo cookie con valore idOrder
+            setCookie("IdOrder", id)
+        })
+
+        function setCookie(cname, cvalue) {
+            const d = new Date();
+            d.setTime(d.getTime() + (60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
         }
     </script>
     <!-- Template Javascript -->
