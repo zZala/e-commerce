@@ -272,7 +272,7 @@ session_start();
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT *
+                                        $sql = "SELECT orders.Id, ShippingCosts, ShippingAddress, PaymentMethod, SubmissionDate, DeliveryDate
                                                 FROM orders
                                                 JOIN carts ON orders.IdCart = carts.Id
                                                 WHERE carts.IdUser = '" . $_SESSION["ID"] . "'
@@ -289,7 +289,7 @@ session_start();
                                                         <td>" . $row["PaymentMethod"] . "</td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
-                                                        <td><button class='btn' data-toggle='modal' data-target='#myModal'>View</button></td>
+                                                        <td><button class='btn' onclick='saveIdOrder(event, " . $row["Id"] . ")' data-toggle='modal' data-target='#myModal'>View</button></td>
                                                         <!-- Modal -->
                                                     </tr>";
                                             }
@@ -299,22 +299,32 @@ session_start();
                                 </table>
                             </div>
                         </div>
+                        <!-- ORDER WINDOW -->
                         <div id='myModal' class='modal fade' role='dialog'>
                             <div class='modal-dialog'>
-                                <!-- Modal content-->
                                 <div class='modal-content'>
-                                    <div class='modal-header'>
-                                        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                                        <h4 class='modal-title'>Modal Header</h4>
-                                    </div>
-                                    <div class='modal-body'>
-                                        <p>Some text in the modal.</p>
-                                    </div>
+                                    <!-- Modal content-->
+                                    <?php
+                                    echo "<div class='modal-header'>
+                                            <input type='hidden' name='order_id' id='order_id' value='0'>
+                                            <h4 class='modal-title'>Order #" . $_GET["order_id"] . "</h4>
+                                          </div>";
+                                    $sql = "SELECT * FROM ((( articles JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
+                                        JOIN carts ON carts.Id = `contains`.IdCart)
+                                            JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = " . $_GET["order_id"];
+                                    $result = $conn->query($sql);
+                                    echo "  <div class='modal-body'>";
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<p>" . $row["articles.Title"] . "</p>";
+                                        }
+                                    }
+                                    echo "</div>";
+                                    ?>
                                     <div class='modal-footer'>
                                         <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
@@ -435,7 +445,13 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
-
+    <script>
+        async function saveIdOrder(e, id) {
+            document.getElementById("order_id").value = id;
+            e.preventDefault();
+            document.body.innerHTML += '<br>' + await (await fetch('?id=' + id)).text();
+        }
+    </script>
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
