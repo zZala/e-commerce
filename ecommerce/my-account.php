@@ -289,7 +289,7 @@ session_start();
                                                         <td>" . $row["PaymentMethod"] . "</td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
-                                                        <td><button class='btn' data-toggle='modal' data-whatever='" . $row["Id"] . "' data-target='#myModal'>View</button></td>
+                                                        <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaPopup(" . $row["Id"] . ")'>View</button></td>
                                                     </tr>";
                                             }
                                         }
@@ -459,21 +459,30 @@ session_start();
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
     <script>
-        $('#myModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget)
-            var id = button.data('whatever')
-            var modal = $(this)
-            modal.find('.modal-title').text('Order #' + id)
+        // $('#myModal').on('show.bs.modal', function(event) {
+        //     var button = $(event.relatedTarget)
+        //     var id = button.data('whatever')
+        //     var modal = $(this)
+        //     modal.find('.modal-title').text('Order #' + id)
 
-            //creo cookie con valore idOrder
-            setCookie("IdOrder", id)
-        })
+        //     //creo cookie con valore idOrder
+        //     setCookie("IdOrder", id)
+        // })
 
-        function setCookie(cname, cvalue) {
-            const d = new Date();
-            d.setTime(d.getTime() + (60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        // function setCookie(cname, cvalue) {
+        //     const d = new Date();
+        //     d.setTime(d.getTime() + (60 * 60 * 1000));
+        //     let expires = "expires=" + d.toUTCString();
+        //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        // }
+
+        function caricaPopup(id) {
+            $.ajax({
+                url: "articolo.php?id=" + id,
+                success: function(data) {
+                    $('#myModal').text(data);
+                }
+            });
         }
     </script>
     <!-- Template Javascript -->
