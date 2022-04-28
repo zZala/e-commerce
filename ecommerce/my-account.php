@@ -301,44 +301,8 @@ session_start();
                         <!-- Modal -->
                         <!-- ORDER WINDOW -->
                         <div id='myModal' class='modal fade' role='dialog'>
-                            <div class='modal-dialog'>
-                                <div class='modal-content'>
-                                    <!-- Modal content-->
-                                    <div class='modal-header'>
-                                        <form action="" method="get" onsubmit="">
-                                            <h4 class='modal-title' id="order_id"></h4>
-                                        </form>
-                                    </div>
-                                    <?php
-                                    if (isset($_COOKIE["IdOrder"])) {
-                                        $id = $_COOKIE["IdOrder"];
-                                        unset($_COOKIE["IdOrder"]);
-                                    }
-                                    $sql = "SELECT articles.Id, Title, Quantity, Conditions, Seller, Price, Discount FROM ((( articles JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
-                                        JOIN carts ON carts.Id = `contains`.IdCart)
-                                            JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = 1";
-                                    $result = $conn->query($sql);
-                                    echo "  <div class='modal-body'>";
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<img src='img/product-" . $row["Id"] . ".jpg'>
-                                                    <p>Title: " . $row["Title"] . "<br>
-                                                    Quantity: " . $row["Quantity"] . "<br>
-                                                    Conditions: " . $row["Conditions"] . "<br>
-                                                    Seller: " . $row["Seller"] . "<br>
-                                                    Price: " . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) * $row["Quantity"] . "</p>";
-                                        }
-                                    }
-
-                                    echo "</div>";
-
-                                    ?>
-                                    <div class='modal-footer'>
-                                        <a href=""><button class='btn'>Delete Order</button></a>
-                                        <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Modal content in modalOrder.php-->
+                            
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
                             <h4>Payment Method</h4>
@@ -459,30 +423,17 @@ session_start();
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
     <script>
-        // $('#myModal').on('show.bs.modal', function(event) {
-        //     var button = $(event.relatedTarget)
-        //     var id = button.data('whatever')
-        //     var modal = $(this)
-        //     modal.find('.modal-title').text('Order #' + id)
-
-        //     //creo cookie con valore idOrder
-        //     setCookie("IdOrder", id)
-        // })
-
-        // function setCookie(cname, cvalue) {
-        //     const d = new Date();
-        //     d.setTime(d.getTime() + (60 * 60 * 1000));
-        //     let expires = "expires=" + d.toUTCString();
-        //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        // }
-
         function caricaPopup(id) {
             $.ajax({
-                url: "articolo.php?id=" + id,
+                url: "check/modalOrder.php?id=" + id,
                 success: function(data) {
-                    $('#myModal').text(data);
+                    $('#myModal').html(data);
                 }
             });
+
+            // $.post("check/modalOrder.php?id=" + id, true, function(data, status) {
+            //     $('#myModal').html(data);
+            // });
         }
     </script>
     <!-- Template Javascript -->
