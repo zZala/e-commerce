@@ -45,7 +45,8 @@ CREATE TABLE `articles` (
 
 INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
 (1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 10, 1, 4),
-(2, 'Apple AirPods con custodia di ricarica tramite cavo (seconda generazione)', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 2, 7);
+(2, 'Apple AirPods con custodia di ricarica tramite cavo (seconda generazione)', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 2, 7)
+(3, 'Echo Dot (4ª generazione) - Alexa', '1) Ti presentiamo Echo Dot con orologio - Il nostro altoparlante intelligente con Alexa più venduto. Dal design sobrio e compatto, questo dispositivo offre un suono ricco, con voci nitide e bassi bilanciati.\r\n2) Perfetto sul comodino - Leggi che ore sono e controlla le sveglie e i timer che hai impostato sul display LED. Tocca la parte superiore del dispositivo per posticipare una sveglia.\r\n3) Sempre pronta ad aiutarti - Chiedi ad Alexa di raccontare una barzelletta, riprodurre musica, rispondere a domande, leggerti le ultime notizie, darti le previsioni del tempo, impostare sveglie e molto altro.\r\n4) Supporta l’audio HD senza perdita di qualità, disponibile con i servizi di musica in streaming compatibili, come Amazon Music HD.\r\n5) Controlla i tuoi dispositivi per Casa Intelligente - Usa la tua voce per controllare i dispositivi compatibili e accendere la luce, regolare un termostato o chiudere la porta.\r\n6) Resta sempre in contatto con gli altri - Effettua una chiamata senza dover usare le mani. Chiama immediatamente un dispositivo in un\'altra stanza con Drop In o annuncia a tutti che la cena è pronta.\r\n7) Progettato per tutelare la tua privacy - Echo Dot è stato costruito con diversi elementi per la protezione e il controllo della privacy, tra cui un apposito pulsante per disattivare i microfoni.\r\n', 'Amazon', 'New', '69.99', '36', '7', '7');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,8 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`Id`, `IdUser`) VALUES
 (3, NULL),
-(2, 3);
+(2, 3)
+(5, 3);
 
 -- --------------------------------------------------------
 
@@ -112,8 +114,7 @@ CREATE TABLE `contains` (
 --
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
-(1, 3, 2),
-(2, 3, 1);
+(2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -132,6 +133,7 @@ CREATE TABLE `includes` (
 
 INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
 (1, 1),
+(1, 2),
 (6, 2);
 
 -- --------------------------------------------------------
@@ -155,8 +157,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `ShippingAddress`, `ShippingCosts`, `IdCart`) VALUES
-(1, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2),
-(19, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2);
+(1, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2);
 
 -- --------------------------------------------------------
 
@@ -173,6 +174,13 @@ CREATE TABLE `reviews` (
   `Text` text NOT NULL,
   `Date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `users`
+--
+
+INSERT INTO `reviews` (`Id`, `IdArticle`, `IdUser`, `Title`, `Stars`, `Comment`, `Date`) VALUES 
+(1, '2', '3', 'Ottimo acquisto', '3', 'consigliatissimo', '2022-04-11');
 
 -- --------------------------------------------------------
 
