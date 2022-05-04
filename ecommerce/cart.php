@@ -231,9 +231,9 @@ session_start();
                                                     <td>" . $row["Discount"] . "%</td>
                                                     <td>
                                                         <div class='qty'>
-                                                            <button class='btn-minus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] - 1) . "'><i class='fa fa-minus'></i></a></button>
+                                                            <button class='btn-minus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] - 1) . ")'><i class='fa fa-minus'></i></button>
                                                             <input type='number' name='q' value='" . $row["Quantity"] . "' min=1 max=" . $row["Pieces"] . ">
-                                                            <button class='btn-plus'><a class='noLinkAddCart' href='check/updateQuantityCart.php?id=" . $row["Id"] . "&q=" . ($row["Quantity"] + 1) . "'><i class='fa fa-plus'></i></a></button>
+                                                            <button class='btn-plus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] + 1) . ")'><i class='fa fa-plus'></i></button>
                                                         </div>
                                                     </td>";
 
@@ -390,6 +390,11 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script>
+        function toUpdateQuantityCart(id, q) {
+            window.location = "check/updateQuantityCart.php?id=" + id + "&q=" + q;
+        }
+    </script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
