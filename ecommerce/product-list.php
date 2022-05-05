@@ -333,7 +333,7 @@ session_start();
                                 <?php
                                 if (isset($_GET["p"]) && $_GET["p"] != 1) {
                                     echo "  <li class='page-item active'>
-                                            <a class='page-link' href='product-list.php?p=" . $_GET["p"] - 1 . "' tabindex='-1'>Previous</a>
+                                            <a class='page-link' href='product-list.php?p=" . ($_GET["p"] - 1) . "' tabindex='-1'>Previous</a>
                                             </li>";
                                 } else {
                                     echo "  <li class='page-item disabled'>
@@ -365,7 +365,7 @@ session_start();
                                             echo "<li class='page-item active'><a class='page-link' href='product-list.php?p=" . $_GET["p"] . "'>" . $_GET["p"] . "</a></li>";
                                     }
                                     echo "  <li class='page-item active'>
-                                                <a class='page-link' href='product-list.php?p=" . $_GET["p"] + 1 . "' tabindex='-1'>Next</a>
+                                                <a class='page-link' href='product-list.php?p=" . ($_GET["p"] + 1) . "' tabindex='-1'>Next</a>
                                             </li>";
                                 } else {
                                     echo "  <li class='page-item active'><a class='page-link' href='product-list.php?p=1'>1</a></li>
