@@ -72,7 +72,7 @@ session_start();
                     <div class="navbar-nav ml-auto pr-sm-5" style='width: 9.5rem;'>
                         <div class="nav-item dropdown pr-sm-5">
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["Username"])) {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
@@ -118,10 +118,10 @@ session_start();
                         <a href="wishlist.php" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["IDWishlist"])) {
                                 $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
                                 ON includes.IdWishlist = wishlists.Id
-                                WHERE wishlists.IdUser = '" . $_SESSION["ID"] . "'";
+                                WHERE wishlists.Id = '" . $_SESSION["IDWishlist"] . "'";
 
                                 $result = $conn->query($sql);
 
@@ -145,10 +145,10 @@ session_start();
                         <a href="cart.php" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["IDCart"])) {
                                 $sql = "SELECT COUNT(*) FROM contains JOIN carts
                                 ON contains.IdCart = carts.Id
-                                WHERE carts.IdUser = '" . $_SESSION["ID"] . "'";
+                                WHERE carts.Id = '" . $_SESSION["IDCart"] . "'";
 
                                 $result = $conn->query($sql);
 
@@ -242,8 +242,10 @@ session_start();
                                                 else
                                                     echo "<td>$" . $row["Price"] * $row["Quantity"] . "</td>";
 
-                                                echo "<td><a class='noLinkAddCart' href='check/removeFromCart.php?id=" . $row["Id"] . "'><button><i class='fa fa-trash'></i></button></a></td></tr>";
+                                                echo "<td><button onclick='toRemoveFromCart(" . $row["Id"] . ")'><i class='fa fa-trash'></i></button></td></tr>";
                                             }
+                                        } else {
+                                            echo "<tr><td>There are no items...</td><td></td><td></td><td></td><td></td><td></td></tr>";
                                         }
                                     }
                                     ?>
@@ -286,8 +288,8 @@ session_start();
                                     </div>
                                     <center>
                                         <div class="cart-btn">
-                                            <a href='check/cleanCart.php'><button>Clear All</button></a>
-                                            <a href='checkout.php'><button>Checkout</button></a>
+                                            <button onclick="toCleanCart()">Clear All</button>
+                                            <button onclick="toCheckout()">Checkout</button>
                                         </div>
                                     </center>
                                 </div>
@@ -390,11 +392,7 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
-    <script>
-        function toUpdateQuantityCart(id, q) {
-            window.location = "check/updateQuantityCart.php?id=" + id + "&q=" + q;
-        }
-    </script>
+    <script src="js/redirects.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

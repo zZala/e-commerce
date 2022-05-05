@@ -41,6 +41,8 @@ session_start();
     if (isset($_GET['msg']) && $_GET['msg'] == "logout") {
         unset($_SESSION["ID"]);
         unset($_SESSION['Username']);
+        unset($_SESSION["IDCart"]);
+        unset($_SESSION["IDWishlist"]);
     }
 
     //se presente cookie lo carico
@@ -87,7 +89,7 @@ session_start();
                     <div class="navbar-nav ml-auto pr-sm-5" style='width: 9.5rem;'>
                         <div class="nav-item dropdown pr-sm-5">
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["Username"])) {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
@@ -133,10 +135,10 @@ session_start();
                         <a href="wishlist.php" class="btn wishlist">
                             <i class="fa fa-heart"></i>
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["IDWishlist"])) {
                                 $sql = "SELECT COUNT(*) FROM includes JOIN wishlists
                                 ON includes.IdWishlist = wishlists.Id
-                                WHERE wishlists.IdUser = '" . $_SESSION["ID"] . "'";
+                                WHERE wishlists.Id = '" . $_SESSION["IDWishlist"] . "'";
 
                                 $result = $conn->query($sql);
 
@@ -160,10 +162,10 @@ session_start();
                         <a href="cart.php" class="btn cart">
                             <i class="fa fa-shopping-cart"></i>
                             <?php
-                            if (isset($_SESSION["ID"])) {
+                            if (isset($_SESSION["IDCart"])) {
                                 $sql = "SELECT COUNT(*) FROM contains JOIN carts
                                 ON contains.IdCart = carts.Id
-                                WHERE carts.IdUser = '" . $_SESSION["ID"] . "'";
+                                WHERE carts.Id = '" . $_SESSION["IDCart"] . "'";
 
                                 $result = $conn->query($sql);
 

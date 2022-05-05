@@ -6,22 +6,12 @@ session_start();
 $idArticle = $_GET['id'];
 $idWishlist;
 
-//controllo se loggato
-if (isset($_SESSION["ID"])) {
-
-    //cerco wishlist appartenente a quel user
-    $sql = "SELECT Id FROM wishlists WHERE IdUser = '" . $_SESSION["ID"] . "'";
-    $result = $conn->query($sql);
-
-    //salvo wishlist in sessione e nella variabile idWishlist a cui aggiungo l'articolo sotto
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $_SESSION["IDWishlist"] = $row["Id"];
-        $idWishlist = $row["Id"];
-    }
-} else if (isset($_SESSION["IDWishlistGuest"])) {
+//prendo idWishlist
+if (isset($_SESSION["IDWishlist"])) {                   //se loggato
+    $idWishlist = $_SESSION["IDWishlist"];
+} else if (isset($_SESSION["IDWishlistGuest"])) {       //se c'è la wishlist guest con il cookie
     $idWishlist = $_SESSION["IDWishlistGuest"];
-} else if (!isset($_SESSION["IDWishlistGuest"])) {
+} else if (!isset($_SESSION["IDWishlistGuest"])) {      //se non c'è la wishlist guest con il cookie e non è loggato
     //creo wishlist guest
     $sql = $conn->prepare("INSERT INTO wishlists() VALUES ()");
     $sql->execute();
@@ -31,8 +21,8 @@ if (isset($_SESSION["ID"])) {
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     $idWishlist = $row["Id"];
-    
-    //salvo la wishlist anche nella sessione OTTIMIZZAZIONE
+
+    //salvo la wishlist anche nella sessione
     $_SESSION["IDWishlistGuest"] = $idWishlist;
 
     //creo cookie con valore idWishlist
@@ -46,13 +36,14 @@ if (isset($idWishlist) && isset($idArticle)) {
     //controllo se gia presente articolo in quella wishlist
     $sql = "SELECT * FROM includes WHERE IdWishlist = '$idWishlist' AND IdArticle = '$idArticle' ";
     $result = $conn->query($sql);
-    //salvo wishlist in sessione e nella variabile idWishlist a cui aggiungo l'articolo sotto
+
     if ($result->num_rows > 0) {
+        //se già presente tolgo
         $sql = $conn->prepare("DELETE FROM includes WHERE IdWishlist = '$idWishlist' AND IdArticle = '$idArticle'");
         $sql->execute();
         header("location:..\product-list.php?msg=Removed from wishlist successfully!");
     } else {
-        //aggiungo articolo
+        //se no aggiungo articolo
         $sql = $conn->prepare("INSERT INTO includes (IdWishlist, IdArticle) VALUES (?,?)");
         $sql->bind_param('ii', $idWishlist, $idArticle);
         $sql->execute();
