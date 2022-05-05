@@ -271,12 +271,12 @@ session_start();
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <h4>Orders</h4>
                                         <?php
                                         $sql = "SELECT orders.Id, ShippingCosts, ShippingAddress, PaymentMethod, SubmissionDate, DeliveryDate
                                                 FROM orders
                                                 JOIN carts ON orders.IdCart = carts.Id
-                                                WHERE carts.IdUser = '" . $_SESSION["ID"] . "'
-                                                GROUP BY carts.IdUser";
+                                                WHERE carts.IdUser = " . $_SESSION["ID"];
                                         $result = $conn->query($sql);
 
                                         if ($result->num_rows > 0) {
@@ -292,6 +292,8 @@ session_start();
                                                         <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaPopup(" . $row["Id"] . ")'>View</button></td>
                                                     </tr>";
                                             }
+                                        } else {
+                                            echo "<tr><td>There are no orders...</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
                                         }
                                         ?>
                                     </tbody>
@@ -302,7 +304,7 @@ session_start();
                         <!-- ORDER WINDOW -->
                         <div id='myModal' class='modal fade' role='dialog'>
                             <!-- Modal content in modalOrder.php-->
-                            
+
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
                             <h4>Payment Method</h4>

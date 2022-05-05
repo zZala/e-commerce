@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Apr 11, 2022 alle 16:58
--- Versione del server: 10.4.22-MariaDB
--- Versione PHP: 8.1.2
+-- Host: localhost:3306
+-- Generation Time: May 05, 2022 at 04:39 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `articles`
+-- Table structure for table `articles`
 --
 
 CREATE TABLE `articles` (
@@ -34,13 +34,13 @@ CREATE TABLE `articles` (
   `Seller` varchar(254) NOT NULL,
   `Conditions` enum('New','Usage') NOT NULL,
   `Price` float NOT NULL,
-  `Discount` int(3) NOT NULL DEFAULT 0,
+  `Discount` int(3) NOT NULL DEFAULT '0',
   `Pieces` int(11) NOT NULL,
   `IdCategory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `articles`
+-- Dumping data for table `articles`
 --
 
 INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
@@ -51,7 +51,7 @@ INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `P
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `carts`
+-- Table structure for table `carts`
 --
 
 CREATE TABLE `carts` (
@@ -60,18 +60,18 @@ CREATE TABLE `carts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `carts`
+-- Dumping data for table `carts`
 --
 
 INSERT INTO `carts` (`Id`, `IdUser`) VALUES
-(3, NULL),
-(2, 3),
-(5, 3);
+(1, NULL),
+(6, NULL),
+(9, 1);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `categories`
+-- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -80,7 +80,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `categories`
+-- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`Id`, `Type`) VALUES
@@ -100,7 +100,7 @@ INSERT INTO `categories` (`Id`, `Type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `contains`
+-- Table structure for table `contains`
 --
 
 CREATE TABLE `contains` (
@@ -110,16 +110,17 @@ CREATE TABLE `contains` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `contains`
+-- Dumping data for table `contains`
 --
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
-(2, 2, 2);
+(1, 9, 1),
+(2, 6, 3);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `includes`
+-- Table structure for table `includes`
 --
 
 CREATE TABLE `includes` (
@@ -128,7 +129,7 @@ CREATE TABLE `includes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `includes`
+-- Dumping data for table `includes`
 --
 
 INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
@@ -139,30 +140,23 @@ INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
   `Id` int(11) NOT NULL,
-  `SubmissionDate` timestamp  NOT NULL DEFAULT current_timestamp(),
-  `DeliveryDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `SubmissionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `DeliveryDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `PaymentMethod` varchar(255) NOT NULL,
   `ShippingAddress` varchar(255) NOT NULL,
   `ShippingCosts` float NOT NULL,
   `IdCart` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `orders`
---
-
-INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `ShippingAddress`, `ShippingCosts`, `IdCart`) VALUES
-(1, '2022-04-10', '2022-04-17', 'Paypal', 'Via Burlone 10', 5, 2);
-
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `reviews`
+-- Table structure for table `reviews`
 --
 
 CREATE TABLE `reviews` (
@@ -172,20 +166,20 @@ CREATE TABLE `reviews` (
   `Title` varchar(50) NOT NULL,
   `Stars` enum('1','2','3','4','5') NOT NULL,
   `Comment` text NOT NULL,
-  `Date` timestamp NOT NULL DEFAULT current_timestamp()
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `users`
+-- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`Id`, `IdArticle`, `IdUser`, `Title`, `Stars`, `Comment`, `Date`) VALUES 
-(1, 2, 3, 'Ottimo acquisto', '3', 'consigliatissimo', '2022-04-11');
+INSERT INTO `reviews` (`Id`, `IdArticle`, `IdUser`, `Title`, `Stars`, `Comment`, `Date`) VALUES
+(1, 2, 1, 'Ottimo acquisto', '3', 'consigliatissimo', '2022-04-11 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -200,16 +194,16 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`Id`, `Username`, `FirstName`, `LastName`, `BirthDate`, `Email`, `MobilePhoneNumber`, `Password`) VALUES
-(3, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e');
+(1, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `wishlists`
+-- Table structure for table `wishlists`
 --
 
 CREATE TABLE `wishlists` (
@@ -218,7 +212,7 @@ CREATE TABLE `wishlists` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `wishlists`
+-- Dumping data for table `wishlists`
 --
 
 INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
@@ -227,21 +221,22 @@ INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
 (4, NULL),
 (5, NULL),
 (6, NULL),
-(1, 3);
+(7, NULL),
+(1, 1);
 
 --
--- Indici per le tabelle scaricate
+-- Indexes for dumped tables
 --
 
 --
--- Indici per le tabelle `articles`
+-- Indexes for table `articles`
 --
 ALTER TABLE `articles`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `ArticleCategory` (`IdCategory`);
 
 --
--- Indici per le tabelle `carts`
+-- Indexes for table `carts`
 --
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`Id`),
@@ -249,34 +244,34 @@ ALTER TABLE `carts`
   ADD KEY `CartUser` (`IdUser`);
 
 --
--- Indici per le tabelle `categories`
+-- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indici per le tabelle `contains`
+-- Indexes for table `contains`
 --
 ALTER TABLE `contains`
   ADD PRIMARY KEY (`IdArticle`,`IdCart`),
   ADD KEY `ContainCart` (`IdCart`);
 
 --
--- Indici per le tabelle `includes`
+-- Indexes for table `includes`
 --
 ALTER TABLE `includes`
   ADD PRIMARY KEY (`IdWishlist`,`IdArticle`),
   ADD KEY `IncludeArticle` (`IdArticle`);
 
 --
--- Indici per le tabelle `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `OrderCart` (`IdCart`);
 
 --
--- Indici per le tabelle `reviews`
+-- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`Id`),
@@ -284,113 +279,113 @@ ALTER TABLE `reviews`
   ADD KEY `ReviewArticle` (`IdArticle`);
 
 --
--- Indici per le tabelle `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `Username` (`Username`);
 
 --
--- Indici per le tabelle `wishlists`
+-- Indexes for table `wishlists`
 --
 ALTER TABLE `wishlists`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `WishlistUser` (`IdUser`);
 
 --
--- AUTO_INCREMENT per le tabelle scaricate
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT per la tabella `articles`
+-- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT per la tabella `carts`
---
-ALTER TABLE `carts`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT per la tabella `categories`
+-- AUTO_INCREMENT for table `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT per la tabella `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT per la tabella `reviews`
+-- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT per la tabella `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT per la tabella `wishlists`
+-- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Limiti per le tabelle scaricate
+-- Constraints for dumped tables
 --
 
 --
--- Limiti per la tabella `articles`
+-- Constraints for table `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `ArticleCategory` FOREIGN KEY (`IdCategory`) REFERENCES `categories` (`Id`);
+  ADD CONSTRAINT `ArticleCategory` FOREIGN KEY (`IdCategory`) REFERENCES `categories` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `carts`
+-- Constraints for table `carts`
 --
 ALTER TABLE `carts`
-  ADD CONSTRAINT `CartUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`);
+  ADD CONSTRAINT `CartUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `contains`
+-- Constraints for table `contains`
 --
 ALTER TABLE `contains`
-  ADD CONSTRAINT `ContainArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`),
-  ADD CONSTRAINT `ContainCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`);
+  ADD CONSTRAINT `ContainArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ContainCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `includes`
+-- Constraints for table `includes`
 --
 ALTER TABLE `includes`
-  ADD CONSTRAINT `IncludeArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`),
-  ADD CONSTRAINT `IncludeWishlist` FOREIGN KEY (`IdWishlist`) REFERENCES `wishlists` (`Id`);
+  ADD CONSTRAINT `IncludeArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `IncludeWishlist` FOREIGN KEY (`IdWishlist`) REFERENCES `wishlists` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`);
+  ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `wishlists`
+-- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `ReviewUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`),
-  ADD CONSTRAINT `ReviewArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`);
+  ADD CONSTRAINT `ReviewArticle` FOREIGN KEY (`IdArticle`) REFERENCES `articles` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ReviewUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `wishlists`
+-- Constraints for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  ADD CONSTRAINT `WishlistUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`);
+  ADD CONSTRAINT `WishlistUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

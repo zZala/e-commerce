@@ -4,8 +4,6 @@ sistemare l' indisponibilita dei prodotti
 
 possibilità di aggiungere in users address ecc. e tabella collegata payments
 
-fare deleteOrder.php
-
 aggiungere la possibilità di diventare un rivenditore e sellProduct.php
 
 PLUS: bot telegram per utenti registrati alla newsletter :)

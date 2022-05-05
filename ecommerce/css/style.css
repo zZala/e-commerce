@@ -1854,6 +1854,7 @@ h2 {
 .my-account .tab-content {
     padding: 30px;
     background: #ffffff;
+    min-height: 410px;
 }
 
 .my-account .tab-content .table {
@@ -1873,6 +1874,11 @@ h2 {
 
 .my-account .tab-content .table td {
     vertical-align: middle;
+}
+
+.my-account h4{
+    text-align: center;
+    padding-bottom: 8px;
 }
 
 

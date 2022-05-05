@@ -45,14 +45,28 @@ if (isset($paymentMethod)) {
         $sql = $conn->prepare("INSERT INTO carts (IdUser) VALUES (?)");
         $sql->bind_param('i', $_SESSION["ID"]);
         $sql->execute();
+
+        //prendo id carrello creato
+        $sql = "SELECT * FROM carts ORDER BY Id DESC LIMIT 1";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        //salvo nuova sessione
+        $_SESSION["IDCart"] = $row["Id"];
     } else if (isset($_SESSION["IDCartGuest"])) {
         //creo nuovo carrello guest
         $sql = $conn->prepare("INSERT INTO carts () VALUES ()");
         $sql->execute();
 
+        //prendo id carrello creato
+        $sql = "SELECT * FROM carts ORDER BY Id DESC LIMIT 1";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        //salvo nuova sessione
+        $_SESSION["IDCartGuest"] = $row["Id"];
+
         //aggiorno cookie
         $cookie_name = "IDCartGuest";
-        $cookie_value = $idCart;
+        $cookie_value = $row["Id"];
         setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1  
     }
 
