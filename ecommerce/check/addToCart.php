@@ -37,17 +37,43 @@ if (isset($idCart) && isset($idArticle) && $_GET["q"] != null && $_GET["q"] != 0
     $sql = "SELECT Quantity FROM contains WHERE IdCart = '$idCart' AND IdArticle = '$idArticle' ";
     $result = $conn->query($sql);
 
-    if ($result != null && $result->num_rows > 0) {     
+    if ($result != null && $result->num_rows > 0) {
         //se già presente aggiorno la quantità
         $row = $result->fetch_assoc();
         $q = $row["Quantity"] + $_GET["q"];
-        $sql = $conn->prepare("UPDATE contains SET Quantity = '$q' WHERE IdCart = '$idCart' AND IdArticle = '$idArticle'");
-        $sql->execute();
-    } else {                                            
-        //aggiungo articolo
-        $sql = $conn->prepare("INSERT INTO contains (IdCart, IdArticle, Quantity) VALUES (?,?,?)");
-        $sql->bind_param('iii', $idCart, $idArticle, $_GET['q']);
-        $sql->execute();
+
+        //controllo disponibilità articolo
+        $sql = "SELECT Pieces FROM articles WHERE Id = $idArticle";
+        $result = $conn->query($sql);
+        if ($result != null && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $pieces = $row["Pieces"];
+            if ($pieces >= $q) {
+                //aggiungo articolo
+                $sql = $conn->prepare("UPDATE contains SET Quantity = '$q' WHERE IdCart = '$idCart' AND IdArticle = '$idArticle'");
+                $sql->execute();
+                header("location:..\product-list.php?msg=Added to cart successfully!");
+            } else {
+                header("location:..\product-list.php?msg=Insufficient available pieces of the article!");
+            }
+        }
+    } else {
+        //controllo disponibilità articolo
+        $sql = "SELECT Pieces FROM articles WHERE Id = $idArticle";
+        $result = $conn->query($sql);
+        if ($result != null && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $pieces = $row["Pieces"];
+            if ($pieces >= $_GET["q"]) {
+                //aggiungo articolo
+                $sql = $conn->prepare("INSERT INTO contains (IdCart, IdArticle, Quantity) VALUES (?,?,?)");
+                $sql->bind_param('iii', $idCart, $idArticle, $_GET['q']);
+                $sql->execute();
+                header("location:..\product-list.php?msg=Added to cart successfully!");
+            } else {
+                header("location:..\product-list.php?msg=Insufficient available pieces of the article!");
+            }
+        }
     }
-    header("location:..\product-list.php?msg=Added to cart successfully!");
 }
+header("location:..\product-list.php?msg=Article not available!");

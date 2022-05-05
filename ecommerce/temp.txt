@@ -1,7 +1,5 @@
 finire pagine in fondo:
 
-sistemare l' indisponibilita dei prodotti
-
 possibilità di aggiungere in users address ecc. e tabella collegata payments
 
 aggiungere la possibilità di diventare un rivenditore e sellProduct.php

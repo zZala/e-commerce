@@ -1876,7 +1876,7 @@ h2 {
     vertical-align: middle;
 }
 
-.my-account h4{
+.my-account h4 {
     text-align: center;
     padding-bottom: 8px;
 }
@@ -2466,4 +2466,10 @@ h2 {
     opacity: 0.95 !important;
     background-repeat: no-repeat;
     border: 3px solid white;
+}
+
+.soldout {
+    background-color: grey !important;
+    color: unset !important;
+    border: unset !important;
 }

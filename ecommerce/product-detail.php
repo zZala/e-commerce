@@ -248,20 +248,28 @@ session_start();
                                         echo "<p>$" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "<span>$" . $row["Price"] . "</span></p>";
                                     else
                                         echo "<p>$" . $row["Price"] . "</p>";
-
-                                    echo "</div>
+                                    echo "  </div>
                                             <div class='quantity'>
                                                 <h4>Quantity:</h4>
-                                                <div class='qty'>
-                                                    <input type='number' name='q' value='1' min=1 max=" . $row["Pieces"] . " value='" . $row["Id"] . "'>
-                                                    <input type='hidden' name='id' value='" . $row["Id"] . "'>
+                                                <div class='qty'>";
+                                    if ($row["Pieces"] >= 1)
+                                        echo "  <input type='number' name='q' value='1' min=1 max=" . $row["Pieces"] . ">
+                                                <input type='hidden' name='id' value='" . $row["Id"] . "'>
                                                 </div>
-                                            </div>
-                                            <div class='action'>
-                                                <button class='btn'><i class='fa fa-shopping-cart'></i>Add to Cart</button>
-                                                <button class='btn'><i class='fa fa-shopping-bag'></i>Buy Now</button>
-                                            </div>
-                                        </form>";
+                                                </div>
+                                                <div class='action'>
+                                                    <button class='btn'><i class='fa fa-shopping-cart'></i>Add to Cart</button>
+                                                    <button class='btn'><i class='fa fa-shopping-bag'></i>Buy Now</button>
+                                                </div>";
+                                    else
+                                        echo "  <input type='number' name='q' value='0' min=0 max=0>
+                                                <input type='hidden' name='id' value='" . $row["Id"] . "'>
+                                                </div>
+                                                </div>
+                                                <div class='action'>
+                                                    <button class='btn soldout'><i class='fa fa-shopping-cart'></i>Sold out</button>
+                                                </div>";
+                                    echo "</form>";
                                     ?>
                                 </div>
                             </div>
