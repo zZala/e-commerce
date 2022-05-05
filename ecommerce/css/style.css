@@ -1451,6 +1451,7 @@ h2 {
     padding: 30px;
     margin-bottom: 30px;
     background: #ffffff;
+    min-height: 420px;
 }
 
 .cart-page .table {
@@ -1472,7 +1473,7 @@ h2 {
 }
 
 .cart-page .table td {
-    font-size: 16px;
+    font-size: 18px;
     vertical-align: middle;
 }
 
@@ -1643,6 +1644,7 @@ h2 {
 .wishlist-page .wishlist-page-inner {
     padding: 30px;
     background: #ffffff;
+    min-height: 420px;
 }
 
 .wishlist-page .table {
@@ -1664,7 +1666,7 @@ h2 {
 }
 
 .wishlist-page .table td {
-    font-size: 16px;
+    font-size: 18px;
     vertical-align: middle;
 }
 
@@ -1692,9 +1694,9 @@ h2 {
 }
 
 .wishlist-page .table button {
-    width: 30px;
-    height: 30px;
-    font-size: 14px;
+    width: 35px;
+    height: 35px;
+    font-size: 15px;
     text-align: center;
     color: #ffffff;
     background: #FF6F61;

@@ -35,6 +35,7 @@ session_start();
     {
         echo "<script type='text/javascript'>alert('$msg');</script>";
     }
+
     ?>
 
 </head>
@@ -219,8 +220,8 @@ session_start();
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<tr>
                                                     <td>
-                                                        <div class='img'>
-                                                            <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
+                                                        <div class='img pl-2'>
+                                                            <a href='product-detail.php?id=" . $row["Id"] . "'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
                                                             <p>" . $row["Title"] . "</p>
                                                         </div>
                                                     </td>";
@@ -228,11 +229,15 @@ session_start();
                                                     echo "<td><s>$" . $row["Price"] . "</s> $" . round($row["Price"] * (100 - $row["Discount"]) / 100, 2) . "</td>";
                                                 else
                                                     echo "<td>$" . $row["Price"] . "</td>";
-                                                echo "<td><button class='btn-cart'><a class='noLinkAddCart' href='check/addToCart.php?id=" . $row["Id"] . "&q=1'>Add to Cart</a></button></td> 
-                                                    <td><button><a class='noLinkAddCart' href='check/removeFromWishlist.php?id=" . $row["Id"] . "'><i class='fa fa-trash'></i></a></button></td>
-                                                </tr>";
+                                                echo "  <td><button class='btn-cart' onclick='toAddToCart(" . $row["Id"] . ", 1)'>Add to Cart</button></td> 
+                                                            <td><button onclick='toRemoveFromWishlist(" . $row["Id"] . ")'><i class='fa fa-trash'></i></button></td>
+                                                        </tr>";
                                             }
+                                        } else {
+                                            echo "<tr><td>There are no items...</td><td></td><td></td><td></td></tr>";
                                         }
+                                    }else{
+                                        echo "<tr><td>There are no items...</td><td></td><td></td><td></td></tr>"; 
                                     }
                                     ?>
                                 </tbody>
@@ -338,6 +343,7 @@ session_start();
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
 </body>
 
 </html>

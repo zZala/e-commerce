@@ -222,8 +222,8 @@ session_start();
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<tr>
                                                     <td>
-                                                        <div class='img'>
-                                                            <a href='#'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
+                                                        <div class='img pl-2'>
+                                                            <a href='product-detail.php?id=" . $row["Id"] . "'><img src='img/product-" . $row["Id"] . ".jpg' alt='Image'></a>
                                                             <p>" . $row["Title"] . "</p>
                                                         </div>
                                                     </td>
@@ -231,9 +231,9 @@ session_start();
                                                     <td>" . $row["Discount"] . "%</td>
                                                     <td>
                                                         <div class='qty'>
-                                                            <button class='btn-minus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] - 1) . ")'><i class='fa fa-minus'></i></button>
-                                                            <input type='number' name='q' value='" . $row["Quantity"] . "' min=1 max=" . $row["Pieces"] . ">
-                                                            <button class='btn-plus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] + 1) . ")'><i class='fa fa-plus'></i></button>
+                                                            <button class='btn-minus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] - 1) . ", " . $row["Pieces"] . ")'><i class='fa fa-minus'></i></button>
+                                                            <input class='pb-1' type='text' name='q' value='" . $row["Quantity"] . "' min=1 max=" . $row["Pieces"] . "'>
+                                                            <button class='btn-plus' onclick='toUpdateQuantityCart(" . $row["Id"] . "," . ($row["Quantity"] + 1) . ", " . $row["Pieces"] . ")'><i class='fa fa-plus'></i></button>
                                                         </div>
                                                     </td>";
 
@@ -247,6 +247,8 @@ session_start();
                                         } else {
                                             echo "<tr><td>There are no items...</td><td></td><td></td><td></td><td></td><td></td></tr>";
                                         }
+                                    } else {
+                                        echo "<tr><td>There are no items...</td><td></td><td></td><td></td><td></td><td></td></tr>";
                                     }
                                     ?>
                                 </tbody>
@@ -392,10 +394,10 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
-    <script src="js/redirects.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
 </body>
 
 </html>

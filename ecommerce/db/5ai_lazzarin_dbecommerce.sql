@@ -144,8 +144,8 @@ INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
 
 CREATE TABLE `orders` (
   `Id` int(11) NOT NULL,
-  `SubmissionDate` date NOT NULL DEFAULT current_timestamp(),
-  `DeliveryDate` date NOT NULL DEFAULT current_timestamp(),
+  `SubmissionDate` timestamp  NOT NULL DEFAULT current_timestamp(),
+  `DeliveryDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `PaymentMethod` varchar(255) NOT NULL,
   `ShippingAddress` varchar(255) NOT NULL,
   `ShippingCosts` float NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE `reviews` (
   `Title` varchar(50) NOT NULL,
   `Stars` enum('1','2','3','4','5') NOT NULL,
   `Comment` text NOT NULL,
-  `Date` date NOT NULL DEFAULT current_timestamp()
+  `Date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

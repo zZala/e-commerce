@@ -15,7 +15,7 @@ if (isset($_SESSION["IDWishlist"])) {                   //se loggato
     //creo wishlist guest
     $sql = $conn->prepare("INSERT INTO wishlists() VALUES ()");
     $sql->execute();
-
+    
     //prendo id wishlist creato
     $sql = "SELECT * FROM wishlists ORDER BY Id DESC LIMIT 1";
     $result = $conn->query($sql);

@@ -1,5 +1,6 @@
-function toUpdateQuantityCart(id, q) {
-    window.location = "check/updateQuantityCart.php?id=" + id + "&q=" + q;
+function toUpdateQuantityCart(id, q, max) {
+    if (q != 0 && q != (max + 1))
+        window.location = "check/updateQuantityCart.php?id=" + id + "&q=" + q;
 }
 
 function toRemoveFromCart(id) {
@@ -12,4 +13,11 @@ function toCleanCart() {
 
 function toCheckout() {
     window.location = "checkout.php";
+}
+function toAddToCart(id, q) {
+    window.location = "check/addToCart.php?id=" + id + "&q=" + q;
+}
+
+function toRemoveFromWishlist(id) {
+    window.location = "check/removeFromWishlist.php?id=" + id;
 }

@@ -193,7 +193,7 @@ session_start();
                 <div class="col-lg-12">
                     <div class="product-detail-top">
                         <div class="row align-items-center">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="product-slider-single normal-slider">
                                     <?php
                                     echo "<img src='img/product-" . $_GET["id"] . ".jpg' alt='Product Image'>";
@@ -210,7 +210,7 @@ session_start();
                                 </div>
                                 -->
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div class="product-content">
                                     <?php
                                     $sql = "SELECT articles.Id, articles.Title, Price, Discount, AVG(Stars), Pieces FROM articles JOIN reviews ON articles.Id = reviews.IdArticle WHERE articles.Id = '" . $_GET["id"] . "' GROUP BY articles.Id";
@@ -469,9 +469,7 @@ session_start();
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <?php
-    echo "<script src='js/stars.js'></script>";
-    ?>
+    <script src='js/stars.js'></script>
 </body>
 
 </html>
