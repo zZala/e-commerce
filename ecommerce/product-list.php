@@ -28,25 +28,6 @@ session_start();
 </head>
 
 <body>
-
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class='modal-dialog'>
-
-            <!-- Modal content-->
-            <div class='modal-content'>
-                <div class='modal-header justify-content-center'>
-                    <h4 class='modal-title'>Popup</h4>
-                </div>
-                <div id='innerText' class='modal-body text-center'>
-
-                </div>
-                <div class='modal-footer'>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
     <!-- Top bar Start -->
     <div class="top-bar">
         <div class="container-fluid">
@@ -482,6 +463,7 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
@@ -489,9 +471,7 @@ session_start();
 
     <?php
     if (isset($_GET['msg'])) {
-        echo "<script>caricaPopup('" . $_GET['msg'] . "');
-        $('#myModal').modal('show'); </script>";
-        //echo "<script type='text/javascript'>alert('$msg');</script>";
+        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
     }
     ?>
 </body>

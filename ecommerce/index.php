@@ -28,17 +28,9 @@ session_start();
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <?php
-    //login
-    if (isset($_GET['msg']) && $_GET['msg'] == "Logged successfully!") {
-        alert($_GET['msg']);
-    }
-    function alert($msg)
-    {
-        echo "<script type='text/javascript'>alert('$msg');</script>";
-    }
 
-    //logout
-    if (isset($_GET['msg']) && $_GET['msg'] == "logout") {
+    //Logout
+    if (isset($_GET['msg']) && $_GET['msg'] == "Logout successfully!") {
         unset($_SESSION["ID"]);
         unset($_SESSION['Username']);
         unset($_SESSION["IDCart"]);
@@ -93,7 +85,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
@@ -660,9 +652,17 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
+
+    <?php
+    if (isset($_GET['msg'])) {
+        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+    }
+    ?>
 </body>
 
 </html>

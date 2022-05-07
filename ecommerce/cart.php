@@ -26,17 +26,6 @@ session_start();
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-    <?php
-    if (isset($_GET['msg'])) {
-        alert($_GET['msg']);
-    }
-
-    function alert($msg)
-    {
-        echo "<script type='text/javascript'>alert('$msg');</script>";
-    }
-    ?>
-
 </head>
 
 <body>
@@ -394,10 +383,17 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script src="js/redirects.js"></script>
+
+    <?php
+    if (isset($_GET['msg'])) {
+        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+    }
+    ?>
 </body>
 
 </html>

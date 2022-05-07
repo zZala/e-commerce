@@ -424,6 +424,12 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
+
     <script>
         function caricaPopup(id) {
             $.ajax({
@@ -432,14 +438,14 @@ session_start();
                     $('#myModal').html(data);
                 }
             });
-
-            // $.post("check/modalOrder.php?id=" + id, true, function(data, status) {
-            //     $('#myModal').html(data);
-            // });
         }
     </script>
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+
+    <?php
+    if (isset($_GET['msg'])) {
+        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+    }
+    ?>
 </body>
 
 </html>

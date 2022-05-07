@@ -293,9 +293,17 @@ session_start();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
+
+    <?php
+    if (isset($_GET['msg'])) {
+        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+    }
+    ?>
 </body>
 
 </html>
