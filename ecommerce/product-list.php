@@ -25,21 +25,28 @@ session_start();
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
-    <?php
-    if (isset($_GET['msg'])) {
-        alert($_GET['msg']);
-    }
-
-    function alert($msg)
-    {
-        echo "<script type='text/javascript'>alert('$msg');</script>";
-    }
-    ?>
-
 </head>
 
 <body>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class='modal-dialog'>
+
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header justify-content-center'>
+                    <h4 class='modal-title'>Popup</h4>
+                </div>
+                <div id='innerText' class='modal-body text-center'>
+
+                </div>
+                <div class='modal-footer'>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!-- Top bar Start -->
     <div class="top-bar">
         <div class="container-fluid">
@@ -319,7 +326,7 @@ session_start();
                                 if ($row["Pieces"] > 0)
                                     echo "<a class='btn' href='checkout.php?id=" . $row["Id"] . "'><i class='fa fa-shopping-cart'></i>Buy Now</a>";
                                 else
-                                    echo "<a class='btn soldout'><i class='fa fa-shopping-cart'></i>Sold out</a>";
+                                    echo "<a class='btn soldout'><i class='fa fa-shopping-cart'></i>Sold Out</a>";
                                 echo "</div></div></div>";
                             }
                         }
@@ -478,6 +485,15 @@ session_start();
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="js/redirects.js"></script>
+
+    <?php
+    if (isset($_GET['msg'])) {
+        echo "<script>caricaPopup('" . $_GET['msg'] . "');
+        $('#myModal').modal('show'); </script>";
+        //echo "<script type='text/javascript'>alert('$msg');</script>";
+    }
+    ?>
 </body>
 
 </html>

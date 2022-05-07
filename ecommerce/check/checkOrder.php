@@ -23,15 +23,15 @@ $shippingCost = 5;
 
 
 if (isset($paymentMethod)) {
-    $sql = $conn->prepare("INSERT INTO orders (DeliveryDate, PaymentMethod, ShippingAddress, ShippingCosts, IdCart) VALUES (?, ?, ?, ?, ?)");
-    $sql->bind_param('sssii', $date, $paymentMethod, $address, $shippingCost, $idCart);
-    $sql->execute();
-
     //trovo le quantità e gli id degli articoli acquistati
-    $sql = "SELECT IdArticle, Quantity, Pieces FROM contains JOIN articles ON IdArticle = Id WHERE IdCart = $idCart";
+    $sql = "SELECT IdArticle, Title, Quantity, Pieces FROM contains JOIN articles ON IdArticle = Id WHERE IdCart = $idCart";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            if ($row["Pieces"] == 0) {
+                header("location: ..\cart.php?msg=" . $row["Title"] . " not available!");
+                exit;
+            }
             //aggiorno le quantità disponibili nel database
             $sql = $conn->prepare("UPDATE articles SET Pieces=? WHERE Id = ?");
             $newPieces = $row["Pieces"] - $row["Quantity"];
@@ -39,6 +39,10 @@ if (isset($paymentMethod)) {
             $sql->execute();
         }
     }
+
+    $sql = $conn->prepare("INSERT INTO orders (DeliveryDate, PaymentMethod, ShippingAddress, ShippingCosts, IdCart) VALUES (?, ?, ?, ?, ?)");
+    $sql->bind_param('sssii', $date, $paymentMethod, $address, $shippingCost, $idCart);
+    $sql->execute();
 
     if (isset($_SESSION["IDCart"])) {
         //nuovo carrello per l'utente

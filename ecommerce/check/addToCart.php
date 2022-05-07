@@ -75,5 +75,5 @@ if (isset($idCart) && isset($idArticle) && $_GET["q"] != null && $_GET["q"] != 0
             }
         }
     }
-}
-header("location:..\product-list.php?msg=Article not available!");
+} else
+    header("location:..\product-list.php?msg=Article not available!");

@@ -21,3 +21,12 @@ function toAddToCart(id, q) {
 function toRemoveFromWishlist(id) {
     window.location = "check/removeFromWishlist.php?id=" + id;
 }
+
+function caricaPopup(text) {
+    $.ajax({
+        url: "check/modalPopup.php?msg=" + text,
+        success: function (data) {
+            $('#innerText').html(data);
+        }
+    });
+}

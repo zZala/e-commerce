@@ -267,7 +267,7 @@ session_start();
                                                 </div>
                                                 </div>
                                                 <div class='action'>
-                                                    <button class='btn soldout'><i class='fa fa-shopping-cart'></i>Sold out</button>
+                                                    <button class='btn soldout'><i class='fa fa-shopping-cart'></i>Sold Out</button>
                                                 </div>";
                                     echo "</form>";
                                     ?>
