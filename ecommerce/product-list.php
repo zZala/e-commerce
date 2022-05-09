@@ -65,7 +65,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
@@ -471,7 +471,19 @@ session_start();
 
     <?php
     if (isset($_GET['msg'])) {
-        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+        switch ($_GET['msg']) {
+            case "Added to cart successfully!":
+            case "Removed from wishlist successfully!":
+            case "Added to wishlist successfully!":
+                $type = 'success';
+                break;
+            case "Insufficient available pieces of the article!":
+            case "Article not available!":
+                $type = 'danger';
+                break;
+        }
+
+        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
     }
     ?>
 </body>

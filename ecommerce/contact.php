@@ -67,7 +67,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>

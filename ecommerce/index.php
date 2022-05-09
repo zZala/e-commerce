@@ -660,7 +660,16 @@ session_start();
 
     <?php
     if (isset($_GET['msg'])) {
-        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+        $type = "";
+        switch ($_GET['msg']) {
+            case "Logout successfully!":
+                $type = 'danger';
+                break;
+            case "Logged successfully!":
+                $type = 'success';
+                break;
+        }
+        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
     }
     ?>
 </body>

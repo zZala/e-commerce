@@ -22,14 +22,14 @@ function toRemoveFromWishlist(id) {
     window.location = "check/removeFromWishlist.php?id=" + id;
 }
 
-function caricaPopup(text) {
+function caricaPopup(text, type) {
     $.bootstrapGrowl(text, {
         ele: 'body', // which element to append to
-        type: 'danger', // (null, 'info', 'error', 'success')
+        type: type, // (null, 'info', 'error', 'success')
         offset: { from: 'top', amount: 30 }, // 'top', or 'bottom'
         align: 'center', // ('left', 'right', or 'center')
         width: 'auto', // (integer, or 'auto')
-        delay: 4000,
+        delay: 2000,
         allow_dismiss: false,
         stackup_spacing: 10 // spacing between consecutively stacked growls.
     });

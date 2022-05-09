@@ -76,7 +76,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
@@ -195,7 +195,7 @@ session_start();
                         <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Orders</a>
                         <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i class="fa fa-credit-card"></i>Payment Method</a>
                         <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>Address</a>
-                        <a class="nav-link" href='index.php?msg=logout'><i class="fa fa-sign-out-alt"></i>Logout</a>
+                        <a class="nav-link" href='index.php?msg=Logout successfully!'><i class="fa fa-sign-out-alt"></i>Logout</a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -443,7 +443,19 @@ session_start();
 
     <?php
     if (isset($_GET['msg'])) {
-        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+        switch ($_GET['msg']) {
+            case "Order deleted successfully!":
+            case "Updated successfully!":
+                $type = 'success';
+                break;
+            case "Username already used!":
+                $type = 'warning';
+                break;
+            case "Password doesn't match!":
+                $type = 'danger';
+                break;
+        }
+        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
     }
     ?>
 </body>

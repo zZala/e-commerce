@@ -65,7 +65,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=logout' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
@@ -369,7 +369,21 @@ session_start();
 
     <?php
     if (isset($_GET['msg'])) {
-        echo "<script>caricaPopup('" . $_GET['msg'] . "')</script>";
+        switch ($_GET['msg']) {
+            case "Registered successfully!":
+                $type = 'success';
+                break;
+            case "Must be logged in to post a review!":
+                $type = 'warning';
+                break;
+            case  "Username and Password doesn't match!":
+            case "Username already used!":
+            case "Password doesn't match!":
+                $type = 'danger';
+                break;
+        }
+
+        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
     }
     ?>
 </body>
