@@ -26,16 +26,6 @@ session_start();
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-    <?php
-    if (isset($_GET['msg']) && $_GET['msg'] != "Password doesn't match!")
-        alert($_GET['msg']);
-
-
-    function alert($msg)
-    {
-        echo "<script type='text/javascript'>alert('$msg');</script>";
-    }
-    ?>
 </head>
 
 <body>
@@ -289,7 +279,7 @@ session_start();
                                                         <td>" . $row["PaymentMethod"] . "</td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
-                                                        <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaPopup(" . $row["Id"] . ")'>View</button></td>
+                                                        <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaPopupModal(" . $row["Id"] . ")'>View</button></td>
                                                     </tr>";
                                             }
                                         } else {
@@ -431,7 +421,7 @@ session_start();
     <script src="js/redirects.js"></script>
 
     <script>
-        function caricaPopup(id) {
+        function caricaPopupModal(id) {
             $.ajax({
                 url: "check/modalOrder.php?id=" + id,
                 success: function(data) {
