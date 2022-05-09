@@ -15,12 +15,9 @@ if (isset($_SESSION["IDWishlist"])) {                   //se loggato
     //creo wishlist guest
     $sql = $conn->prepare("INSERT INTO wishlists() VALUES ()");
     $sql->execute();
-    
-    //prendo id wishlist creato
-    $sql = "SELECT * FROM wishlists ORDER BY Id DESC LIMIT 1";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-    $idWishlist = $row["Id"];
+
+    //ultimo id inserito
+    $idWishlist = $conn->insert_id;
 
     //salvo la wishlist anche nella sessione
     $_SESSION["IDWishlistGuest"] = $idWishlist;
@@ -34,19 +31,22 @@ if (isset($_SESSION["IDWishlist"])) {                   //se loggato
 
 if (isset($idWishlist) && isset($idArticle)) {
     //controllo se gia presente articolo in quella wishlist
-    $sql = "SELECT * FROM includes WHERE IdWishlist = '$idWishlist' AND IdArticle = '$idArticle' ";
-    $result = $conn->query($sql);
-
+    $sql = $conn->prepare("SELECT * FROM includes WHERE IdWishlist = ? AND IdArticle = ? ");
+    $sql->bind_param('ii', $idWishlist, $idArticle);
+    $sql->execute();
+    $result = $sql->get_result();
     if ($result->num_rows > 0) {
         //se già presente tolgo
-        $sql = $conn->prepare("DELETE FROM includes WHERE IdWishlist = '$idWishlist' AND IdArticle = '$idArticle'");
+        $sql = $conn->prepare("DELETE FROM includes WHERE IdWishlist = ? AND IdArticle = ?");
+        $sql->bind_param('ii', $idWishlist, $idArticle);
         $sql->execute();
-        header("location:..\product-list.php?msg=Removed from wishlist successfully!");
+        header("location:..\product-list.php?msg=Removed from wishlist successfully!&type=danger");
     } else {
         //se no aggiungo articolo
         $sql = $conn->prepare("INSERT INTO includes (IdWishlist, IdArticle) VALUES (?,?)");
         $sql->bind_param('ii', $idWishlist, $idArticle);
         $sql->execute();
-        header("location:..\product-list.php?msg=Added to wishlist successfully!");
+        header("location:..\product-list.php?msg=Added to wishlist successfully!&type=success");
     }
-}
+} else
+    header("location:..\product-list.php?msg=Article doesn't exist!&type=danger");

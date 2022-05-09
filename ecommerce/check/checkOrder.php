@@ -2,6 +2,7 @@
 include("../db/connection.php");
 session_start();
 
+//controllo quale indirizzo prendere
 if (!isset($_POST["check"])) {
     $address = $_POST["address"];
 } else {
@@ -19,27 +20,35 @@ if (isset($_SESSION["IDCart"]))
     $idCart = $_SESSION["IDCart"];
 else if (isset($_SESSION["IDCartGuest"]))
     $idCart = $_SESSION["IDCartGuest"];
+
 $shippingCost = 5;
 
 
 if (isset($paymentMethod)) {
     //trovo le quantità e gli id degli articoli acquistati
-    $sql = "SELECT IdArticle, Title, Quantity, Pieces FROM contains JOIN articles ON IdArticle = Id WHERE IdCart = $idCart";
-    $result = $conn->query($sql);
+    $sql = $conn->prepare("SELECT IdArticle, Title, Quantity, Pieces FROM contains JOIN articles ON IdArticle = Id WHERE IdCart = ?");
+    $sql->bind_param('i', $idCart);
+    $sql->execute();
+    $result = $sql->get_result();
+
     if ($result->num_rows > 0) {
+        echo "droga";
         while ($row = $result->fetch_assoc()) {
             if ($row["Pieces"] == 0) {
-                header("location: ..\cart.php?msg=" . $row["Title"] . " not available!");
+                header("location: ..\cart.php?msg=" . $row["Title"] . " not available!&type=danger");
                 exit;
             }
             //aggiorno le quantità disponibili nel database
-            $sql = $conn->prepare("UPDATE articles SET Pieces=? WHERE Id = ?");
+            $sql = $conn->prepare("UPDATE articles SET Pieces= ? WHERE Id = ?");
             $newPieces = $row["Pieces"] - $row["Quantity"];
             $sql->bind_param('ii', $newPieces, $row["IdArticle"]);
             $sql->execute();
         }
+    } else {
+        header("location: ..\cart.php");
+        exit;
     }
-
+    
     $sql = $conn->prepare("INSERT INTO orders (DeliveryDate, PaymentMethod, ShippingAddress, ShippingCosts, IdCart) VALUES (?, ?, ?, ?, ?)");
     $sql->bind_param('sssii', $date, $paymentMethod, $address, $shippingCost, $idCart);
     $sql->execute();
@@ -50,30 +59,27 @@ if (isset($paymentMethod)) {
         $sql->bind_param('i', $_SESSION["ID"]);
         $sql->execute();
 
-        //prendo id carrello creato
-        $sql = "SELECT * FROM carts ORDER BY Id DESC LIMIT 1";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
+        //ultimo id inserito
+        $idNewCart = $conn->insert_id;
+
         //salvo nuova sessione
-        $_SESSION["IDCart"] = $row["Id"];
+        $_SESSION["IDCart"] = $idNewCart;
     } else if (isset($_SESSION["IDCartGuest"])) {
         //creo nuovo carrello guest
         $sql = $conn->prepare("INSERT INTO carts () VALUES ()");
         $sql->execute();
 
-        //prendo id carrello creato
-        $sql = "SELECT * FROM carts ORDER BY Id DESC LIMIT 1";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
+        //ultimo id inserito
+        $idNewCart = $conn->insert_id;
+
         //salvo nuova sessione
-        $_SESSION["IDCartGuest"] = $row["Id"];
+        $_SESSION["IDCartGuest"] = $idNewCart;
 
         //aggiorno cookie
         $cookie_name = "IDCartGuest";
-        $cookie_value = $row["Id"];
+        $cookie_value = $idNewCart;
         setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1  
     }
-
-    header("location: ..\cart.php?msg=Ordered successfully!");
+    header("location: ..\cart.php?msg=Ordered successfully!&type=success");
 } else
-    header("location: ..\cart.php?msg=Error!");
+    header("location: ..\cart.php?msg=Payment method must be set!&type=warning");

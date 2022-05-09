@@ -479,6 +479,7 @@ session_start();
                 break;
             case "Insufficient available pieces of the article!":
             case "Article not available!":
+            case "Article doesn't exist!":
                 $type = 'danger';
                 break;
         }

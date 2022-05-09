@@ -471,6 +471,22 @@ session_start();
     <script src='js/stars.js'></script>
     <script src="js/redirects.js"></script>
 
+
+    <?php
+    if (isset($_GET['msg'])) {
+        switch ($_GET['msg']) {
+            case "Review added successfully!":
+                $type = 'success';
+                break;
+            case "Stars must be more than zero!":
+                $type = 'warning';
+                break;
+        }
+
+        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    }
+    ?>
+
 </body>
 
 </html>

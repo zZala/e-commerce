@@ -16,11 +16,8 @@ if (isset($_SESSION["IDCart"])) {                       //se loggato
     $sql = $conn->prepare("INSERT INTO carts () VALUES ()");
     $sql->execute();
 
-    //prendo id carrello creato
-    $sql = "SELECT * FROM carts ORDER BY Id DESC LIMIT 1";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
-    $idCart = $row["Id"];
+    //ultimo id inserito
+    $idCart = $conn->insert_id;
 
     //salvo il carrello anche nella sessione
     $_SESSION["IDCartGuest"] = $idCart;
@@ -34,46 +31,52 @@ if (isset($_SESSION["IDCart"])) {                       //se loggato
 //controllo se campi validi
 if (isset($idCart) && isset($idArticle) && $_GET["q"] != null && $_GET["q"] != 0) {
     //controllo se gia presente articolo in quel carrello
-    $sql = "SELECT Quantity FROM contains WHERE IdCart = '$idCart' AND IdArticle = '$idArticle' ";
-    $result = $conn->query($sql);
-
-    if ($result != null && $result->num_rows > 0) {
+    $sql = $conn->prepare("SELECT Quantity FROM contains WHERE IdCart = ? AND IdArticle = ?");
+    $sql->bind_param('ii', $idCart, $idArticle);
+    $sql->execute();
+    $result = $sql->get_result();
+    if ($result->num_rows > 0) {
         //se già presente aggiorno la quantità
         $row = $result->fetch_assoc();
-        $q = $row["Quantity"] + $_GET["q"];
+        $newQuantity = $row["Quantity"] + $_GET["q"];
 
         //controllo disponibilità articolo
-        $sql = "SELECT Pieces FROM articles WHERE Id = $idArticle";
-        $result = $conn->query($sql);
-        if ($result != null && $result->num_rows > 0) {
+        $sql = $conn->prepare("SELECT Pieces FROM articles WHERE Id = ?");
+        $sql->bind_param('i', $idArticle);
+        $sql->execute();
+        $result = $sql->get_result();
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $pieces = $row["Pieces"];
-            if ($pieces >= $q) {
-                //aggiungo articolo
-                $sql = $conn->prepare("UPDATE contains SET Quantity = '$q' WHERE IdCart = '$idCart' AND IdArticle = '$idArticle'");
+            if ($row["Pieces"] >= $newQuantity) {
+                //aggiorno quantità articolo
+                $sql = $conn->prepare("UPDATE contains SET Quantity = ? WHERE IdCart = ? AND IdArticle = ?");
+                $sql->bind_param("iii", $newQuantity, $idCart, $idArticle);
                 $sql->execute();
-                header("location:..\product-list.php?msg=Added to cart successfully!");
+                header("location:..\product-list.php?msg=Added to cart successfully!&type=success");
             } else {
-                header("location:..\product-list.php?msg=Insufficient available pieces of the article!");
+                header("location:..\product-list.php?msg=Insufficient available pieces of the article!&type=danger");
             }
-        }
+        } else
+            header("location:..\product-list.php?msg=Article doesn't exist!&type=danger");
     } else {
         //controllo disponibilità articolo
-        $sql = "SELECT Pieces FROM articles WHERE Id = $idArticle";
-        $result = $conn->query($sql);
-        if ($result != null && $result->num_rows > 0) {
+        $sql = $conn->prepare("SELECT Pieces FROM articles WHERE Id = ?");
+        $sql->bind_param('i', $idArticle);
+        $sql->execute();
+        $result = $sql->get_result();
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $pieces = $row["Pieces"];
-            if ($pieces >= $_GET["q"]) {
+            if ($row["Pieces"] >= $_GET["q"]) {
                 //aggiungo articolo
                 $sql = $conn->prepare("INSERT INTO contains (IdCart, IdArticle, Quantity) VALUES (?,?,?)");
                 $sql->bind_param('iii', $idCart, $idArticle, $_GET['q']);
                 $sql->execute();
-                header("location:..\product-list.php?msg=Added to cart successfully!");
+                header("location:..\product-list.php?msg=Added to cart successfully!&type=success");
             } else {
-                header("location:..\product-list.php?msg=Insufficient available pieces of the article!");
+                header("location:..\product-list.php?msg=Insufficient available pieces of the article!&type=danger");
             }
-        }
+        } else
+            header("location:..\product-list.php?msg=Article doesn't exist!&type=danger");
     }
 } else
-    header("location:..\product-list.php?msg=Article not available!");
+    header("location:..\product-list.php?msg=Article not available!&type=danger");
