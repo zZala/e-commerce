@@ -5,39 +5,40 @@ session_start();
 //check password
 $password = md5($_POST["password"]);
 $retypePassword = md5($_POST["retypePassword"]);
-if (strcmp($password, $retypePassword) == 0) {
+if ($_POST["password"] != "") {
+    if (strcmp($password, $retypePassword) == 0) {
 
-    //variabili inserite
-    $firstName = $_POST["firstName"];
-    $lastName = $_POST["lastName"];
-    $birthDate = $_POST["birthDate"];
-    $mobileNumber = $_POST["mobileNumber"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
+        //variabili inserite
+        $firstName = $_POST["firstName"];
+        $lastName = $_POST["lastName"];
+        $birthDate = $_POST["birthDate"];
+        $mobileNumber = $_POST["mobileNumber"];
+        $email = $_POST["email"];
+        $username = $_POST["username"];
 
+        //seleziono tutti gli username presenti nel database per controllare se già presente
+        $sql = $conn->prepare("SELECT Username FROM users WHERE Id <> ?");
+        $sql->bind_param('i', $_SESSION["ID"]);
+        $sql->execute();
+        $result = $sql->get_result();
 
+        //controllo
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc())
+                if ($username == $row["Username"]) {
+                    header("location:../my-account.php?msg=Username already used!&type=warning");
+                    return 0;
+                }
+        }
 
-    //seleziono tutti gli username presenti nel database per controllare se già presente
-    $sql = "SELECT Username FROM users WHERE Id <> '" . $_SESSION["ID"] . "'";
-    $result = $conn->query($sql);
+        //update utente
+        $sql = $conn->prepare("UPDATE users SET Username = ?, FirstName = ?, LastName = ?, BirthDate = ?, MobilePhoneNumber = ?, Email = ?, Password = ? WHERE Id = ?");
+        $sql->bind_param('sssdsssi', $username, $firstName, $lastName, $birthDate, $mobileNumber, $email, $password, $_SESSION["ID"]);
+        $sql->execute();
 
-    //controllo
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc())
-            if ($username == $row["Username"]) {
-                header("location:../my-account.php?msg=Username already used!");
-                return 0;
-            }
+        header("location:../my-account.php?msg=Updated successfully!&type=success");
+    } else {
+        header("location:../my-account.php?msg=Password doesn't match!&type=danger");
     }
-
-    //update utente
-    $sql = "UPDATE contains SET Quantity='$q' WHERE IdCart = '$idCart' AND IdArticle = '$idArticle' ";
-    $conn->query($sql);
-    header("location:..\cart.php?msg=Updated successfully!");
-
-    $sql = "UPDATE users SET Username = '$username', FirstName = '$firstName', LastName = '$lastName', BirthDate = '$birthDate', MobilePhoneNumber = '$mobileNumber', Email = '$email', Password = '$password' WHERE Id = '" . $_SESSION["ID"] . "'";
-
-    header("location:../my-account.php?msg=Updated successfully!");
-} else {
-    header("location:../my-account.php?msg=Password doesn't match!");
-}
+} else
+    header("location:../my-account.php?msg=Password can't be empty!&type=danger");

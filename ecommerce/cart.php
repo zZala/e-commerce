@@ -390,19 +390,10 @@ session_start();
     <script src="js/redirects.js"></script>
 
     <?php
-    if (isset($_GET['msg'])) {
-        switch ($_GET['msg']) {
-            case "Ordered successfully!":
-            case "Clean successfully!":
-            case "Removed from cart successfully!":
-            case "Updated successfully!":
-                $type = 'success';
-                break;
-            default:
-                $type = 'danger';
-                break;
-        }
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 </body>

@@ -473,17 +473,10 @@ session_start();
 
 
     <?php
-    if (isset($_GET['msg'])) {
-        switch ($_GET['msg']) {
-            case "Review added successfully!":
-                $type = 'success';
-                break;
-            case "Stars must be more than zero!":
-                $type = 'warning';
-                break;
-        }
-
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 

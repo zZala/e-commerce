@@ -85,7 +85,7 @@ session_start();
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>" . $_SESSION["Username"] . "</a>
                                 <div class='dropdown-menu'>
                                     <a href='my-account.php' class='dropdown-item userDropdown'>My Account</a>
-                                    <a href='index.php?msg=Logout successfully!' class='dropdown-item userDropdown'>Logout</a>
+                                    <a href='index.php?msg=Logout successfully!&type=danger' class='dropdown-item userDropdown'>Logout</a>
                                 </div>";
                             } else {
                                 echo "<a href='#' class='nav-link dropdown-toggle' data-toggle='dropdown'>User Account</a>
@@ -659,17 +659,10 @@ session_start();
     <script src="js/redirects.js"></script>
 
     <?php
-    if (isset($_GET['msg'])) {
-        $type = "";
-        switch ($_GET['msg']) {
-            case "Logout successfully!":
-                $type = 'danger';
-                break;
-            case "Logged successfully!":
-                $type = 'success';
-                break;
-        }
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 </body>

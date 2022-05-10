@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
   $sql->execute();
   $result = $sql->get_result();
   $row = $result->fetch_assoc();
-  $_SESSION['IDCart'] = $row['Id'];
+  $_SESSION['IDCart'] = $row['MAX(Id)'];
 
   //seleziono unica wishlist
   $sql = $conn->prepare("SELECT Id FROM wishlists WHERE IdUser = ?");

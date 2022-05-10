@@ -432,20 +432,10 @@ session_start();
     </script>
 
     <?php
-    if (isset($_GET['msg'])) {
-        switch ($_GET['msg']) {
-            case "Order deleted successfully!":
-            case "Updated successfully!":
-                $type = 'success';
-                break;
-            case "Username already used!":
-                $type = 'warning';
-                break;
-            case "Password doesn't match!":
-                $type = 'danger';
-                break;
-        }
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 </body>

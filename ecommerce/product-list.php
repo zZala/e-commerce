@@ -470,21 +470,10 @@ session_start();
     <script src="js/redirects.js"></script>
 
     <?php
-    if (isset($_GET['msg'])) {
-        switch ($_GET['msg']) {
-            case "Added to cart successfully!":
-            case "Removed from wishlist successfully!":
-            case "Added to wishlist successfully!":
-                $type = 'success';
-                break;
-            case "Insufficient available pieces of the article!":
-            case "Article not available!":
-            case "Article doesn't exist!":
-                $type = 'danger';
-                break;
-        }
-
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 </body>

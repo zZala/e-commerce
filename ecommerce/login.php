@@ -368,22 +368,10 @@ session_start();
     <script src="js/redirects.js"></script>
 
     <?php
-    if (isset($_GET['msg'])) {
-        switch ($_GET['msg']) {
-            case "Registered successfully!":
-                $type = 'success';
-                break;
-            case "Must be logged in to post a review!":
-                $type = 'warning';
-                break;
-            case  "Username and Password doesn't match!":
-            case "Username already used!":
-            case "Password doesn't match!":
-                $type = 'danger';
-                break;
-        }
-
-        echo "<script>caricaPopup('" . $_GET['msg'] . "', '$type')</script>";
+    if (isset($_GET['msg']) && isset($_GET['type'])) {
+        $type = $_GET["type"];
+        $msg = $_GET['msg'];
+        echo "<script>caricaPopup('$msg', '$type')</script>";
     }
     ?>
 </body>

@@ -10,10 +10,13 @@ echo "  <div class='modal-dialog w-auto'>
         </div>
         <div class='modal-body'>
         <div class='row'>";
-$sql = "SELECT articles.Id, Title, Quantity, Conditions, Seller, Price, Discount FROM ((( articles JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
-                                        JOIN carts ON carts.Id = `contains`.IdCart)
-                                            JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = $idOrder";
-$result = $conn->query($sql);
+
+$sql = $conn->prepare("SELECT articles.Id, Title, Quantity, Conditions, Seller, Price, Discount FROM ((( articles   JOIN `contains` ON articles.Id = `contains`.`IdArticle`)
+                                                                                                                    JOIN carts ON carts.Id = `contains`.IdCart)
+                                                                                                                    JOIN orders ON carts.Id = orders.IdCart) WHERE orders.Id = ?");
+$sql->bind_param('i', $idOrder);
+$sql->execute();
+$result = $sql->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo " <div class='col-md-6'>

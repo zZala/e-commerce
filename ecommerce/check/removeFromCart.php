@@ -7,26 +7,17 @@ $idArticle = $_GET['id'];
 $idCart;
 
 //controllo se loggato
-if (isset($_SESSION["ID"])) {
-
-    //cerco cart appartenente a quel user
-    $sql = "SELECT Id FROM carts WHERE IdUser = '" . $_SESSION["ID"] . "'";
-    $result = $conn->query($sql);
-
-    //salvo cart in sessione e nella variabile idCart a cui aggiungo l'articolo sotto
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $_SESSION["IDCart"] = $row["Id"];
-        $idCart = $row["Id"];
-    }
+if (isset($_SESSION["IDCart"])) {
+    $idCart = $_SESSION["IDCart"];
 } else if (isset($_SESSION["IDCartGuest"])) {
     $idCart = $_SESSION["IDCartGuest"];
 }
 
-
 if (isset($idCart) && isset($idArticle)) {
-    //controllo se gia presente articolo in quella cart
-    $sql = "DELETE FROM contains WHERE IdCart = '$idCart' AND IdArticle = '$idArticle' ";
-    $conn->query($sql);
-    header("location:..\cart.php?msg=Removed from cart successfully!");
-}
+    //rimuovo articolo
+    $sql = $conn->prepare("DELETE FROM contains WHERE IdCart = ? AND IdArticle = ?");
+    $sql->bind_param('ii', $idCart, $idArticle);
+    $sql->execute();
+    header("location:..\cart.php?msg=Removed from cart successfully!&type=success");
+} else
+    header("location:..\cart.php");

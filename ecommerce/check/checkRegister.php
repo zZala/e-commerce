@@ -23,7 +23,7 @@ if (strcmp($password, $retypePassword) == 0) {
   if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc())
       if ($username == $row["Username"]) {
-        header("location:../login.php?msg=Username already used!&type=danger");
+        header("location:../login.php?msg=Username already used!&type=warning");
         exit;
       }
   }
