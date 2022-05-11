@@ -1,6 +1,12 @@
 <?php
 include("db/connection.php");
 session_start();
+
+if (isset($_GET['seller'])) {
+    $sql = $conn->prepare("UPDATE users SET Seller = ? WHERE Id = ?");
+    $sql->bind_param('ii', $_GET["seller"], $_SESSION["ID"]);
+    $sql->execute();
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +31,7 @@ session_start();
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
 </head>
 
@@ -181,10 +188,11 @@ session_start();
             <div class="row">
                 <div class="col-md-3">
                     <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-tachometer-alt"></i>Account Details</a>
-                        <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Orders</a>
+                        <a class="nav-link active" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="bi bi-person-fill"></i> Account Details</a>
+                        <a class="nav-link" id="seller-nav" data-toggle="pill" href="#seller-tab" role="tab"><i class="bi bi-person-plus-fill"></i> Seller</a>
+                        <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i> Orders</a>
                         <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i class="fa fa-credit-card"></i>Payment Method</a>
-                        <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>Address</a>
+                        <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i> Address</a>
                         <a class="nav-link" href='index.php?msg=Logout successfully!'><i class="fa fa-sign-out-alt"></i>Logout</a>
                     </div>
                 </div>
@@ -246,6 +254,66 @@ session_start();
 
                             </form>
                         </div>
+                        <div class="tab-pane fade" id="seller-tab" role="tabpanel" aria-labelledby="seller-nav">
+                            <h4>Seller</h4>
+                            <p>Are you a seller?
+                                <?php
+                                $sql = $conn->prepare("SELECT Seller FROM users WHERE Id = ?");
+                                $sql->bind_param('i', $_SESSION["ID"]);
+                                $sql->execute();
+                                $result = $sql->get_result();
+
+                                if ($result->num_rows > 0) {
+                                    $row = $result->fetch_assoc();
+                                    if ($row["Seller"] == 1) {
+                                        $sql = $conn->prepare("SELECT * FROM articles JOIN categories ON articles.IdCategory=categories.Id WHERE Seller = ?");
+                                        $sql->bind_param('s', $_SESSION["Username"]);
+                                        $sql->execute();
+                                        $result = $sql->get_result();
+                                        echo "<button class='rounded border-0 bg-transparent' onclick='setSeller()'><i id='i' class='bi bi-toggle-on'></i></button>
+                                                <table class='table table-bordered'>
+                                                    <thead class='thead-dark'>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Title</th>
+                                                            <th>Price</th>
+                                                            <th>Discount</th>
+                                                            <th>Pieces</th>
+                                                            <th>Conditions</th>
+                                                            <th>Category</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <p><h5 class='text-center'>Articles on sale</h5></p>";
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<tr>
+                                                    <td>" . $row['Id'] . "</td>
+                                                    <td>" . $row['Title'] . "</td>
+                                                    <td>" . $row['Price'] . "</td>
+                                                    <td>" . $row['Discount'] . "</td>
+                                                    <td>" . $row['Pieces'] . "</td>
+                                                    <td>" . $row['Conditions'] . "</td>
+                                                    <td>" . $row['Type'] . "</td>
+                                                    <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaModalSeller(" . $row['Id'] . ")'>Edit</button></td>
+                                                    </tr>";
+                                            }
+                                            echo "</tbody>
+                                                </table>";
+                                        } else
+                                            echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>";
+                                    } else
+                                        echo "<button class='rounded border-0 bg-transparent' onclick='setSeller()'><i id='i' class='bi bi-toggle-off'></i></button>";
+                                }
+                                ?>
+                            </p>
+                            <div id='myModalSeller' class='modal fade' role='dialog'>
+                                <!-- Modal content in modalOrder.php-->
+
+                            </div>
+                        </div>
+
                         <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
@@ -426,6 +494,27 @@ session_start();
                 url: "check/modalOrder.php?id=" + id,
                 success: function(data) {
                     $('#myModal').html(data);
+                }
+            });
+        }
+
+        function setSeller() {
+            if ($("#i").attr("class").includes("bi-toggle-off")) {
+                $("#i").removeClass("bi-toggle-off");
+                $("#i").addClass("bi-toggle-on");
+                window.location = "my-account.php?seller=1";
+            } else {
+                $("#i").addClass("bi-toggle-off");
+                $("#i").removeClass("bi-toggle-on");
+                window.location = "my-account.php?seller=0";
+            }
+        }
+
+        function caricaModalSeller(id) {
+            $.ajax({
+                url: "check/modalSeller.php?id=" + id,
+                success: function(data) {
+                    $('#myModalSeller').html(data);
                 }
             });
         }

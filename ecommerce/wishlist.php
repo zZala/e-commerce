@@ -334,5 +334,4 @@ session_start();
     <script src="js/redirects.js"></script>
 
 </body>
-
 </html>
