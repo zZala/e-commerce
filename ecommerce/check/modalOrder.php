@@ -34,7 +34,7 @@ echo "  </div>
         </div>
         <div class='modal-footer'>
             <a href='check/deleteOrder.php?id=$idOrder'><button class='btn'>Delete Order</button></a>
-            <a href='my-account.php'><button type='button' class='btn btn-default'>Close</button></a>
+            <a href='my-account.php?pag=orders'><button type='button' class='btn btn-default'>Close</button></a>
         </div>
         </div>
         </div>";

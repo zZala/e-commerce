@@ -2,11 +2,13 @@
 include("db/connection.php");
 session_start();
 
-if (isset($_GET['seller'])) {
+if (isset($_GET['seller']) && $_GET['seller'] == 1) {
+    //FARE CONTROLLO CARTE
     $sql = $conn->prepare("UPDATE users SET Seller = ? WHERE Id = ?");
     $sql->bind_param('ii', $_GET["seller"], $_SESSION["ID"]);
     $sql->execute();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +34,7 @@ if (isset($_GET['seller'])) {
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
 
 </head>
 
@@ -188,7 +191,7 @@ if (isset($_GET['seller'])) {
             <div class="row">
                 <div class="col-md-3">
                     <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="bi bi-person-fill"></i> Account Details</a>
+                        <a class="nav-link" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="bi bi-person-fill"></i> Account Details</a>
                         <a class="nav-link" id="seller-nav" data-toggle="pill" href="#seller-tab" role="tab"><i class="bi bi-person-plus-fill"></i> Seller</a>
                         <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i> Orders</a>
                         <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i class="fa fa-credit-card"></i>Payment Method</a>
@@ -198,10 +201,10 @@ if (isset($_GET['seller'])) {
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
+                        <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
                             <form action="check/updateUser.php" method="post">
                                 <div class="container">
-                                    <h4>Account Details</h4>
+                                    <h4><b>Account Details</b></h4>
                                     <?php
                                     $sql = "SELECT * FROM users WHERE Id = '" . $_SESSION["ID"] . "'";
 
@@ -246,32 +249,27 @@ if (isset($_GET['seller'])) {
 
                                     ?>
                                     <input type="submit" value="Submit" class="btn">
-                                    <?php
-                                    if (isset($_GET['msg']) && $_GET['msg'] == "Password doesn't match!")
-                                        echo "<div class='col-md-12'><b>" . $_GET['msg'] . "</b></div>";
-                                    ?>
                                 </div>
 
                             </form>
                         </div>
                         <div class="tab-pane fade" id="seller-tab" role="tabpanel" aria-labelledby="seller-nav">
-                            <h4>Seller</h4>
-                            <p>Are you a seller?
-                                <?php
-                                $sql = $conn->prepare("SELECT Seller FROM users WHERE Id = ?");
-                                $sql->bind_param('i', $_SESSION["ID"]);
-                                $sql->execute();
-                                $result = $sql->get_result();
+                            <h4><b>Seller</b></h4>
 
-                                if ($result->num_rows > 0) {
-                                    $row = $result->fetch_assoc();
-                                    if ($row["Seller"] == 1) {
-                                        $sql = $conn->prepare("SELECT * FROM articles JOIN categories ON articles.IdCategory=categories.Id WHERE Seller = ?");
-                                        $sql->bind_param('s', $_SESSION["Username"]);
-                                        $sql->execute();
-                                        $result = $sql->get_result();
-                                        echo "<button class='rounded border-0 bg-transparent' onclick='setSeller()'><i id='i' class='bi bi-toggle-on'></i></button>
-                                                <table class='table table-bordered'>
+                            <?php
+                            $sql = $conn->prepare("SELECT Seller FROM users WHERE Id = ?");
+                            $sql->bind_param('i', $_SESSION["ID"]);
+                            $sql->execute();
+                            $result = $sql->get_result();
+
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                if ($row["Seller"] == 1) {
+                                    $sql = $conn->prepare("SELECT articles.Id, Title, Price, Discount, Pieces, Conditions, Type FROM articles JOIN categories ON articles.IdCategory=categories.Id WHERE Seller = ?");
+                                    $sql->bind_param('s', $_SESSION["Username"]);
+                                    $sql->execute();
+                                    $result = $sql->get_result();
+                                    echo "<table class='table table-bordered'>
                                                     <thead class='thead-dark'>
                                                         <tr>
                                                             <th>Id</th>
@@ -286,9 +284,9 @@ if (isset($_GET['seller'])) {
                                                     </thead>
                                                     <tbody>
                                                     <p><h5 class='text-center'>Articles on sale</h5></p>";
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                echo "<tr>
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>
                                                     <td>" . $row['Id'] . "</td>
                                                     <td>" . $row['Title'] . "</td>
                                                     <td>" . $row['Price'] . "</td>
@@ -296,20 +294,28 @@ if (isset($_GET['seller'])) {
                                                     <td>" . $row['Pieces'] . "</td>
                                                     <td>" . $row['Conditions'] . "</td>
                                                     <td>" . $row['Type'] . "</td>
-                                                    <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaModalSeller(" . $row['Id'] . ")'>Edit</button></td>
+                                                    <td><button class='btn' data-toggle='modal' data-target='#myModalSeller' onclick='caricaModalSeller(" . $row['Id'] . ")'><i class='bi bi-pencil-square'></i></button>
+                                                    <button onclick='toDeleteArticle($idArticle)' class='btn'><i class='bi bi-trash'></i></button></td>
                                                     </tr>";
-                                            }
-                                            echo "</tbody>
+                                        }
+                                        echo "  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' onclick='caricaModalAddArticle()' class='btn'>Add new</button></td></tr>
+                                                </tbody>
                                                 </table>";
-                                        } else
-                                            echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>";
                                     } else
-                                        echo "<button class='rounded border-0 bg-transparent' onclick='setSeller()'><i id='i' class='bi bi-toggle-off'></i></button>";
-                                }
-                                ?>
-                            </p>
+                                        echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>";
+                                } else
+                                    echo "<h5>Do you want to become a seller?</h5>
+                                        <p>To sell your items you must have set a payment method on your account to receive cash. Let's check and if you have no one, add it now!<br>
+                                        Also you need to know that the VAT number is mandatory, unless it does not exceed a certain turnover (about 5.000 euros).</p>
+                                        <p>Then you can <a href='my-account.php?pag=seller&seller=1'>start selling</a> on EStore.</p>";
+                            }
+                            ?>
                             <div id='myModalSeller' class='modal fade' role='dialog'>
-                                <!-- Modal content in modalOrder.php-->
+                                <!-- Modal content in modalSeller.php-->
+
+                            </div>
+                            <div id='myModalAdd' class='modal fade' role='dialog'>
+                                <!-- Modal content in modalAddArticle.php-->
 
                             </div>
                         </div>
@@ -329,7 +335,7 @@ if (isset($_GET['seller'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <h4>Orders</h4>
+                                        <h4><b>Orders</b></h4>
                                         <?php
                                         $sql = "SELECT orders.Id, ShippingCosts, ShippingAddress, PaymentMethod, SubmissionDate, DeliveryDate
                                                 FROM orders
@@ -365,11 +371,11 @@ if (isset($_GET['seller'])) {
 
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
-                            <h4>Payment Method</h4>
+                            <h4><b>Payment Method</b></h4>
                             <p></p>
                         </div>
                         <div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
-                            <h4>Address</h4>
+                            <h4><b>Address</b></h4>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h5>Payment Address</h5>
@@ -499,15 +505,8 @@ if (isset($_GET['seller'])) {
         }
 
         function setSeller() {
-            if ($("#i").attr("class").includes("bi-toggle-off")) {
-                $("#i").removeClass("bi-toggle-off");
-                $("#i").addClass("bi-toggle-on");
-                window.location = "my-account.php?seller=1";
-            } else {
-                $("#i").addClass("bi-toggle-off");
-                $("#i").removeClass("bi-toggle-on");
-                window.location = "my-account.php?seller=0";
-            }
+            $("#i").removeClass("bi-toggle-off");
+            $("#i").addClass("bi-toggle-on");
         }
 
         function caricaModalSeller(id) {
@@ -518,9 +517,31 @@ if (isset($_GET['seller'])) {
                 }
             });
         }
+
+        function caricaModalAddArticle(){
+            $.ajax({
+                url: "check/modalAddArticle.php",
+                success: function(data) {
+                    $('#myModalAdd').html(data);
+                }
+            });
+        }
+
     </script>
 
     <?php
+    if (isset($_GET['pag'])) {
+        $section = $_GET['pag'];
+        echo "  <script>
+        $('#$section-nav').addClass(' active');
+        $('#$section-tab').addClass(' show active');
+        </script>";
+    } else {
+        echo "  <script>
+        $('#account-nav').addClass(' active');
+        $('#account-tab').addClass(' show active');
+        </script>";
+    }
     if (isset($_GET['msg']) && isset($_GET['type'])) {
         $type = $_GET["type"];
         $msg = $_GET['msg'];

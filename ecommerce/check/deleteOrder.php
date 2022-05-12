@@ -29,6 +29,6 @@ if ($result->num_rows > 0) {
     $sql = $conn->prepare("DELETE FROM carts WHERE Id = ?");
     $sql->bind_param('i', $idCart);
     $sql->execute();
-    header("location: ../my-account.php?msg=Order deleted successfully!&type=success");
+    header("location: ../my-account.php?msg=Order deleted successfully!&type=success&pag=orders");
 } else
-    header("location: ../my-account.php");
+    header("location: ../my-account.php?pag=orders");

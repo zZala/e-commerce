@@ -38,7 +38,7 @@ if ($_POST["password"] != "") {
 
         header("location:../my-account.php?msg=Updated successfully!&type=success");
     } else {
-        header("location:../my-account.php?msg=Password doesn't match!&type=danger");
+        header("location:../my-account.php?msg=Password does not match!&type=danger");
     }
 } else
-    header("location:../my-account.php?msg=Password can't be empty!&type=danger");
+    header("location:../my-account.php?msg=Password must not be empty!&type=danger");

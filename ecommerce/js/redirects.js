@@ -22,6 +22,14 @@ function toRemoveFromWishlist(id) {
     window.location = "check/removeFromWishlist.php?id=" + id;
 }
 
+function toDeleteArticle(id){
+    window.location = "check/deleteArticle.php?id=" + id;
+}
+
+function toAddArticle(){
+    window.location = "check/modalAddArticle.php";
+}
+
 function caricaPopup(text, type) {
     $.bootstrapGrowl(text, {
         ele: 'body', // which element to append to
