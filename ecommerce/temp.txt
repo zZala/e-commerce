@@ -1,7 +1,7 @@
 finire pagine in fondo:
 
-possibilità di aggiungere in users address ecc. e tabella collegata payments
+sistemare filtri
 
-aggiungere la possibilità di diventare un rivenditore e sellProduct.php
+possibilità di aggiungere in users address ecc. e tabella collegata payments
 
 PLUS: bot telegram per utenti registrati alla newsletter :)

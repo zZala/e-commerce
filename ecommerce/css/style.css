@@ -736,6 +736,8 @@ h2 {
 .product-item .product-image {
     position: relative;
     overflow: hidden;
+    min-height: 21.5vw;
+    max-height: 21.5vw;
 }
 
 .product-item .product-image a {
@@ -748,6 +750,7 @@ h2 {
     background-size: 100%;
     width: 100%;
     transition: all .3s;
+    min-width: 14.5vw;
 }
 
 .product-item:hover .product-image img {

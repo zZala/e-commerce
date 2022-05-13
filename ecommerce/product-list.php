@@ -169,7 +169,7 @@ session_start();
         <div class="container-fluid">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item active">Product List</li>
+                <li class="breadcrumb-item active">Product</li>
             </ul>
         </div>
     </div>
@@ -288,7 +288,7 @@ session_start();
                                                         <i class='fa fa-star'></i>
                                                     </div>
                                                 </div>
-                                                <div class='product-image'>
+                                                <div class='product-image d-flex align-items-center'>
                                                     <a href='product-detail.php'>
                                                         <img src='img/product-" . $row["Id"] . ".jpg' alt='Product Image'>
                                                     </a>

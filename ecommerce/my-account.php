@@ -295,7 +295,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                                     <td>" . $row['Conditions'] . "</td>
                                                     <td>" . $row['Type'] . "</td>
                                                     <td><button class='btn' data-toggle='modal' data-target='#myModalSeller' onclick='caricaModalSeller(" . $row['Id'] . ")'><i class='bi bi-pencil-square'></i></button>
-                                                    <button onclick='toDeleteArticle($idArticle)' class='btn'><i class='bi bi-trash'></i></button></td>
+                                                    <button onclick='toDeleteArticle(" . $row['Id'] . ")' class='btn'><i class='bi bi-trash'></i></button></td>
                                                     </tr>";
                                         }
                                         echo "  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' onclick='caricaModalAddArticle()' class='btn'>Add new</button></td></tr>
@@ -518,7 +518,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
             });
         }
 
-        function caricaModalAddArticle(){
+        function caricaModalAddArticle() {
             $.ajax({
                 url: "check/modalAddArticle.php",
                 success: function(data) {
@@ -526,7 +526,6 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                 }
             });
         }
-
     </script>
 
     <?php
