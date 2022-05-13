@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 09, 2022 at 04:57 PM
+-- Generation Time: May 13, 2022 at 07:25 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -44,9 +44,10 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
-(1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 10, 0, 4),
-(2, 'Apple AirPods 2', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 2, 7),
-(3, 'Echo Dot (4ª generazione) - Alexa', '1) Ti presentiamo Echo Dot con orologio - Il nostro altoparlante intelligente con Alexa più venduto. Dal design sobrio e compatto, questo dispositivo offre un suono ricco, con voci nitide e bassi bilanciati.\r\n2) Perfetto sul comodino - Leggi che ore sono e controlla le sveglie e i timer che hai impostato sul display LED. Tocca la parte superiore del dispositivo per posticipare una sveglia.\r\n3) Sempre pronta ad aiutarti - Chiedi ad Alexa di raccontare una barzelletta, riprodurre musica, rispondere a domande, leggerti le ultime notizie, darti le previsioni del tempo, impostare sveglie e molto altro.\r\n4) Supporta l’audio HD senza perdita di qualità, disponibile con i servizi di musica in streaming compatibili, come Amazon Music HD.\r\n5) Controlla i tuoi dispositivi per Casa Intelligente - Usa la tua voce per controllare i dispositivi compatibili e accendere la luce, regolare un termostato o chiudere la porta.\r\n6) Resta sempre in contatto con gli altri - Effettua una chiamata senza dover usare le mani. Chiama immediatamente un dispositivo in un\'altra stanza con Drop In o annuncia a tutti che la cena è pronta.\r\n7) Progettato per tutelare la tua privacy - Echo Dot è stato costruito con diversi elementi per la protezione e il controllo della privacy, tra cui un apposito pulsante per disattivare i microfoni.\r\n', 'Amazon', 'New', 69.99, 36, 7, 7);
+(1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 10, 1, 4),
+(2, 'Apple AirPods 2', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 1, 7),
+(3, 'Echo Dot (4ª generazione) - Alexa', '1) Ti presentiamo Echo Dot con orologio - Il nostro altoparlante intelligente con Alexa più venduto. Dal design sobrio e compatto, questo dispositivo offre un suono ricco, con voci nitide e bassi bilanciati.\r\n2) Perfetto sul comodino - Leggi che ore sono e controlla le sveglie e i timer che hai impostato sul display LED. Tocca la parte superiore del dispositivo per posticipare una sveglia.\r\n3) Sempre pronta ad aiutarti - Chiedi ad Alexa di raccontare una barzelletta, riprodurre musica, rispondere a domande, leggerti le ultime notizie, darti le previsioni del tempo, impostare sveglie e molto altro.\r\n4) Supporta l’audio HD senza perdita di qualità, disponibile con i servizi di musica in streaming compatibili, come Amazon Music HD.\r\n5) Controlla i tuoi dispositivi per Casa Intelligente - Usa la tua voce per controllare i dispositivi compatibili e accendere la luce, regolare un termostato o chiudere la porta.\r\n6) Resta sempre in contatto con gli altri - Effettua una chiamata senza dover usare le mani. Chiama immediatamente un dispositivo in un\'altra stanza con Drop In o annuncia a tutti che la cena è pronta.\r\n7) Progettato per tutelare la tua privacy - Echo Dot è stato costruito con diversi elementi per la protezione e il controllo della privacy, tra cui un apposito pulsante per disattivare i microfoni.\r\n', 'Amazon', 'New', 69.99, 36, 8, 7),
+(18, 'Yeezy 350 V2 Beluga RF', 'Scarpe comodissime', 'zzala', 'New', 310, 10, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -66,8 +67,15 @@ CREATE TABLE `carts` (
 INSERT INTO `carts` (`Id`, `IdUser`) VALUES
 (1, NULL),
 (6, NULL),
-(14, 1),
-(15, 1);
+(16, NULL),
+(17, NULL),
+(18, NULL),
+(19, NULL),
+(20, NULL),
+(21, NULL),
+(22, NULL),
+(15, 1),
+(23, 1);
 
 -- --------------------------------------------------------
 
@@ -116,7 +124,7 @@ CREATE TABLE `contains` (
 
 INSERT INTO `contains` (`IdArticle`, `IdCart`, `Quantity`) VALUES
 (2, 15, 1),
-(3, 14, 1);
+(2, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -157,7 +165,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `ShippingAddress`, `ShippingCosts`, `IdCart`) VALUES
-(10, '2022-05-07 14:28:19', '2022-05-13 22:00:00', 'Paypal', 'Via Burlone 10', 5, 14);
+(11, '2022-05-09 22:22:03', '2022-05-15 22:00:00', 'Paypal', 'Via Burlone 10', 5, 16),
+(12, '2022-05-10 15:47:12', '2022-05-16 22:00:00', 'Paypal', 'Via Burlone 10', 5, 21),
+(13, '2022-05-10 15:55:16', '2022-05-16 22:00:00', 'Paypal', 'Via Burlone 10', 5, 15);
 
 -- --------------------------------------------------------
 
@@ -196,15 +206,16 @@ CREATE TABLE `users` (
   `BirthDate` date NOT NULL,
   `Email` varchar(319) NOT NULL,
   `MobilePhoneNumber` varchar(12) NOT NULL,
-  `Password` varchar(32) NOT NULL
+  `Password` varchar(32) NOT NULL,
+  `Seller` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Id`, `Username`, `FirstName`, `LastName`, `BirthDate`, `Email`, `MobilePhoneNumber`, `Password`) VALUES
-(1, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e');
+INSERT INTO `users` (`Id`, `Username`, `FirstName`, `LastName`, `BirthDate`, `Email`, `MobilePhoneNumber`, `Password`, `Seller`) VALUES
+(1, 'zzala', 'Andrea', 'Lazzarin', '2003-10-03', 'lazzarin.andrea03@gmail.com', '3312212839', '25ed1bcb423b0b7200f485fc5ff71c8e', 1);
 
 -- --------------------------------------------------------
 
@@ -306,13 +317,13 @@ ALTER TABLE `wishlists`
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -324,7 +335,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `reviews`

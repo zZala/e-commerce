@@ -59,4 +59,4 @@ if (isset($_FILES["fileToUpload"]["tmp_name"]) && isset($_POST["description"]) &
 } else {
     echo $msg .= "Error while adding the article!&type=danger";
 }
-header("location:../my-account.php?pag=seller&$msg");
+header("location:../my-account.php?pag=seller&msg=$msg");
