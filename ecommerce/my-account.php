@@ -302,7 +302,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                                 </tbody>
                                                 </table>";
                                     } else
-                                        echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>";
+                                        echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' onclick='caricaModalAddArticle()' class='btn'>Add new</button></td></tr></tbody></table>";
                                 } else
                                     echo "<h5>Do you want to become a seller?</h5>
                                         <p>To sell your items you must have set a payment method on your account to receive cash. Let's check and if you have no one, add it now!<br>
@@ -363,16 +363,97 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <!-- Modal -->
-                        <!-- ORDER WINDOW -->
-                        <div id='myModal' class='modal fade' role='dialog'>
-                            <!-- Modal content in modalOrder.php-->
+                            <!-- Modal -->
+                            <!-- ORDER WINDOW -->
+                            <div id='myModal' class='modal fade' role='dialog'>
+                                <!-- Modal content in modalOrder.php-->
 
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
                             <h4><b>Payment Method</b></h4>
-                            <p></p>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h5 class="text-center">PayPal</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Email</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $sql = $conn->prepare("SELECT * FROM payment_methods WHERE IdUser = ? AND Type = 'PayPal'");
+                                                $sql->bind_param('i', $_SESSION["ID"]);
+                                                $sql->execute();
+                                                $result = $sql->get_result();
+
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "  <tr>
+                                                                        <td>" . $row["Id"] . "</td>
+                                                                        <td>" . $row["Email"] . "</td>
+                                                                        <td><button onclick='toDeletePaymentMethod(" . $row['Id'] . ")' class='btn'><i class='bi bi-trash'></i></button></td></td>
+                                                                    </tr>";
+                                                    }
+                                                    echo "<tr><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAddPaymentMethod' onclick='caricaModalAddPaymentMethod(1)' class='btn'>Add new</button></td></tr>";
+                                                } else {
+                                                    echo "<tr><td>There are no linked PayPal accounts...</td><td></td><td><button data-toggle='modal' data-target='#myModalAddPaymentMethod' onclick='caricaModalAddPaymentMethod(1)' class='btn'>Add new</button></td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <h5 class="text-center">Credit Card</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Card Number</th>
+                                                    <th>Name on Card</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $sql = $conn->prepare("SELECT * FROM payment_methods WHERE IdUser = ? AND Type = 'Credit Card'");
+                                                $sql->bind_param('i', $_SESSION["ID"]);
+                                                $sql->execute();
+                                                $result = $sql->get_result();
+
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "  <tr>
+                                                                        <td>" . $row["Id"] . "</td>
+                                                                        <td>" . $row["CardNumber"] . "</td>
+                                                                        <td>" . $row["NameOnCard"] . "</td>
+                                                                        <td>" . $row["ExpirationDate"] . "</td>
+                                                                        <td><button onclick='toDeletePaymentMethod(" . $row['Id'] . ")' class='btn'><i class='bi bi-trash'></i></button></td></td>
+                                                                    </tr>";
+                                                    }
+                                                    echo "<tr><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAddPaymentMethod' onclick='caricaModalAddPaymentMethod(2)' class='btn'>Add new</button></td></tr>";
+                                                } else {
+                                                    echo "<tr><td>There are no linked Credit Cards...</td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAddPaymentMethod' onclick='caricaModalAddPaymentMethod(2)' class='btn'>Add new</button></td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <!-- ORDER WINDOW -->
+                            <div id='myModalAddPaymentMethod' class='modal fade' role='dialog'>
+                                <!-- Modal content in modalOrder.php-->
+
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
                             <h4><b>Address</b></h4>
@@ -523,6 +604,20 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                 url: "check/modalAddArticle.php",
                 success: function(data) {
                     $('#myModalAdd').html(data);
+                }
+            });
+        }
+
+        function caricaModalAddPaymentMethod(n) {
+            if (n == 1) {
+                var type = "PayPal";
+            } else if (n == 2) {
+                var type = "Credit Card";
+            }
+            $.ajax({
+                url: "check/modalAddPaymentMethod.php?type=" + type,
+                success: function(data) {
+                    $('#myModalAddPaymentMethod').html(data);
                 }
             });
         }

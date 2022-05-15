@@ -217,6 +217,58 @@ session_start();
                         </div>
 
                         <?php
+                        //FILTRI
+                        $sql = "SELECT articles.Title, articles.Id, Price, Discount, Pieces FROM articles ";
+
+                        //singolo
+                        if (isset($_GET["filter"])) {
+                            switch ($_GET["filter"]) {
+                                case "sales":
+                                    $sql .= "WHERE Discount <> 0";
+                                    break;
+                                case "usage":
+                                    $sql .= "WHERE Conditions = 'Usage'";
+                                    break;
+                                case "newest":
+                                    $sql .= "ORDER BY articles.Id DESC";
+                                    break;
+                                case "popular":
+                                    $sql .= "JOIN contains ON articles.Id = contains.IdArticle GROUP BY contains.IdArticle ORDER BY COUNT(*) DESC";
+                                    break;
+                                case "review":
+                                    $sql .= "JOIN reviews ON articles.Id = reviews.IdArticle GROUP BY reviews.IdArticle ORDER BY AVG(Stars) DESC";
+                                    break;
+                                case "<25":
+                                    $sql .= "WHERE (Price * (100 - Discount) / 100) < 25";
+                                    break;
+                                case "<50":
+                                    $sql .= "WHERE (Price * (100 - Discount) / 100) > 25 AND (Price * (100 - Discount) / 100) < 50";
+                                    break;
+                                case ">50":
+                                    $sql .= "WHERE (Price * (100 - Discount) / 100) > 50";
+                                    break;
+                                default:
+                                    $sql .= "WHERE Title LIKE '%" . $_GET["filter"] . "%'";
+                                    break;
+                            }
+
+                            //multipli per categorie (in index.php)
+                        } else if (isset($_GET["categories"])) {
+                            $categories = explode(",", $_GET["categories"]);
+                            if (count($categories) < 3)
+                                $categories[2] = "";
+                            $sql .= "JOIN categories ON articles.IdCategory = categories.Id WHERE Type = '" . $categories[0] . "' OR Type = '" . $categories[1] . "' OR Type = '" . $categories[2] . "'";
+
+                            //per categoria
+                        } else if (isset($_GET["category"])) {
+                            $sql .= "JOIN categories ON articles.IdCategory = categories.Id WHERE Type = '" . $_GET["category"] . "'";
+
+                            //no filtri
+                        } else {
+                            $sql .= "JOIN categories ON articles.IdCategory = categories.Id";
+                        }
+
+                        //IMPAGINAZIONE
                         if (isset($_GET["p"]))
                             $pag = $_GET["p"];
                         else
@@ -227,53 +279,9 @@ session_start();
                         //primo prodotto
                         $offset = ($numProdPerPagina * $pag) - $numProdPerPagina;
 
-                        $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles JOIN categories ON articles.IdCategory = categories.Id LIMIT $numProdPerPagina OFFSET $offset";
+                        $sql .= " LIMIT $numProdPerPagina OFFSET $offset";
 
-                        //per categorie
-                        if (isset($_GET["filter"])) {
-                            switch ($_GET["filter"]) {
-                                case "sales":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE Discount <> 0 LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "usage":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE Conditions = 'Usage' LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "newest":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles ORDER BY articles.Id DESC LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "popular":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles JOIN contains ON articles.Id = contains.IdArticle GROUP BY contains.IdArticle ORDER BY COUNT(*) DESC LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "review":
-                                    $sql = "SELECT articles.Title, articles.Id, Price, Discount, Pieces FROM articles JOIN reviews ON articles.Id = reviews.IdArticle GROUP BY reviews.IdArticle ORDER BY AVG(Stars) DESC LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "<25":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE (Price * (100 - Discount) / 100) < 25 LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case "<50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE (Price * (100 - Discount) / 100) > 25 AND (Price * (100 - Discount) / 100) < 50 LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                case ">50":
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE (Price * (100 - Discount) / 100) > 50 LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                                default:
-                                    $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles WHERE Title LIKE '%" . $_GET["filter"] . "%' LIMIT $numProdPerPagina OFFSET $offset";
-                                    break;
-                            }
-                        }
-                        //per index.php
-                        if (isset($_GET["filters"])) {
-                            $categories = explode(",", $_GET["filters"]);
-                            if (count($categories) < 3)
-                                $categories[2] = "";
-                            $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Type = '" . $categories[0] . "' OR Type = '" . $categories[1] . "' OR Type = '" . $categories[2] . "' LIMIT $numProdPerPagina OFFSET $offset";
-                        }
-
-                        if (isset($_GET["category"])) {
-                            $sql = "SELECT Title, articles.Id, Price, Discount, Pieces FROM articles JOIN categories ON articles.IdCategory = categories.Id WHERE Type = '" . $_GET["category"] . "' LIMIT $numProdPerPagina OFFSET $offset";
-                        }
                         $result = $conn->query($sql);
-
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<div class='col-md-2'>

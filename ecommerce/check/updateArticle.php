@@ -29,12 +29,6 @@ if (isset($_POST["idArticle"]) &&  isset($_POST["title"]) && isset($_POST["descr
                 unlink($target_file);
             }
 
-            // Check if file already exists
-            if (file_exists($target_file)) {
-                $msg .= "Sorry, file already exists.\n";
-                $uploadOk = 0;
-            }
-
             // Allow certain file formats
             if ($imageFileType != "jpg") {
                 $msg .= "Sorry, only JPG files are allowed.\n";

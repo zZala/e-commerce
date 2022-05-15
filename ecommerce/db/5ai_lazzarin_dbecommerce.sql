@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 13, 2022 at 07:25 PM
+-- Generation Time: May 15, 2022 at 01:11 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -172,6 +172,30 @@ INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment_methods`
+--
+
+CREATE TABLE `payment_methods` (
+  `Id` int(11) NOT NULL,
+  `Type` enum('PayPal','Credit Card') NOT NULL,
+  `Email` varchar(319) DEFAULT NULL,
+  `CardNumber` varchar(16) DEFAULT NULL,
+  `NameOnCard` varchar(100) DEFAULT NULL,
+  `ExpirationDate` varchar(7) DEFAULT NULL,
+  `IdUser` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `payment_methods`
+--
+
+INSERT INTO `payment_methods` (`Id`, `Type`, `Email`, `CardNumber`, `NameOnCard`, `ExpirationDate`, `IdUser`) VALUES
+(2, 'Credit Card', NULL, '1234567812345678', 'Lazzarin Andrea', '2032-06', 1),
+(3, 'PayPal', 'lazzarin.andrea03@gmail.com', NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reviews`
 --
 
@@ -239,6 +263,7 @@ INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
 (5, NULL),
 (6, NULL),
 (7, NULL),
+(8, NULL),
 (1, 1);
 
 --
@@ -286,6 +311,13 @@ ALTER TABLE `includes`
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `OrderCart` (`IdCart`);
+
+--
+-- Indexes for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `PaymentMethodUser` (`IdUser`);
 
 --
 -- Indexes for table `reviews`
@@ -338,6 +370,12 @@ ALTER TABLE `orders`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -353,7 +391,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -390,6 +428,12 @@ ALTER TABLE `includes`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD CONSTRAINT `PaymentMethodUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reviews`

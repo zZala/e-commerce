@@ -202,19 +202,19 @@ session_start();
                                 <a class="nav-link" href="product-list.php?filter=newest"><i class="fa fa-plus-square"></i>New Arrivals</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product-list.php?filters=Clothing,Shoes"><i class="fa fa-female"></i>Clothing & Shoes</a>
+                                <a class="nav-link" href="product-list.php?categories=Clothing,Shoes"><i class="fa fa-female"></i>Clothing & Shoes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product-list.php?filters=Food,Beverages"><i class="fa fa-child"></i>Food & Beverages</a>
+                                <a class="nav-link" href="product-list.php?categories=Food,Beverages"><i class="fa fa-child"></i>Food & Beverages</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product-list.php?filters=Books,Movies,Games"><i class="fa fa-tshirt"></i>Books, Movies & Games</a>
+                                <a class="nav-link" href="product-list.php?categories=Books,Movies,Games"><i class="fa fa-tshirt"></i>Books, Movies & Games</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="product-list.php?category=Home, Garden & Tools"><i class="fa fa-mobile-alt"></i>Home, Garden & Tools</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="product-list.php?filters=Electronics,Computers"><i class="fa fa-microchip"></i>Electronics & Computers</a>
+                                <a class="nav-link" href="product-list.php?categories=Electronics,Computers"><i class="fa fa-microchip"></i>Electronics & Computers</a>
                             </li>
                         </ul>
                     </nav>

@@ -301,7 +301,7 @@ session_start();
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
                                             <input type="radio" name="radio" value="Paypal" class="custom-control-input" id="payment-1" name="payment">
-                                            <label class="custom-control-label" for="payment-1">Paypal</label>
+                                            <label class="custom-control-label" for="payment-1">PayPal</label>
                                         </div>
                                         <div class="payment-content" id="payment-1-show">
                                             <p>

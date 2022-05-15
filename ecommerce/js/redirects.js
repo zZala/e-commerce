@@ -22,12 +22,16 @@ function toRemoveFromWishlist(id) {
     window.location = "check/removeFromWishlist.php?id=" + id;
 }
 
-function toDeleteArticle(id){
+function toDeleteArticle(id) {
     window.location = "check/deleteArticle.php?id=" + id;
 }
 
-function toAddArticle(){
+function toAddArticle() {
     window.location = "check/modalAddArticle.php";
+}
+
+function toDeletePaymentMethod(id) {
+    window.location = "check/deletePaymentMethod.php?id=" + id;
 }
 
 function caricaPopup(text, type) {

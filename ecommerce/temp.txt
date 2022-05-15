@@ -1,7 +1,12 @@
 finire pagine in fondo:
 
-sistemare filtri
+sistemare filtri    <?php
+                    $actual_link = "$_SERVER[REQUEST_URI]";
+                    echo $actual_link;
+                    ?>
 
-possibilità di aggiungere in users address ecc. e tabella collegata payments
+possibilità di aggiungere in users address
+
+collegare payment_methods con checkout.php
 
 PLUS: bot telegram per utenti registrati alla newsletter :)
