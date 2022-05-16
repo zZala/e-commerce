@@ -7,6 +7,4 @@ sistemare filtri    <?php
 
 possibilità di aggiungere in users address
 
-collegare payment_methods con checkout.php
-
 PLUS: bot telegram per utenti registrati alla newsletter :)

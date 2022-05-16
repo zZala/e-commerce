@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../db/connection.php");
-print_r($_POST);
+
 if ($_POST["type"] == "PayPal") {
     $sql = $conn->prepare("INSERT INTO payment_methods (`Type`, Email, IdUser) VALUES (?,?,?)");
     $sql->bind_param('ssi', $_POST["type"], $_POST["email"], $_SESSION["ID"]);

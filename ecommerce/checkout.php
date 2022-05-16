@@ -304,8 +304,26 @@ session_start();
                                             <label class="custom-control-label" for="payment-1">PayPal</label>
                                         </div>
                                         <div class="payment-content" id="payment-1-show">
-                                            <p>
-                                                E-mail: <input type="text">
+                                            <p class="pl-2">
+                                                <?php
+                                                //SE LOGGATO CARICO GLI ACCOUNT PAYPAL ASSOCIATI
+                                                if (isset($_SESSION["ID"])) {
+                                                    $sql = $conn->prepare("SELECT * FROM payment_methods WHERE IdUser = ? AND Type = 'PayPal'");
+                                                    $sql->bind_param('i', $_SESSION["ID"]);
+                                                    $sql->execute();
+                                                    $result = $sql->get_result();
+
+                                                    if ($result->num_rows > 0) {
+                                                        echo "<b>Associated PayPal Accounts:<br></b>";
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<input type='radio' value='" . $row["Email"] . "' autocomplete='off'>
+                                                            <label>" . $row["Email"] . "</label><br>";
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                                <b>New PayPal Account:<br></b>
+                                                E-mail: <input type="text" class="bg-dark text-white rounded form-control">
                                             </p>
                                         </div>
                                     </div>
@@ -315,12 +333,28 @@ session_start();
                                             <label class="custom-control-label" for="payment-2">Credit Card</label>
                                         </div>
                                         <div class="payment-content" id="payment-2-show">
-                                            <p>
-                                                Card number &nbsp&nbsp&nbsp<input type="text"></p>
-                                            <p>
-                                                Name on card &nbsp&nbsp<input type="text"></p>
-                                            <p>
-                                                Expiration date <input type="text" placeholder="01/2022">
+                                            <p class="pl-2">
+                                                <?php
+                                                //SE LOGGATO CARICO GLI ACCOUNT PAYPAL ASSOCIATI
+                                                if (isset($_SESSION["ID"])) {
+                                                    $sql = $conn->prepare("SELECT * FROM payment_methods WHERE IdUser = ? AND Type = 'Credit Card'");
+                                                    $sql->bind_param('i', $_SESSION["ID"]);
+                                                    $sql->execute();
+                                                    $result = $sql->get_result();
+
+                                                    if ($result->num_rows > 0) {
+                                                        echo "<b>Associated Credit Cards:<br></b>";
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            echo "<input type='radio' value='" . $row["Id"] . "'  autocomplete='off'>
+                                                            <label>Card Number: " . substr($row["CardNumber"], 0, 4) . " " . substr($row["CardNumber"], 4, 4) . " **** ****</label><br>";
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                                <b>New Credit Card:</b><br>
+                                                Card number &nbsp&nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control" maxlength="16">
+                                                Name on card &nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control">
+                                                Expiration date <input type="text" class="bg-dark text-white rounded form-control" maxlength="7" placeholder="01/2022">
                                             </p>
                                         </div>
                                     </div>
