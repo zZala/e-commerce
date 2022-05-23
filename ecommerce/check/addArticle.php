@@ -4,8 +4,7 @@ include("../db/connection.php");
 
 $msg = "";
 
-if (isset($_FILES["fileToUpload"]["tmp_name"]) && isset($_POST["description"]) && isset($_POST["title"]) && isset($_POST["conditions"]) && isset($_POST["price"]) && isset($_POST["discount"]) && isset($_POST["pieces"]) && isset($_POST["category"])) {
-
+if ($_FILES["fileToUpload"]["tmp_name"] != null && $_POST["description"] != null && $_POST["title"] != null && $_POST["conditions"] != null && $_POST["price"] != null && $_POST["discount"] != null &&  $_POST["pieces"] != null &&  $_POST["category"] != null) {
     $sql = $conn->prepare("SELECT Id FROM categories WHERE Type = ?");
     $sql->bind_param('s', $_POST["category"]);
     $sql->execute();
@@ -57,6 +56,6 @@ if (isset($_FILES["fileToUpload"]["tmp_name"]) && isset($_POST["description"]) &
         }
     }
 } else {
-    echo $msg .= "Error while adding the article!&type=danger";
+    $msg .= "Error while adding the article!&type=danger";
 }
 header("location:../my-account.php?pag=seller&msg=$msg");

@@ -190,43 +190,100 @@ session_start();
                             <div class="billing-address">
                                 <h2>Billing Address</h2>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <label>First Name</label>
-                                        <input class="form-control" type="text" placeholder="First Name" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Last Name</label>
-                                        <input class="form-control" type="text" placeholder="Last Name" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>E-mail</label>
-                                        <input class="form-control" type="text" placeholder="E-mail" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Mobile Number</label>
-                                        <input class="form-control" type="text" placeholder="+391234567890" required>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label>Address</label>
-                                        <input class="form-control" type="text" name="address" placeholder="Address" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Country</label>
-                                        <select id="countrySelect" class="custom-select" required>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>City</label>
-                                        <input class="form-control" type="text" placeholder="City" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>State</label>
-                                        <input class="form-control" type="text" placeholder="State" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>ZIP Code</label>
-                                        <input class="form-control" type="text" placeholder="ZIP Code" required>
-                                    </div>
+                                    <?php
+                                    if (isset($_SESSION["ID"])) {
+                                        $sql = $conn->prepare("SELECT * FROM users WHERE Id = ?");
+                                        $sql->bind_param('i', $_SESSION["ID"]);
+                                        $sql->execute();
+                                        $result = $sql->get_result();
+                                        if ($result->num_rows > 0) {
+                                            $row = $result->fetch_assoc();
+                                            echo "  <div class='col-md-6'>
+                                                        <label>First Name</label>
+                                                        <input class='form-control' type='text' value='$row[FirstName]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>Last Name</label>
+                                                        <input class='form-control' type='text' value='$row[LastName]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>E-mail</label>
+                                                        <input class='form-control' type='text' value='$row[Email]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>Mobile Number</label>
+                                                        <input class='form-control' type='text' value='$row[MobilePhoneNumber]' required>
+                                                    </div>";
+                                        }
+                                        $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ? AND UserPaymentDefault = 1");
+                                        $sql->bind_param('i', $_SESSION["ID"]);
+                                        $sql->execute();
+                                        $result = $sql->get_result();
+                                        if ($result->num_rows > 0) {
+                                            $row = $result->fetch_assoc();
+                                            echo "  <div class='col-md-12'>
+                                                        <label>Address</label>
+                                                        <input class='form-control' type='text' name='address' placeholder='Address' value='$row[Address]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>Country</label>
+                                                        <select id='countrySelect' class='custom-select' required>
+                                                            <option selected>$row[Country]</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>City</label>
+                                                        <input class='form-control' type='text' placeholder='City' value='$row[City]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>Province</label>
+                                                        <input class='form-control' type='text' placeholder='Province' value='$row[Province]' required>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <label>ZIP Code</label>
+                                                        <input class='form-control' type='text' placeholder='ZIP Code' value='" . $row["ZIP Code"] . "' required>
+                                                    </div>";
+                                        }
+                                    } else {
+                                        echo '  <div class="col-md-6">
+                                                    <label>First Name</label>
+                                                    <input class="form-control" type="text" placeholder="First Name" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Last Name</label>
+                                                    <input class="form-control" type="text" placeholder="Last Name" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>E-mail</label>
+                                                    <input class="form-control" type="text" placeholder="E-mail" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Mobile Number</label>
+                                                    <input class="form-control" type="text" placeholder="+391234567890" required>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Address</label>
+                                                    <input class="form-control" type="text" name="address" placeholder="Address" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Country</label>
+                                                    <select id="countrySelect" class="custom-select" required>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>City</label>
+                                                    <input class="form-control" type="text" placeholder="City" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>State</label>
+                                                    <input class="form-control" type="text" placeholder="State" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>ZIP Code</label>
+                                                    <input class="form-control" type="text" placeholder="ZIP Code" required>
+                                                </div>';
+                                    }
+                                    ?>
                                     <div class="col-md-12">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" name="check" id="shipto">
@@ -234,32 +291,76 @@ session_start();
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="shipping-address">
-                                <h2>Shipping Address</h2>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Address</label>
-                                        <input class="form-control" type="text" name="addressB" placeholder="Address">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Country</label>
-                                        <select id="countrySelectShip" class="custom-select">
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>City</label>
-                                        <input class="form-control" type="text" placeholder="City">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>State</label>
-                                        <input class="form-control" type="text" placeholder="State">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>ZIP Code</label>
-                                        <input class="form-control" type="text" placeholder="ZIP Code">
-                                    </div>
+                                <div>
+                                    <?php
+                                    if ($row["UserShippingDefault"] != 1) {
+                                        $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ? AND UserShippingDefault = 1");
+                                        $sql->bind_param('i', $_SESSION["ID"]);
+                                        $sql->execute();
+                                        $result = $sql->get_result();
+                                        if ($result->num_rows > 0) {
+                                            $row = $result->fetch_assoc();
+                                            echo "<div class='shipping-address'>
+                                                    <h2>Shipping Address</h2>
+                                                    <div class='row'>
+                                                        <div class='col-md-12'>
+                                                            <label>Address</label>
+                                                            <input class='form-control' type='text' name='addressB' value='$row[Address]'>
+                                                        </div>
+                                                        <div class='col-md-6'>
+                                                            <label>Country</label>
+                                                            <select id='countrySelectShip' class='custom-select' value='$row[Country]'>
+                                                                <option selected>$row[Country]</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class='col-md-6'>
+                                                            <label>City</label>
+                                                            <input class='form-control' type='text' value='$row[City]'>
+                                                        </div>
+                                                        <div class='col-md-6'>
+                                                            <label>Province</label>
+                                                            <input class='form-control' type='text' value='$row[Province]'>
+                                                        </div>
+                                                        <div class='col-md-6'>
+                                                            <label>ZIP Code</label>
+                                                            <input class='form-control' type='text' value='" . $row["ZIP Code"] . "'>
+                                                        </div>
+                                                    </div>
+                                                </div>";
+                                            echo "  <script>
+                                                    document.getElementById('shipto').checked=true;
+                                                    $('.checkout .shipping-address').slideDown();
+                                                </script>";
+                                        }
+                                    } else {
+                                        echo '  <div class="shipping-address">
+                                                    <h2>Shipping Address</h2>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>Address</label>
+                                                            <input class="form-control" type="text" name="addressB" placeholder="Address">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Country</label>
+                                                            <select id="countrySelectShip" class="custom-select">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>City</label>
+                                                            <input class="form-control" type="text" placeholder="City">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>State</label>
+                                                            <input class="form-control" type="text" placeholder="State">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>ZIP Code</label>
+                                                            <input class="form-control" type="text" placeholder="ZIP Code">
+                                                        </div>
+                                                    </div>
+                                                </div>';
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -291,10 +392,7 @@ session_start();
                                         <h2>Grand Total<span>$" . ($totPrice + 5) . "</span></h2>";
                                 }
                                 ?>
-
-
                             </div>
-
                             <div class="checkout-payment">
                                 <div class="payment-methods">
                                     <h1>Payment Methods</h1>

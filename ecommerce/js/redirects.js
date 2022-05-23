@@ -26,10 +26,6 @@ function toDeleteArticle(id) {
     window.location = "check/deleteArticle.php?id=" + id;
 }
 
-function toAddArticle() {
-    window.location = "check/modalAddArticle.php";
-}
-
 function toDeletePaymentMethod(id) {
     window.location = "check/deletePaymentMethod.php?id=" + id;
 }

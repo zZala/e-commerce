@@ -10,7 +10,10 @@ function successFunction(data) {
     var options;
     for (var singleRow = 0; singleRow < allRows.length; singleRow++) {
         var rowCells = allRows[singleRow].split(';');
-        options += '<option>' + rowCells[0] + '</option>';
+        if (singleRow == 0)
+            options += '<option hidden>' + rowCells[0] + '</option>';
+        else
+            options += '<option>' + rowCells[0] + '</option>';
     }
 
     document.getElementById("countrySelectShip").innerHTML += options;

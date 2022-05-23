@@ -196,7 +196,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                         <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i> Orders</a>
                         <a class="nav-link" id="payment-nav" data-toggle="pill" href="#payment-tab" role="tab"><i class="fa fa-credit-card"></i>Payment Method</a>
                         <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i> Address</a>
-                        <a class="nav-link" href='index.php?msg=Logout successfully!'><i class="fa fa-sign-out-alt"></i>Logout</a>
+                        <a class="nav-link" href='index.php?msg=Logout successfully!&type=danger'><i class="fa fa-sign-out-alt"></i>Logout</a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -298,11 +298,11 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                                     <button onclick='toDeleteArticle(" . $row['Id'] . ")' class='btn'><i class='bi bi-trash'></i></button></td>
                                                     </tr>";
                                         }
-                                        echo "  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' onclick='caricaModalAddArticle()' class='btn'>Add new</button></td></tr>
+                                        echo "  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd'  class='btn'>Add new</button></td></tr>
                                                 </tbody>
                                                 </table>";
                                     } else
-                                        echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' onclick='caricaModalAddArticle()' class='btn'>Add new</button></td></tr></tbody></table>";
+                                        echo "<tr><td>There are no articles on sale...</td><td></td><td></td><td></td><td></td><td></td><td></td><td><button data-toggle='modal' data-target='#myModalAdd' class='btn'>Add new</button></td></tr></tbody></table>";
                                 } else
                                     echo "<h5>Do you want to become a seller?</h5>
                                         <p>To sell your items you must have set a payment method on your account to receive cash. Let's check and if you have no one, add it now!<br>
@@ -315,8 +315,75 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
 
                             </div>
                             <div id='myModalAdd' class='modal fade' role='dialog'>
-                                <!-- Modal content in modalAddArticle.php-->
-
+                                <div class='modal-dialog w-auto'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h4 class='modal-title'>New Article</h4>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form id='formAdd' method='post' action='check/addArticle.php' enctype='multipart/form-data'>
+                                                <p>
+                                                    Select image to upload:
+                                                    <input type='file' name='fileToUpload' id='fileToUpload' required>
+                                                </p>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Title: </div>
+                                                    <div class='col-md-3'><input type='text' name='title' class='form-control w-auto' required></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Description: </div>
+                                                    <div class='col-md-3'><textArea name='description' class='form-control w-auto' required></textArea></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Conditions: </div>
+                                                    <div class='col-md-3'>
+                                                        <select name='conditions' class='form-control w-auto' required>
+                                                            <option hidden>Conditions</option>
+                                                            <option value='New'>New</option>
+                                                            <option value='Used'>Used</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Price: </div>
+                                                    <div class='col-md-3'><input type='number' name='price' min=0 class='form-control w-auto' required></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Discount: </div>
+                                                    <div class='col-md-3'><input type='number' name='discount' min=0 class='form-control w-auto' required></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Pieces: </div>
+                                                    <div class='col-md-3'><input type='number' name='pieces' min=1 class='form-control w-auto' required></div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-md-3'>Category: </div>
+                                                    <div class='col-md-3'>
+                                                        <select name='category' class='form-control w-auto' required>
+                                                            <option hidden>Choose here</option>
+                                                            <?php
+                                                            include("../db/connection.php");
+                                                            $sql = $conn->prepare("SELECT * FROM categories");
+                                                            $sql->execute();
+                                                            $result = $sql->get_result();
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $type = $row["Type"];
+                                                                    echo "<option value='$type'>$type</option>";
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class='modal-footer'>
+                                            <button class='btn' onclick="$('#formAdd').submit();">Add</button>
+                                            <button type='button' class='btn btn-default' data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -328,6 +395,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                             <th>Id</th>
                                             <th>Shipping Costs</th>
                                             <th>Shipping Address</th>
+                                            <th>Payment Address</th>
                                             <th>Payment Method</th>
                                             <th>Submission Date</th>
                                             <th>Delivery Date</th>
@@ -337,7 +405,7 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                     <tbody>
                                         <h4><b>Orders</b></h4>
                                         <?php
-                                        $sql = "SELECT orders.Id, ShippingCosts, ShippingAddress, PaymentMethod, SubmissionDate, DeliveryDate
+                                        $sql = "SELECT orders.Id, ShippingCosts, IdShippingAddress, IdPaymentAddress, IdPaymentMethod, SubmissionDate, DeliveryDate
                                                 FROM orders
                                                 JOIN carts ON orders.IdCart = carts.Id
                                                 WHERE carts.IdUser = " . $_SESSION["ID"];
@@ -349,15 +417,16 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                                                     <tr>
                                                         <td>" . $row["Id"] . "</td>
                                                         <td>$" . $row["ShippingCosts"] . "</td>
-                                                        <td>" . $row["ShippingAddress"] . "</td>
-                                                        <td>" . $row["PaymentMethod"] . "</td>
+                                                        <td><a class='noChangeColorLink' href='my-account.php?pag=address'>" . $row["IdShippingAddress"] . "</a></td>
+                                                        <td><a class='noChangeColorLink' href='my-account.php?pag=address'>" . $row["IdPaymentAddress"] . "</a></td>
+                                                        <td><a class='noChangeColorLink' href='my-account.php?pag=payment'>" . $row["IdPaymentMethod"] . "</a></td>
                                                         <td>" . $row["SubmissionDate"] . "</td>
                                                         <td>" . $row["DeliveryDate"] . "</td>
                                                         <td><button class='btn' data-toggle='modal' data-target='#myModal' onclick='caricaPopupModal(" . $row["Id"] . ")'>View</button></td>
                                                     </tr>";
                                             }
                                         } else {
-                                            echo "<tr><td>There are no orders...</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                            echo "<tr><td>There are no orders...</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
                                         }
                                         ?>
                                     </tbody>
@@ -451,24 +520,188 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
                             <!-- Modal -->
                             <!-- ORDER WINDOW -->
                             <div id='myModalAddPaymentMethod' class='modal fade' role='dialog'>
-                                <!-- Modal content in modalOrder.php-->
+                                <!-- Modal content in modalAddPaymentMethod.php-->
 
                             </div>
                         </div>
                         <div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
                             <h4><b>Address</b></h4>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h5>Payment Address</h5>
-                                    <p>123 Payment Street, Los Angeles, CA</p>
-                                    <p>Mobile: 012-345-6789</p>
-                                    <button class="btn">Edit Address</button>
+                                <div class='col-md-2'></div>
+                                <?php
+                                $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ? AND (UserPaymentDefault=1 OR UserShippingDefault=1)");
+                                $sql->bind_param('i', $_SESSION["ID"]);
+                                $sql->execute();
+                                $result = $sql->get_result();
+
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        if ($row["UserPaymentDefault"] == 1) {
+                                            $echo1 = "<div class='col-md-2'>
+                                                        <h5>Payment Address</h5>
+                                                        <p>$row[Address], " . $row["ZIP Code"] . "</p>
+                                                        <p>$row[City], $row[Province]</p>
+                                                        <button class='btn' data-toggle='modal' data-target='#myModalEditAddress'>Edit</button>
+                                                    </div>";
+                                        }
+                                        if ($row["UserShippingDefault"] == 1) {
+                                            $echo2 = "<div class='col-md-2'>
+                                                        <h5>Shipping Address</h5>
+                                                        <p>$row[Address], " . $row["ZIP Code"] . "</p>
+                                                        <p>$row[City], $row[Province]</p>
+                                                        <button class='btn' data-toggle='modal' data-target='#myModalEditAddress'>Edit</button>
+                                                    </div>";
+                                        }
+                                    }
+                                }
+                                if (!isset($echo1)) {
+                                    $echo1 = "  <div class='col-md-2'>
+                                                    <center>
+                                                        <h5>Payment Address</h5>
+                                                        <p>No one set...</p>
+                                                        <button class='btn' data-toggle='modal' data-target='#myModalAddAddress'>Add</button>
+                                                    </center>
+                                                </div>";
+                                }
+                                echo $echo1 . "<div class='col-md-4'></div>";
+                                if (!isset($echo2)) {
+                                    $echo2 = "  <div class='col-md-2'>
+                                                    <center>
+                                                        <h5>Shipping Address</h5>
+                                                        <p>No one set...</p>
+                                                        <button class='btn' data-toggle='modal' data-target='#myModalAddAddress'>Add</button>
+                                                    </center>
+                                                </div>";
+                                }
+                                echo $echo2;
+                                ?>
+                                <div class='col-md-2'></div>
+                            </div>
+                            <!-- Modal -->
+                            <div id='myModalAddAddress' class='modal fade' role='dialog'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h4 class='modal-title'>New Address</h4>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form id='formAddAddress' method='post' action='check/addAddress.php'>
+                                                <div class="form-row">
+                                                    <div class="form-group col-sm-9">
+                                                        <label class="required">Address</label>
+                                                        <input type="text" class="form-control" name='address' placeholder="Address" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-3">
+                                                        <label class="required">ZIP Code</label>
+                                                        <input type="text" class="form-control" name='zipCode' maxlength="9" placeholder="ZIP Code" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label class="required">Country</label>
+                                                        <input type="text" class="form-control" name='country' placeholder="Country" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label class="required">City</label>
+                                                        <input type="text" class="form-control" name='city' placeholder="City" required>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label class="required">Province</label>
+                                                        <input type="text" class="form-control" name='province' placeholder="Province" required>
+                                                    </div>
+                                                </div>
+                                                <label>Set as default:</label>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="paymentDefault" id="customCheck1" value="1">
+                                                    <label class="custom-control-label" for="customCheck1">Payment Address</label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="shippingDefault" id="customCheck2" value="1">
+                                                    <label class="custom-control-label" for="customCheck2">Shipping Address</label>
+                                                </div>
+                                                <b>
+                                                    <p id='error'></p>
+                                                </b>
+                                            </form>
+                                        </div>
+                                        <div class='modal-footer'>
+                                            <button class='btn' onclick="addAddress()">Add</button>
+                                            <button type='button' class='btn btn-default' data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h5>Shipping Address</h5>
-                                    <p>123 Shipping Street, Los Angeles, CA</p>
-                                    <p>Mobile: 012-345-6789</p>
-                                    <button class="btn">Edit Address</button>
+                            </div>
+                            <!-- Modal -->
+                            <div id='myModalEditAddress' class='modal fade' role='dialog'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h4 class='modal-title'>Edit Address</h4>
+                                        </div>
+                                        <div class='modal-body'>
+                                            <form id='formEditAddress' method='post' action='check/editAddress.php'>
+                                                <div class="form-row">
+                                                    <div class='col-md-6'>
+                                                        <h5>Payment Address</h5>
+                                                    </div>
+                                                    <div class='col-md-6'>
+                                                        <h5>Shipping Address</h5>
+                                                    </div>
+
+                                                    <?php
+                                                    $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ?");
+                                                    $sql->bind_param('i', $_SESSION["ID"]);
+                                                    $sql->execute();
+                                                    $result = $sql->get_result();
+
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            if ($row["UserPaymentDefault"] == 1)
+                                                                echo  " <div class='form-check form-check-inline'>
+                                                                            <div class='col-md-6'>
+                                                                                <p>
+                                                                                    <input class='form-check-input' type='radio' name='paymentRadioOptions' checked value='payment_$row[Id]'>$row[Address], " . $row["ZIP Code"] . "
+                                                                                    $row[City], $row[Province]
+                                                                                </p>
+                                                                            </div>";
+                                                            else
+                                                                echo  " <div class='form-check form-check-inline'>
+                                                                            <div class='col-md-6'>
+                                                                                <p>
+                                                                                    <input class='form-check-input' type='radio' name='paymentRadioOptions' value='payment_$row[Id]'>$row[Address], " . $row["ZIP Code"] . "
+                                                                                    $row[City], $row[Province]
+                                                                                </p>
+                                                                            </div>";
+
+                                                            if ($row["UserShippingDefault"] == 1)
+                                                                echo  "     <div class='col-md-6'>
+                                                                                <p>
+                                                                                    <input class='form-check-input' type='radio' name='shippingRadioOptions' checked value='shipping_$row[Id]'>$row[Address], " . $row["ZIP Code"] . "
+                                                                                    $row[City], $row[Province]
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>";
+                                                            else
+                                                                echo  "     <div class='col-md-6'>
+                                                                                <p>
+                                                                                    <input class='form-check-input' type='radio' name='shippingRadioOptions' value='shipping_$row[Id]'>$row[Address], " . $row["ZIP Code"] . "
+                                                                                    $row[City], $row[Province]
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>";
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <b>
+                                                        <p id='error'></p>
+                                                    </b>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class='modal-footer'>
+                                            <button class='btn' onclick="$('#formEditAddress').submit();">Save</button>
+                                            <button class='btn' onclick="fromEditToAddAddress()">Add New</button>
+                                            <button type='button' class='btn btn-default' data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -576,6 +809,24 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
     <script src="js/redirects.js"></script>
 
     <script>
+        function fromEditToAddAddress() {
+            $('#myModalEditAddress').modal('hide');
+            $("#myModalAddAddress").modal('show');
+        }
+
+        function addAddress() {
+            // Get first form element
+            var $form = $('#formAddAddress')[0];
+
+            // Check if valid using HTML5 checkValidity() builtin function
+            if ($form.checkValidity()) {
+                $form.submit();
+            } else {
+                $('#error').text('Enter all required fields!');
+                $('.required').css("font-weight", "bold");
+            }
+        }
+
         function caricaPopupModal(id) {
             $.ajax({
                 url: "check/modalOrder.php?id=" + id,
@@ -585,25 +836,11 @@ if (isset($_GET['seller']) && $_GET['seller'] == 1) {
             });
         }
 
-        function setSeller() {
-            $("#i").removeClass("bi-toggle-off");
-            $("#i").addClass("bi-toggle-on");
-        }
-
         function caricaModalSeller(id) {
             $.ajax({
                 url: "check/modalSeller.php?id=" + id,
                 success: function(data) {
                     $('#myModalSeller').html(data);
-                }
-            });
-        }
-
-        function caricaModalAddArticle() {
-            $.ajax({
-                url: "check/modalAddArticle.php",
-                success: function(data) {
-                    $('#myModalAdd').html(data);
                 }
             });
         }
