@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 15, 2022 at 01:11 PM
+-- Generation Time: May 23, 2022 at 10:12 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `5ai_lazzarin_dbecommerce`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `Id` int(11) NOT NULL,
+  `Address` varchar(50) NOT NULL,
+  `ZIP Code` varchar(9) NOT NULL,
+  `Country` varchar(50) NOT NULL,
+  `City` varchar(50) NOT NULL,
+  `Province` varchar(50) NOT NULL,
+  `UserShippingDefault` tinyint(1) DEFAULT NULL,
+  `UserPaymentDefault` tinyint(1) DEFAULT NULL,
+  `IdUser` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`Id`, `Address`, `ZIP Code`, `Country`, `City`, `Province`, `UserShippingDefault`, `UserPaymentDefault`, `IdUser`) VALUES
+(1, 'Via Burlone 10', '22033', 'Italia', 'Asso', 'CO', 0, 1, 1),
+(2, 'Via Burlone 11', '22033', 'Italia', 'Asso', 'CO', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -45,9 +71,10 @@ CREATE TABLE `articles` (
 
 INSERT INTO `articles` (`Id`, `Title`, `Description`, `Seller`, `Conditions`, `Price`, `Discount`, `Pieces`, `IdCategory`) VALUES
 (1, 'La Russia di Putin', '«Siamo solo un mezzo, per lui. Un mezzo per rag­giungere il potere personale. Per questo dispone di noi come vuole. Può giocare con noi, se ne ha voglia. Può distruggerci, se lo desidera. Noi non siamo niente. Lui, finito dov’è per puro caso, è il dio e il re che dobbiamo temere e venerare. La Russia ha già avuto governanti di questa risma. Ed è finita in tragedia. In un bagno di sangue. In guerre civili. Io non voglio che accada di nuovo. Per questo ce l’ho con un tipico čekista sovietico che ascende al trono di Russia incedendo tronfio sul tappeto rosso del Cremlino».\r\nAnna Politkovskaja', 'zzala', 'New', 10, 10, 1, 4),
-(2, 'Apple AirPods 2', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 1, 7),
+(2, 'Apple AirPods 2', 'Taglia unica, comodi da indossare tutto il giorno.\r\nLa custodia si ricarica sia in wireless, usando un caricabatterie certificato Qi, sia tramite connettore Lightning.\r\nSi accendono automaticamente esicollegano all’istante.\r\nSetup semplicissimo su tutti i dispositivi Apple.\r\nAttivazione rapida di Siri con il comando “Ehi Siri”.\r\nConnessione istantanea anche da un dispositivo all’altro.\r\nCustodia di ricarica per oltre 24 ore di autonomia.', 'zzala', 'Usage', 110.98, 0, 0, 7),
 (3, 'Echo Dot (4ª generazione) - Alexa', '1) Ti presentiamo Echo Dot con orologio - Il nostro altoparlante intelligente con Alexa più venduto. Dal design sobrio e compatto, questo dispositivo offre un suono ricco, con voci nitide e bassi bilanciati.\r\n2) Perfetto sul comodino - Leggi che ore sono e controlla le sveglie e i timer che hai impostato sul display LED. Tocca la parte superiore del dispositivo per posticipare una sveglia.\r\n3) Sempre pronta ad aiutarti - Chiedi ad Alexa di raccontare una barzelletta, riprodurre musica, rispondere a domande, leggerti le ultime notizie, darti le previsioni del tempo, impostare sveglie e molto altro.\r\n4) Supporta l’audio HD senza perdita di qualità, disponibile con i servizi di musica in streaming compatibili, come Amazon Music HD.\r\n5) Controlla i tuoi dispositivi per Casa Intelligente - Usa la tua voce per controllare i dispositivi compatibili e accendere la luce, regolare un termostato o chiudere la porta.\r\n6) Resta sempre in contatto con gli altri - Effettua una chiamata senza dover usare le mani. Chiama immediatamente un dispositivo in un\'altra stanza con Drop In o annuncia a tutti che la cena è pronta.\r\n7) Progettato per tutelare la tua privacy - Echo Dot è stato costruito con diversi elementi per la protezione e il controllo della privacy, tra cui un apposito pulsante per disattivare i microfoni.\r\n', 'Amazon', 'New', 69.99, 36, 8, 7),
-(18, 'Yeezy 350 V2 Beluga RF', 'Scarpe comodissime', 'zzala', 'New', 310, 10, 2, 2);
+(18, 'Yeezy 350 V2 Beluga RF', 'Scarpe comodissime', 'zzala', 'New', 310, 10, 2, 2),
+(19, 'Yeezy 350 V2 Dazzling Blue', 'GOOD', 'zzala', 'New', 300, 15, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -74,6 +101,7 @@ INSERT INTO `carts` (`Id`, `IdUser`) VALUES
 (20, NULL),
 (21, NULL),
 (22, NULL),
+(24, NULL),
 (15, 1),
 (23, 1);
 
@@ -142,7 +170,8 @@ CREATE TABLE `includes` (
 --
 
 INSERT INTO `includes` (`IdWishlist`, `IdArticle`) VALUES
-(6, 2);
+(6, 2),
+(9, 2);
 
 -- --------------------------------------------------------
 
@@ -154,9 +183,10 @@ CREATE TABLE `orders` (
   `Id` int(11) NOT NULL,
   `SubmissionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DeliveryDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `PaymentMethod` varchar(255) NOT NULL,
-  `ShippingAddress` varchar(255) NOT NULL,
   `ShippingCosts` float NOT NULL,
+  `IdPaymentAddress` int(11) NOT NULL,
+  `IdShippingAddress` int(11) NOT NULL,
+  `IdPaymentMethod` int(11) NOT NULL,
   `IdCart` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -164,10 +194,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `PaymentMethod`, `ShippingAddress`, `ShippingCosts`, `IdCart`) VALUES
-(11, '2022-05-09 22:22:03', '2022-05-15 22:00:00', 'Paypal', 'Via Burlone 10', 5, 16),
-(12, '2022-05-10 15:47:12', '2022-05-16 22:00:00', 'Paypal', 'Via Burlone 10', 5, 21),
-(13, '2022-05-10 15:55:16', '2022-05-16 22:00:00', 'Paypal', 'Via Burlone 10', 5, 15);
+INSERT INTO `orders` (`Id`, `SubmissionDate`, `DeliveryDate`, `ShippingCosts`, `IdPaymentAddress`, `IdShippingAddress`, `IdPaymentMethod`, `IdCart`) VALUES
+(15, '2022-05-10 15:55:16', '2022-05-16 22:00:00', 5, 1, 1, 3, 15);
 
 -- --------------------------------------------------------
 
@@ -182,7 +210,7 @@ CREATE TABLE `payment_methods` (
   `CardNumber` varchar(16) DEFAULT NULL,
   `NameOnCard` varchar(100) DEFAULT NULL,
   `ExpirationDate` varchar(7) DEFAULT NULL,
-  `IdUser` int(11) NOT NULL
+  `IdUser` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -214,7 +242,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`Id`, `IdArticle`, `IdUser`, `Title`, `Stars`, `Comment`, `Date`) VALUES
-(1, 2, 1, 'Ottimo acquisto', '3', 'consigliatissimo', '2022-04-11 00:00:00');
+(1, 2, 1, 'Ottimo acquisto', '3', 'consigliatissimo', '2022-04-11 00:00:00'),
+(2, 19, 1, 'STUPENDE', '3', 'siiiiiii', '2022-05-19 21:39:01');
 
 -- --------------------------------------------------------
 
@@ -264,11 +293,19 @@ INSERT INTO `wishlists` (`Id`, `IdUser`) VALUES
 (6, NULL),
 (7, NULL),
 (8, NULL),
+(9, NULL),
 (1, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `AddressUser` (`IdUser`);
 
 --
 -- Indexes for table `articles`
@@ -310,7 +347,10 @@ ALTER TABLE `includes`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `OrderCart` (`IdCart`);
+  ADD KEY `OrderCart` (`IdCart`),
+  ADD KEY `OrderMethodPayment` (`IdPaymentMethod`),
+  ADD KEY `OrderShippingAddress` (`IdShippingAddress`),
+  ADD KEY `OrderPaymentAddress` (`IdPaymentAddress`);
 
 --
 -- Indexes for table `payment_methods`
@@ -346,16 +386,22 @@ ALTER TABLE `wishlists`
 --
 
 --
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -367,7 +413,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -379,7 +425,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -391,11 +437,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `AddressUser` FOREIGN KEY (`IdUser`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `articles`
@@ -427,7 +479,10 @@ ALTER TABLE `includes`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `OrderCart` FOREIGN KEY (`IdCart`) REFERENCES `carts` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `OrderMethodPayment` FOREIGN KEY (`IdPaymentMethod`) REFERENCES `payment_methods` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `OrderPaymentAddress` FOREIGN KEY (`IdPaymentAddress`) REFERENCES `addresses` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `OrderShippingAddress` FOREIGN KEY (`IdShippingAddress`) REFERENCES `addresses` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payment_methods`
