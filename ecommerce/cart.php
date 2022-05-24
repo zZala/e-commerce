@@ -279,8 +279,14 @@ session_start();
                                     </div>
                                     <center>
                                         <div class="cart-btn">
-                                            <button onclick="toCleanCart()">Clear All</button>
-                                            <button onclick="toCheckout()">Checkout</button>
+                                            <?php
+                                            if (isset($_SESSION["IDCart"]) || isset($_SESSION["IDCartGuest"]))
+                                                echo '  <button onclick="toCleanCart()">Clear All</button>
+                                                        <button onclick="toCheckout()">Checkout</button>';
+                                            else
+                                                echo '  <button onclick="toCleanCart()" disabled>Clear All</button>
+                                                        <button onclick="toCheckout()" disabled>Checkout</button>';
+                                            ?>
                                         </div>
                                     </center>
                                 </div>

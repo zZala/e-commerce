@@ -223,25 +223,25 @@ session_start();
                                             $row = $result->fetch_assoc();
                                             echo "  <div class='col-md-12'>
                                                         <label>Address</label>
-                                                        <input class='form-control' type='text' name='address' placeholder='Address' value='$row[Address]' required>
+                                                        <input class='form-control' type='text' name='address' value='$row[Address]' required>
                                                     </div>
                                                     <div class='col-md-6'>
                                                         <label>Country</label>
-                                                        <select id='countrySelect' class='custom-select' required>
+                                                        <select id='countrySelect' name='countrySelect' class='custom-select' required>
                                                             <option selected>$row[Country]</option>
                                                         </select>
                                                     </div>
                                                     <div class='col-md-6'>
                                                         <label>City</label>
-                                                        <input class='form-control' type='text' placeholder='City' value='$row[City]' required>
+                                                        <input class='form-control' type='text' name='city' value='$row[City]' required>
                                                     </div>
                                                     <div class='col-md-6'>
                                                         <label>Province</label>
-                                                        <input class='form-control' type='text' placeholder='Province' value='$row[Province]' required>
+                                                        <input class='form-control' type='text' name='province' value='$row[Province]' required>
                                                     </div>
                                                     <div class='col-md-6'>
                                                         <label>ZIP Code</label>
-                                                        <input class='form-control' type='text' placeholder='ZIP Code' value='" . $row["ZIP Code"] . "' required>
+                                                        <input class='form-control' type='text' name='zipCode' value='" . $row["ZIP Code"] . "' required>
                                                     </div>";
                                         }
                                     } else {
@@ -267,20 +267,20 @@ session_start();
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label>Country</label>
-                                                    <select id="countrySelect" class="custom-select" required>
+                                                    <select id="countrySelect" name="countrySelect" class="custom-select" required>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label>City</label>
-                                                    <input class="form-control" type="text" placeholder="City" required>
+                                                    <input class="form-control" type="text" name="city" placeholder="City" required>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label>State</label>
-                                                    <input class="form-control" type="text" placeholder="State" required>
+                                                    <label>Province</label>
+                                                    <input class="form-control" type="text" name="province" placeholder="Province" required>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label>ZIP Code</label>
-                                                    <input class="form-control" type="text" placeholder="ZIP Code" required>
+                                                    <input class="form-control" type="text" name="zipCode" placeholder="ZIP Code" required>
                                                 </div>';
                                     }
                                     ?>
@@ -292,75 +292,71 @@ session_start();
                                     </div>
                                 </div>
                                 <div>
-                                    <?php
-                                    if ($row["UserShippingDefault"] != 1) {
-                                        $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ? AND UserShippingDefault = 1");
-                                        $sql->bind_param('i', $_SESSION["ID"]);
-                                        $sql->execute();
-                                        $result = $sql->get_result();
-                                        if ($result->num_rows > 0) {
-                                            $row = $result->fetch_assoc();
-                                            echo "<div class='shipping-address'>
-                                                    <h2>Shipping Address</h2>
-                                                    <div class='row'>
+                                    <div class='shipping-address'>
+                                        <h2>Shipping Address</h2>
+                                        <div class='row'>
+                                            <?php
+                                            if ($row["UserShippingDefault"] != 1 && isset($_SESSION["ID"])) {
+                                                $sql = $conn->prepare("SELECT * FROM addresses WHERE IdUser = ? AND UserShippingDefault = 1");
+                                                $sql->bind_param('i', $_SESSION["ID"]);
+                                                $sql->execute();
+                                                $result = $sql->get_result();
+                                                if ($result->num_rows > 0) {
+                                                    $row = $result->fetch_assoc();
+                                                    echo "
                                                         <div class='col-md-12'>
                                                             <label>Address</label>
                                                             <input class='form-control' type='text' name='addressB' value='$row[Address]'>
                                                         </div>
                                                         <div class='col-md-6'>
                                                             <label>Country</label>
-                                                            <select id='countrySelectShip' class='custom-select' value='$row[Country]'>
+                                                            <select id='countrySelectShip' class='custom-select' name='countrySelectShip' value='$row[Country]'>
                                                                 <option selected>$row[Country]</option>
                                                             </select>
                                                         </div>
                                                         <div class='col-md-6'>
                                                             <label>City</label>
-                                                            <input class='form-control' type='text' value='$row[City]'>
+                                                            <input class='form-control' type='text' name='cityB' value='$row[City]'>
                                                         </div>
                                                         <div class='col-md-6'>
                                                             <label>Province</label>
-                                                            <input class='form-control' type='text' value='$row[Province]'>
+                                                            <input class='form-control' type='text' name='provinceB' value='$row[Province]'>
                                                         </div>
                                                         <div class='col-md-6'>
                                                             <label>ZIP Code</label>
-                                                            <input class='form-control' type='text' value='" . $row["ZIP Code"] . "'>
-                                                        </div>
-                                                    </div>
-                                                </div>";
-                                            echo "  <script>
-                                                    document.getElementById('shipto').checked=true;
-                                                    $('.checkout .shipping-address').slideDown();
-                                                </script>";
-                                        }
-                                    } else {
-                                        echo '  <div class="shipping-address">
-                                                    <h2>Shipping Address</h2>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
+                                                            <input class='form-control' type='text' name='zipCodeB' value='" . $row["ZIP Code"] . "'>
+                                                        </div>";
+                                                    echo "  <script>
+                                                                document.getElementById('shipto').checked=true;
+                                                                $('.checkout .shipping-address').slideDown();
+                                                            </script>";
+                                                }
+                                            } else {
+                                                echo '  <div class="col-md-12">
                                                             <label>Address</label>
                                                             <input class="form-control" type="text" name="addressB" placeholder="Address">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label>Country</label>
-                                                            <select id="countrySelectShip" class="custom-select">
+                                                            <select id="countrySelectShip" name="countrySelectShip" class="custom-select">
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label>City</label>
-                                                            <input class="form-control" type="text" placeholder="City">
+                                                            <input class="form-control" type="text" name="cityB" placeholder="City">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label>State</label>
-                                                            <input class="form-control" type="text" placeholder="State">
+                                                            <label>Province</label>
+                                                            <input class="form-control" type="text" name="provinceB" placeholder="Province">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label>ZIP Code</label>
-                                                            <input class="form-control" type="text" placeholder="ZIP Code">
-                                                        </div>
-                                                    </div>
-                                                </div>';
-                                    }
-                                    ?>
+                                                            <input class="form-control" type="text" name="zipCodeB" placeholder="ZIP Code">
+                                                        </div>';
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -414,14 +410,14 @@ session_start();
                                                     if ($result->num_rows > 0) {
                                                         echo "<b>Associated PayPal Accounts:<br></b>";
                                                         while ($row = $result->fetch_assoc()) {
-                                                            echo "<input type='radio' value='" . $row["Email"] . "' autocomplete='off'>
+                                                            echo "<input type='radio' name='paymentAssoc' value='" . $row["Id"] . "' autocomplete='off'>
                                                             <label>" . $row["Email"] . "</label><br>";
                                                         }
                                                     }
                                                 }
                                                 ?>
                                                 <b>New PayPal Account:<br></b>
-                                                E-mail: <input type="text" class="bg-dark text-white rounded form-control">
+                                                E-mail: <input type="email" class="bg-dark text-white rounded form-control" name="emailPaypal">
                                             </p>
                                         </div>
                                     </div>
@@ -443,16 +439,16 @@ session_start();
                                                     if ($result->num_rows > 0) {
                                                         echo "<b>Associated Credit Cards:<br></b>";
                                                         while ($row = $result->fetch_assoc()) {
-                                                            echo "<input type='radio' value='" . $row["Id"] . "'  autocomplete='off'>
+                                                            echo "<input type='radio' name='paymentAssoc' value='" . $row["Id"] . "'  autocomplete='off'>
                                                             <label>Card Number: " . substr($row["CardNumber"], 0, 4) . " " . substr($row["CardNumber"], 4, 4) . " **** ****</label><br>";
                                                         }
                                                     }
                                                 }
                                                 ?>
                                                 <b>New Credit Card:</b><br>
-                                                Card number &nbsp&nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control" maxlength="16">
-                                                Name on card &nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control">
-                                                Expiration date <input type="text" class="bg-dark text-white rounded form-control" maxlength="7" placeholder="01/2022">
+                                                Card number &nbsp&nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control" name="cardNumber" maxlength="16">
+                                                Name on card &nbsp&nbsp<input type="text" class="bg-dark text-white rounded form-control" name="nameOnCard"> 
+                                                Expiration date <input type="text" class="bg-dark text-white rounded form-control" name="expirationDate" maxlength="7" placeholder="2022-01">
                                             </p>
                                         </div>
                                     </div>
