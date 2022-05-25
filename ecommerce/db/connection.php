@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "root"; //mamp
+$password = "";
 $dbname = "5ai_lazzarin_dbecommerce";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
